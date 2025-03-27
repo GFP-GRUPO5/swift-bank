@@ -1,50 +1,30 @@
-# Welcome to your Expo app 👋
+# Projeto Swift Bank - Expo App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Branching Strategy
 
-## Get started
+A branching strategy que seguiremos, utilizará somente 2 branches principais,
+uma de desenvolvimento, onde colocaremos todas as novas funcionalidades, receberá
+todas as correções e será utilizada para testes antes de enviar para a branch main (produção).
 
-1. Install dependencies
+Exemplo de fluxo de branches:
+branch_local -> PR -> branch_dev -> Testes -> branch_main (prod)
 
-   ```bash
-   npm install
-   ```
+## Gitflow
 
-2. Start the app
+### Novas Features: 
+*Commit*
+feat: adiciona funcionalidade x
 
-   ```bash
-    npx expo start
-   ```
+### Alteração de Código Existente (Refactor):
+*Commit*
+refactor: altera funcionalidade x
 
-In the output, you'll find options to open the app in a
+### Resolvendo Problemas (bugfix)
+*Commit*
+fix: resolve problema y
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Adicionando / Alterando Configurações de(o) Ferramentas/Projeto
+*Commit*
+chore: adiciona ferramenta X
+chore: altera configuração y
+chore: resolve problema da configuração z
