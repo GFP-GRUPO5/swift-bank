@@ -7,17 +7,17 @@ import { Auth, getAuth, getReactNativePersistance, initializeAuth } from "fireba
 // TODO: Add SDKs for Firebase products that you want to use
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC1k6_EoqOG2uAmNQJsHzNlQjsVltgNbc8",
-  authDomain: "swiftbank-7e848.firebaseapp.com",
-  projectId: "swiftbank-7e848",
-  storageBucket: "swiftbank-7e848.firebasestorage.app",
-  messagingSenderId: "266624384678",
-  appId: "1:266624384678:web:dcfc3a91c4bf243b8f3e67",
-  measurementId: "G-4VP51YFE5F"
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGE_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 
-let app: FirebaseApp;
+let app: FirebaseApp
 let auth: Auth
 
 if(!getApps().length) {
@@ -34,4 +34,3 @@ export {
   app,
   auth
 };
-
