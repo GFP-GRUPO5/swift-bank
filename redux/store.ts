@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 
 import authReducer from './features/auth/authSlice';
+import cardReducer from './features/card/cardSlice'
 
 const persistConfig = {
   key: 'root',
@@ -11,6 +12,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  card: cardReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
