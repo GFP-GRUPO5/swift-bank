@@ -5,11 +5,11 @@ import { Slot } from "expo-router";
 import { useEffect } from "react";
 
 export default function RootLayout() {
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    dispatch(updateAccessToken({ accessToken: 'goiaba' }))
-  }, [])
+  // useEffect(() => {
+  //   dispatch(updateAccessToken({ accessToken: 'goiaba' }))
+  // }, [])
 
   return (
     <StoreProvider>
