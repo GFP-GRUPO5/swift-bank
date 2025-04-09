@@ -1,13 +1,14 @@
 import { forwardRef, ReactNode, Ref } from "react";
 import { Text } from "react-native";
 import { Pressable, PressableProps } from "react-native-gesture-handler";
+import { buttonActionStyle } from "./ButtonAction.styles";
 
 interface Props extends PressableProps {
   children?: ReactNode
   label?: string
 }
 
-export const Button = forwardRef<Ref<typeof Pressable>, Props>((
+export const ButtonAction = forwardRef<Ref<typeof Pressable>, Props>((
   { children, label, style, ...props },
   ref: React.ForwardedRef<Ref<(props: PressableProps) => React.JSX.Element>>
 ) => {
@@ -25,7 +26,7 @@ export const Button = forwardRef<Ref<typeof Pressable>, Props>((
         {
           children 
             ? children 
-            : <Text>{label}</Text>
+            : <Text style={buttonActionStyle.text}>{label}</Text>
         }
       </Pressable>
     )
