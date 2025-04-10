@@ -1,16 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-interface IInitialState {
-  credentials: {
-    accessToken: string | null
-  }
-}
-
-const initialState: IInitialState = {
-  credentials: {
-    accessToken: null 
-  }
-}
+import { initialState } from './auth.constants'
+import { signUpUserWithEmail } from './auth.thunks'
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -19,6 +9,12 @@ export const authSlice = createSlice({
     updateAccessToken: (state, { payload: { accessToken } }) => {
       state.credentials.accessToken = accessToken
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(signUpUserWithEmail.fulfilled, (state, action) => {
+      console.log(action)
+      return state
+    })
   }
 })
 
