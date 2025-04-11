@@ -1,4 +1,4 @@
-import { signUpUserWithEmail } from "@/redux/features/auth/auth.thunks";
+import { signUpUserWithEmail } from "@/redux/features/auth/thunks/sign-up";
 import { useAppDispatch } from "@/redux/hooks";
 import { CreateAuthUserDTO } from "@/types/auth.types";
 import { useState } from "react";
