@@ -12,20 +12,18 @@ export const authSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    // Sign Up Flow
     builder
+      // Sign Up Flow 
+      .addCase(signUpUserWithEmail.pending, (state) => {
+        state.loading = true
+        return state
+      })
       .addCase(signUpUserWithEmail.fulfilled, (state, { payload }) => {
-        console.log(payload)
         state.loading = false
         state.user = payload
         return state
       })
-      .addCase(signUpUserWithEmail.pending, (state, action) => {
-        state.loading = true
-        return state
-      })
-      .addCase(signUpUserWithEmail.rejected, (state, action) => {
-        console.log(action)
+      .addCase(signUpUserWithEmail.rejected, (state) => {
         state.loading = false
         return state
       })
