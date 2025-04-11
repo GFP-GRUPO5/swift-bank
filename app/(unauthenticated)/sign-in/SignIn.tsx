@@ -2,17 +2,30 @@ import { TextField } from "@/components/atoms/text-field/TextField";
 import { BackgroundGradient } from "@/components/templates/background-gradient/BackgroundGradient";
 import { colors } from "@/theme/colors";
 import { useState } from "react";
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, ActivityIndicator } from "react-native";
 import Entypo from '@expo/vector-icons/Entypo';
 import { Link } from "expo-router";
 import { ButtonAction } from "@/components/atoms/button-action/ButtonAction";
-import { AuthService } from "@/services/auth.services";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { signInUserWithEmail } from "@/redux/features/auth/thunks/sign-in";
 
 export default function SignInScreen() {
   const [isVisible, setIsVisible] = useState(false)
-  const [] = useState()
+  const [userCredentials, setUserCredentials] = useState({ email: '', password: '' })
+  const { loading } = useAppSelector(state => state.auth)
+  const dispatch = useAppDispatch()
 
-  function handleLogin() {}
+  function handleTextChange(inputName: 'email' | 'password', text: string) {
+    setUserCredentials(state => ({
+      ...state,
+      [inputName]: text
+    }))
+  }
+
+  function handleLogin() {
+    const { email, password } = userCredentials
+    dispatch(signInUserWithEmail({ email, password }))
+  }
 
   return (
     <BackgroundGradient>
@@ -25,7 +38,10 @@ export default function SignInScreen() {
           marginBottom: 72,
         }}
       >
-        Swift Bank
+        Swift {' '}
+        <Text style={{ fontWeight: 300 }}>
+          Bank
+        </Text>
       </Text>
       <Text
         style={{
@@ -58,7 +74,12 @@ export default function SignInScreen() {
         >
           Insira seu email
         </Text>
-        <TextField placeholder="E-mail" />
+        <TextField
+          placeholder="E-mail"
+          onChangeText={(email) => handleTextChange('email', email)}
+          value={userCredentials.email}
+          autoCapitalize="none"
+        />
       </View>
       <View>
         <Text
@@ -76,6 +97,9 @@ export default function SignInScreen() {
             placeholder="***********"
             secureTextEntry={isVisible}
             style={{ paddingRight: 56 }}
+            onChangeText={(password) => handleTextChange('password', password)}
+            value={userCredentials.password}
+            autoCapitalize="none"
           />
           <Pressable
             style={{
@@ -107,27 +131,43 @@ export default function SignInScreen() {
         </Text>
       </Link>
       <ButtonAction
-        label="Entrar"
         style={{
           backgroundColor: '#2c2c2c',
           padding: 16,
           borderRadius: 24,
           marginBottom: 32,
+          position: 'relative'
         }}
         onPress={handleLogin}
-      />
-      <Text style={{ fontSize:16, color:colors.typography.body, textAlign: 'center', marginBottom: 8 }}>Ainda não tem conta?</Text>
-      <Link href={'/(unauthenticated)/sign-up/SignUp'}>
-        <Text style={{
+        disabled={loading}
+      >
+        
+        <Text style={{ color: '#FFF', textAlign:'center', fontSize: 16, fontWeight: 700 }}>Entar</Text>
+        {loading && <ActivityIndicator style={{ position: 'absolute', right: 16, top: 14 }} color={'#FFF'} />}
+        
+      </ButtonAction>
+      <Text
+        style={{
           fontSize: 16,
-          fontWeight: 600,
-          textDecorationLine: 'underline',
-          textAlign: 'center',
           color: colors.typography.body,
+          textAlign: 'center',
+          marginBottom: 8,
         }}
       >
-        Faça seu cadastro!
+        Ainda não tem conta?
       </Text>
+      <Link href={'/(unauthenticated)/sign-up/SignUp'}>
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: 600,
+            textDecorationLine: 'underline',
+            textAlign: 'center',
+            color: colors.typography.body,
+          }}
+        >
+          Faça seu cadastro!
+        </Text>
       </Link>
     </BackgroundGradient>
   );
