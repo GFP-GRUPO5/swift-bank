@@ -1,12 +1,18 @@
-import { Link } from "expo-router";
-import { SafeAreaView, Text } from "react-native";
+import { SwiftBankLogo } from "@/components/icons/swiftBankLogo";
+import { BackgroundGradient } from "@/components/templates/background-gradient/BackgroundGradient";
+import { View } from "react-native";
+import { Text } from "react-native-svg";
 
 export default function SignInScreen() {
   return (
-    <SafeAreaView>
-      <Link href={'/(unathenticated)/sign-up/SignUp'}>
-        <Text>Create Account</Text>
-      </Link>
-    </SafeAreaView>
-  )
+    <BackgroundGradient>
+      <SwiftBankLogo />
+      <View>
+        <Text>Login</Text>
+      </View>
+      <View>
+        <Text>Boas-Vindas</Text>
+      </View>
+    </BackgroundGradient>
+  );
 }
