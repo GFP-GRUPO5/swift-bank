@@ -1,5 +1,5 @@
 import { Redirect } from "expo-router";
 
 export default function Entry() {
-  return <Redirect href="/(unauthenticated)/sign-up/SignUp" />;
+  return <Redirect href="/(unauthenticated)/sign-in/SignIn" />;
 }
