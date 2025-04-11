@@ -1,5 +1,5 @@
 import { auth, db } from "@/firebase/config"
-import { SignInUserDTO } from "@/types/auth.types"
+import { SignInUserDTO } from "@/domain/types/auth.types"
 import { isRejectedWithValue } from "@reduxjs/toolkit"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from "firebase/auth"
 import { UserService } from "./user.services"

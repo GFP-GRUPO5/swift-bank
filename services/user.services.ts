@@ -1,5 +1,5 @@
 import { db } from "@/firebase/config"
-import { CreateUserDOT, FEUserDOT } from "@/models/User.dto"
+import { CreateUserDOT, FEUserDOT } from "@/domain/models/User.dto"
 import { addDoc, collection, doc, getDoc, runTransaction } from "firebase/firestore"
 
 export class UserService {

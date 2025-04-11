@@ -1,5 +1,5 @@
 import { AuthService } from "@/services/auth.services";
-import { SignInUserDTO } from "@/types/auth.types";
+import { SignInUserDTO } from "@/domain/types/auth.types";
 import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 
 export const signInUserWithEmail = createAsyncThunk(

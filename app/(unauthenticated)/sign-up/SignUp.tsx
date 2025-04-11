@@ -1,6 +1,6 @@
 import { signUpUserWithEmail } from "@/redux/features/auth/thunks/sign-up";
 import { useAppDispatch } from "@/redux/hooks";
-import { CreateAuthUserDTO } from "@/types/auth.types";
+import { CreateAuthUserDTO } from "@/domain/types/auth.types";
 import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
