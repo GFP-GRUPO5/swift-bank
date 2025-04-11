@@ -4,3 +4,8 @@ export interface CreateAuthUserDTO {
   lastName: string
   password: string
 }
+
+export interface SignInUserDTO {
+  email: string
+  password: string
+}

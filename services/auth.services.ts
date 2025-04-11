@@ -1,5 +1,6 @@
 import { auth } from "@/firebase/config"
-import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth"
+import { SignInUserDTO } from "@/types/auth.types"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from "firebase/auth"
 
 interface CreateAuthUserDTO {
   email: string
@@ -16,8 +17,14 @@ interface CreateAuthUserDTO {
  * @static function logout()
  */
 export class AuthService {
-  static async login() {
+  static async signIn(data: SignInUserDTO) {
+    try {
+      const { email, password } = data
 
+      return await signInWithEmailAndPassword(auth, email, password)
+    } catch(error) {
+      console.log(error )
+    }
   }
 
   static async signUp(data: CreateAuthUserDTO): Promise<(UserCredential & { name: string; lastName: string }) | undefined> {
