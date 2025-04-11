@@ -1,6 +1,6 @@
 import { db } from "@/firebase/config"
 import { CreateUserDOT, FEUserDOT } from "@/models/User.dto"
-import { addDoc, collection, doc, runTransaction } from "firebase/firestore"
+import { addDoc, collection, doc, getDoc, runTransaction } from "firebase/firestore"
 
 export class UserService {
   static async createUser(userData: CreateUserDOT) {
@@ -25,6 +25,26 @@ export class UserService {
       })
     } catch (error) {
       console.error('Transaction failed: ', error)
+    }
+  }
+
+  static async fetchUserById(userId: string) {
+    try {
+      const userRef = doc(db, 'users', userId)
+      const result = await getDoc(userRef)
+
+      if (result.exists()) {
+        console.log(result.data)
+        return result.data()
+      }
+
+      throw new Error('User not found')
+      
+    } catch (error) {
+      if (error instanceof Error) {
+          throw new Error(error.message)
+      }
+      throw new Error(JSON.stringify(error))
     }
   }
 }
