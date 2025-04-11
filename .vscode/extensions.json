@@ -1,6 +1,11 @@
 {
   "recommendations": [
     "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "formulahendry.auto-rename-tag",
+    "dsznajder.es7-react-js-snippets",
+    "ms-vscode.vscode-typescript-next",
+    "Gruntfuggly.todo-tree",
+    "vscode-icons-team.vscode-icons",
   ]
 }
