@@ -1,5 +1,6 @@
 import { auth } from "@/firebase/config"
 import { SignInUserDTO } from "@/types/auth.types"
+import { isRejectedWithValue } from "@reduxjs/toolkit"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from "firebase/auth"
 
 interface CreateAuthUserDTO {
@@ -20,10 +21,15 @@ export class AuthService {
   static async signIn(data: SignInUserDTO) {
     try {
       const { email, password } = data
-
-      return await signInWithEmailAndPassword(auth, email, password)
+      const result = await signInWithEmailAndPassword(auth, email, password)
+      return {
+        uid: result.user.uid,
+        email: result.user.email,
+        refreshToken: result.user.refreshToken,
+      }
     } catch(error) {
-      console.log(error )
+      console.log(error)
+      return isRejectedWithValue(error)
     }
   }
 
@@ -37,14 +43,8 @@ export class AuthService {
         name,
         lastName,
       }
-    } catch (error: unknown) {
-
-      console.log(error)
-
-      if (error instanceof Error) {
-        throw new Error(error.message)
-      }
-
+    } catch (error) {
+      isRejectedWithValue(error)
     }
   }
 

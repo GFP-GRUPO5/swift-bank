@@ -3,6 +3,7 @@ interface IInitialState {
     accessToken: string | null
   },
   loading: boolean
+  user: any
 }
 
 export const initialState: IInitialState = {
@@ -10,4 +11,5 @@ export const initialState: IInitialState = {
     accessToken: null
   },
   loading: false,
+  user: {}
 }
