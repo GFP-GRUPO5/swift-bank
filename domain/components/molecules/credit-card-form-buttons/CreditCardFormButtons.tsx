@@ -1,6 +1,6 @@
 import { View } from "react-native";
-import { ButtonAction } from "@/components/atoms/button-action/ButtonAction";
 import { creditCardFormButtonsStyles } from "./CreditCardFormButtons.styles";
+import { ButtonAction } from "../../atoms/button-action/ButtonAction";
 
 interface Props {
   isEditing: boolean;

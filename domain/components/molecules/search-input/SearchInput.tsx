@@ -1,7 +1,7 @@
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { View } from "react-native";
 import { searchInputStyles } from "./SearchInput.styles";
-import { TextField } from "@/components/atoms/text-field/TextField";
+import { TextField } from "../../atoms/text-field/TextField";
 
 export function SearchInput() {
   return (

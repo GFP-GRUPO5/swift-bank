@@ -1,10 +1,10 @@
 import { Text, View } from "react-native";
 import Animated from "react-native-reanimated";
-import { TextField } from "@/components/atoms/text-field/TextField";
-import { Card } from "@/components/atoms/card/Card";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updateCard } from "@/redux/features/card/cardSlice";
 import { creditCardFormFieldsStyles } from "./CreditCardFormFields.styles";
+import { TextField } from "../../atoms/text-field/TextField";
+import { Card } from "../../atoms/card/Card";
 
 interface Props {
   isEditing: boolean;

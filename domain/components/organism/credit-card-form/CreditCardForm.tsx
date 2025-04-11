@@ -1,6 +1,6 @@
-import { CreditCardFormButtons } from "@/components/molecules/credit-card-form-buttons/CreditCardFormButtons";
-import { CreditCardFormFields } from "@/components/molecules/credit-card-form-fields/CreditCardFormFields";
 import { useState } from "react";
+import { CreditCardFormFields } from "../../molecules/credit-card-form-fields/CreditCardFormFields";
+import { CreditCardFormButtons } from "../../molecules/credit-card-form-buttons/CreditCardFormButtons";
 
 export function CreditCardForm() {
   const [isEditing, setIsEditing] = useState(false);
