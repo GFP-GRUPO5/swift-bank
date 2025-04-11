@@ -3,8 +3,8 @@ import { textFieldStyles } from "./TextField.styles";
 
 interface Props extends TextInputProps {}
 
-export function TextField({ ...props }: Props) {
+export function TextField({ style, ...props }: Props) {
   return (
-    <TextInput style={textFieldStyles.input} { ...props } />
+    <TextInput style={[style, textFieldStyles.input]} { ...props } />
   )
 }
