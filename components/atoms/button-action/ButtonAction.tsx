@@ -18,7 +18,7 @@ export const ButtonAction = forwardRef<Ref<typeof Pressable>, Props>((
     }
 
     if (children && label) {
-      throw new Error('You must provide OR childre OR label')
+      throw new Error('You must provide OR children OR label')
     }
 
     return (
