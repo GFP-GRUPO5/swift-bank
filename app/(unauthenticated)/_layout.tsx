@@ -4,9 +4,7 @@ import { Redirect, Stack } from "expo-router";
 export default function SignUpLayout() {
   const { user } = useAppSelector(state => state.auth)
 
-  console.log(user)
-
-  if (Object.keys(user).length) {
+  if (user && Object.keys(user).length) {
     return <Redirect href="/(authenticated)/home/Home" />
   }
 
