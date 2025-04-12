@@ -15,6 +15,8 @@ export default function AuthenticatedRootLayout() {
       <Stack.Screen name="qr-code/QRCode" />
       <Stack.Screen name="recharge/Recharge" />
       <Stack.Screen name="transfer/Transfer" />
+      <Stack.Screen name="card-creation/CardCreation" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="loans/Loans" />
     </Stack>
   )
 }
