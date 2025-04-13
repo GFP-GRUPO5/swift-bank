@@ -8,27 +8,31 @@ interface Props extends PressableProps {
   label?: string
 }
 
+/**
+ * @prop children ReactNode
+ * @prop label string
+ */
 export const ButtonAction = forwardRef<Ref<typeof Pressable>, Props>((
   { children, label, style, ...props },
   ref: React.ForwardedRef<Ref<(props: PressableProps) => React.JSX.Element>>
 ) => {
 
-    if (!children && !label) {
-      throw new Error('You need to provide children or a label')
-    }
-
-    if (children && label) {
-      throw new Error('You must provide OR children OR label')
-    }
-
-    return (
-      <Pressable style={style} {...props} >
-        {
-          children 
-            ? children 
-            : <Text style={buttonActionStyle.text}>{label}</Text>
-        }
-      </Pressable>
-    )
+  if (!children && !label) {
+    throw new Error('You need to provide children or a label')
   }
+
+  if (children && label) {
+    throw new Error('You must provide OR children OR label')
+  }
+
+  return (
+    <Pressable style={style} {...props} >
+      {
+        children
+          ? children
+          : <Text style={buttonActionStyle.text}>{label}</Text>
+      }
+    </Pressable>
+  )
+}
 )
