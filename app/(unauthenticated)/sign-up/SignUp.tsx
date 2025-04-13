@@ -1,73 +1,146 @@
-import { signUpUserWithEmail } from "@/redux/features/auth/thunks/sign-up";
-import { useAppDispatch } from "@/redux/hooks";
 import { CreateAuthUserDTO } from "@/domain/types/auth.types";
+import { useAppSelector } from "@/redux/hooks";
 import { useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { ActivityIndicator, Text, View } from "react-native";
+
+import Checkbox from "expo-checkbox";
+
+import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
+import { TextField } from "@/domain/components/atoms/text-field/TextField";
+import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
+import { Link } from "expo-router";
+import { ScrollView } from "react-native-gesture-handler";
+import { styles } from "./SigUp.styles"; // Importando os estilos
 
 const initialState: CreateAuthUserDTO = {
-  name: '',
-  lastName: '',
-  email: '',
-  password: '',
-}
+  name: "",
+  lastName: "",
+  email: "",
+  password: "",
+};
 
 export default function SignUp() {
-  const dispatch = useAppDispatch()
-  const [userData, setUserData] = useState<CreateAuthUserDTO>(initialState)
+  const [isChecked, setChecked] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
-  function handleSubmit() {
-    dispatch(signUpUserWithEmail(userData))
+  const { loading } = useAppSelector((state) => state.auth);
+
+  const [userCredentials, setUserCredentials] = useState({
+    email: "",
+    nome: "",
+    password: "",
+    passwordConfirmed: "",
+  });
+
+  function handleTextChange(
+    inputName: "nome" | "email" | "password" | "passwordConfirmed",
+    text: string,
+  ) {
+    setUserCredentials((state) => ({
+      ...state,
+      [inputName]: text,
+    }));
+  }
+
+  function handleLogin() {
+    const { nome, email, password, passwordConfirmed } = userCredentials;
+    const policy = isChecked;
+
+    //TODO - Logica de subir cadastro
   }
 
   return (
-    <SafeAreaView
-      style={{
-        backgroundColor: 'orange',
-        flex: 1,
-        width: '100%'
-      }}
-    >
-      <View>
-        <TextInput
-          style={{ color: '#111', backgroundColor: 'white', marginBottom: 8, padding: 16, fontSize: 16 }}
-          placeholder="Name"
-          value={userData?.name}
-          onChangeText={(text) => setUserData(state => ({ ...state, name: text }))}
-        />
-        <TextInput
-          style={{ color: '#111', backgroundColor: 'white', marginBottom: 8, padding: 16, fontSize: 16 }}
-          placeholder="Last Name"
-          value={userData?.lastName}
-          onChangeText={(text) => setUserData(state => ({ ...state, lastName: text }))}
-        />
-        <TextInput
-          style={{ color: '#111', backgroundColor: 'white', marginBottom: 8, padding: 16, fontSize: 16 }}
-          placeholder="Email"
-          autoCapitalize="none"
-          value={userData?.email}
-          onChangeText={(text) => setUserData(state => ({ ...state, email: text }))}
-        />
-        <TextInput
-          style={{ color: '#111', backgroundColor: 'white', marginBottom: 8, padding: 16, fontSize: 16 }}
-          secureTextEntry
-          placeholder="Password"
-          value={userData?.password}
-          onChangeText={(text) => setUserData(state => ({ ...state, password: text }))}
-        />
-      </View>
-      <Pressable
-        style={{
-          width: '100%',
-          backgroundColor: 'blue',
-          padding: 16,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-        onPress={handleSubmit}
-      >
-        <Text style={{ color: 'white', fontWeight: 700, fontSize: 24 }}>Cadastrar</Text>
-      </Pressable>
-    </SafeAreaView>
-  )
+    <BackgroundGradient style={styles.container}>
+      <ScrollView scrollEnabled>
+        <Text style={styles.title}>
+          Swift <Text style={{ fontWeight: 300 }}>Bank</Text>
+        </Text>
+
+        <Text style={styles.subtitle}>Cadastro</Text>
+
+        <Text style={styles.welcomeText}>
+          Boas-Vindas! Preencha seus dados para criar sua conta.
+        </Text>
+
+        <View style={{ marginBottom: 16 }}>
+          <Text style={styles.label}>Nome</Text>
+          <TextField
+            placeholder="Insira seu nome completo"
+            onChangeText={(nome) => handleTextChange("nome", nome)}
+            value={userCredentials.nome}
+            autoCapitalize="none"
+          />
+        </View>
+
+        <View style={{ marginBottom: 16 }}>
+          <Text style={styles.label}>Insira seu email</Text>
+          <TextField
+            placeholder="E-mail"
+            onChangeText={(email) => handleTextChange("email", email)}
+            value={userCredentials.email}
+            autoCapitalize="none"
+          />
+        </View>
+
+        <View>
+          <Text style={styles.label}>Senha</Text>
+          <View style={styles.passwordContainer}>
+            <TextField
+              placeholder="***********"
+              secureTextEntry={isVisible}
+              style={{ paddingRight: 56 }}
+              onChangeText={(password) =>
+                handleTextChange("password", password)
+              }
+              value={userCredentials.password}
+              autoCapitalize="none"
+            />
+          </View>
+        </View>
+
+        <View>
+          <Text style={styles.label}>Confirme sua senha</Text>
+          <View style={styles.passwordConfirmedContainer}>
+            <TextField
+              placeholder="***********"
+              secureTextEntry={isVisible}
+              style={{ paddingRight: 56 }}
+              onChangeText={(passwordConfirmed) =>
+                handleTextChange("passwordConfirmed", passwordConfirmed)
+              }
+              value={userCredentials.passwordConfirmed}
+              autoCapitalize="none"
+            />
+          </View>
+        </View>
+
+        <View style={styles.policyContainer}>
+          <Checkbox
+            style={styles.checkbox}
+            value={isChecked}
+            onValueChange={setChecked}
+          />
+          <Text style={styles.policyText}>
+            Li e estou ciente quanto a Politica e Privacidade.
+          </Text>
+        </View>
+
+        <ButtonAction
+          style={styles.button}
+          onPress={handleLogin}
+          disabled={loading}
+        >
+          <Text style={styles.buttonText}>Cadastrar</Text>
+          {loading && (
+            <ActivityIndicator style={styles.loadingIndicator} color={"#FFF"} />
+          )}
+        </ButtonAction>
+
+        <Text style={styles.signInText}>Já tem conta?</Text>
+        <Link href={"/(unauthenticated)/sign-in/SignIn"}>
+          <Text style={styles.signInLink}>Faça seu login!</Text>
+        </Link>
+      </ScrollView>
+    </BackgroundGradient>
+  );
 }
