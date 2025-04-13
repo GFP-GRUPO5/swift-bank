@@ -1,7 +1,7 @@
 import { colors } from "@/theme/colors";
 import { useState } from "react";
 import { View, Text, Pressable, ActivityIndicator } from "react-native";
-import Entypo from '@expo/vector-icons/Entypo';
+import Entypo from "@expo/vector-icons/Entypo";
 import { Link } from "expo-router";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -9,6 +9,8 @@ import { signInUserWithEmail } from "@/redux/features/auth/thunks/sign-in";
 import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
 import { TextField } from "@/domain/components/atoms/text-field/TextField";
 import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
+
+import { styles } from "./SigIn.styles"; // Importando os estilos
 
 export default function SignInScreen() {
   const [isVisible, setIsVisible] = useState(false)
@@ -29,52 +31,19 @@ export default function SignInScreen() {
   }
 
   return (
-    <BackgroundGradient>
-      <Text
-        style={{
-          fontSize: 30,
-          fontWeight: 700,
-          marginTop: 56,
-          textAlign: 'center',
-          marginBottom: 72,
-        }}
-      >
+    <BackgroundGradient style={styles.container}>
+      <Text style={styles.title}>
         Swift {' '}
         <Text style={{ fontWeight: 300 }}>
           Bank
-        </Text>
+          </Text>
       </Text>
       <Text
-        style={{
-          fontSize: 24,
-          fontWeight: 700,
-          textAlign: 'center',
-          marginBottom: 48,
-        }}
-      >
-        Login
-      </Text>
-      <Text
-        style={{
-          fontSize: 20,
-          color: colors.typography.body,
-          fontWeight: 400,
-          marginBottom: 32,
-        }}
-      >
-        Boas-Vindas
-      </Text>
+       style={styles.subtitle}>Login</Text>
+      <Text style={styles.welcomeText}>Boas-Vindas</Text>
+      
       <View style={{ marginBottom: 16 }}>
-        <Text
-          style={{
-            fontWeight: 700,
-            fontSize: 16,
-            color: colors.typography.body,
-            marginBottom: 8
-          }}
-        >
-          Insira seu email
-        </Text>
+        <Text style={styles.label}>Insira seu email</Text>
         <TextField
           placeholder="E-mail"
           onChangeText={(email) => handleTextChange('email', email)}
@@ -82,18 +51,10 @@ export default function SignInScreen() {
           autoCapitalize="none"
         />
       </View>
+
       <View>
-        <Text
-          style={{
-            fontWeight: 700,
-            fontSize: 16,
-            color: colors.typography.body,
-            marginBottom: 8
-          }}
-        >
-          Senha
-        </Text>
-        <View style={{ position: 'relative', marginBottom: 8 }}>
+        <Text style={styles.label}>Senha</Text>
+        <View style={styles.passwordContainer}>
           <TextField
             placeholder="***********"
             secureTextEntry={isVisible}
@@ -102,73 +63,28 @@ export default function SignInScreen() {
             value={userCredentials.password}
             autoCapitalize="none"
           />
-          <Pressable
-            style={{
-              position: 'absolute',
-              right: 16,
-              top: 16,
-            }}
-            onPress={() => setIsVisible(state => !state)}
-          >
-            {
-              isVisible
-                ? <Entypo name="eye-with-line" size={24} color="black" />
-                : <Entypo name="eye" size={24} color="black" />
-            }
+          <Pressable style={styles.eyeIcon} onPress={() => setIsVisible((state) => !state)}>
+            {isVisible ? (
+              <Entypo name="eye-with-line" size={24} color="black" />
+            ) : (
+              <Entypo name="eye" size={24} color="black" />
+            )}
           </Pressable>
         </View>
       </View>
+
       <Link href={"/(unauthenticated)/sign-up/SignUp"} style={{ marginBottom: 32 }}>
-        <Text
-          style={{
-            textAlign: 'right',
-            textDecorationLine: 'underline',
-            fontSize: 12,
-            color: colors.typography.body,
-            paddingRight: 8,
-          }}
-        >
-          Esqueci minha senha
-        </Text>
+        <Text style={styles.forgotPasswordLink}>Esqueci minha senha</Text>
       </Link>
-      <ButtonAction
-        style={{
-          backgroundColor: '#2c2c2c',
-          padding: 16,
-          borderRadius: 24,
-          marginBottom: 32,
-          position: 'relative'
-        }}
-        onPress={handleLogin}
-        disabled={loading}
-      >
-        
-        <Text style={{ color: '#FFF', textAlign:'center', fontSize: 16, fontWeight: 700 }}>Entar</Text>
-        {loading && <ActivityIndicator style={{ position: 'absolute', right: 16, top: 14 }} color={'#FFF'} />}
-        
+
+      <ButtonAction style={styles.button} onPress={handleLogin} disabled={loading}>
+        <Text style={styles.buttonText}>Entrar</Text>
+        {loading && <ActivityIndicator style={styles.loadingIndicator} color={"#FFF"} />}
       </ButtonAction>
-      <Text
-        style={{
-          fontSize: 16,
-          color: colors.typography.body,
-          textAlign: 'center',
-          marginBottom: 8,
-        }}
-      >
-        Ainda não tem conta?
-      </Text>
-      <Link href={'/(unauthenticated)/sign-up/SignUp'}>
-        <Text
-          style={{
-            fontSize: 16,
-            fontWeight: 600,
-            textDecorationLine: 'underline',
-            textAlign: 'center',
-            color: colors.typography.body,
-          }}
-        >
-          Faça seu cadastro!
-        </Text>
+
+      <Text style={styles.signUpText}>Ainda não tem conta?</Text>
+      <Link href={"/(unauthenticated)/sign-up/SignUp"}>
+        <Text style={styles.signUpLink}>Faça seu cadastro!</Text>
       </Link>
     </BackgroundGradient>
   );
