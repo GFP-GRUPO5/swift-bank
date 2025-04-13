@@ -9,6 +9,11 @@ interface Props extends ViewProps {
   rigthContent?: ReactNode | string,
 }
 
+/**
+ * @param centerContent
+ * @param leftContent
+ * @param rigthContent
+ */
 export function AppHeader({ centerContent, leftContent, rigthContent, style, ...props }: Props) {
   const router = useRouter()
 
