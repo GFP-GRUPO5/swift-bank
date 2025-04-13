@@ -9,6 +9,9 @@ export const authSlice = createSlice({
   reducers: {
     updateAccessToken: (state, { payload: { accessToken } }) => {
       state.credentials.accessToken = accessToken
+    },
+    setUserDataFromAsyncStorage: (state, { payload }) => {
+      state.user = payload
     }
   },
   extraReducers: (builder) => {
@@ -46,6 +49,7 @@ export const authSlice = createSlice({
 
 export const {
   updateAccessToken,
+  setUserDataFromAsyncStorage,
 } = authSlice.actions
 
 export default authSlice.reducer

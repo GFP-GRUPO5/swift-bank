@@ -4,6 +4,8 @@ import { isRejectedWithValue } from "@reduxjs/toolkit"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from "firebase/auth"
 import { UserService } from "./user.services"
 import { doc, setDoc } from "firebase/firestore"
+import { AccountService } from "./account.service"
+import { FirebaseSimplification } from "@/firebase/firebase-simplifications"
 
 interface CreateAuthUserDTO {
   email: string
@@ -25,9 +27,7 @@ export class AuthService {
       const { email, password } = loginData
       const { user } = await signInWithEmailAndPassword(auth, email, password)
       
-      const result = await UserService.fetchUserById(user.uid)
-
-      return result
+      return await UserService.fetchUserById(user.uid)
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message)
@@ -41,9 +41,10 @@ export class AuthService {
     try {
       const { email, password, name, lastName } = data
       const { user } = await createUserWithEmailAndPassword(auth, email, password)
-      const userRef = doc(db, 'users', user.uid)
-      await setDoc(userRef, { email, name, lastName, id: user.uid })
-      
+
+      FirebaseSimplification.createDocument('users', { email, name, lastName, id: user.uid })
+
+      await AccountService.createAccount(user.uid)
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message)
