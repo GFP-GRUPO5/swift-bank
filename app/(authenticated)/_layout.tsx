@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 export default function AuthenticatedRootLayout() {
   return (
@@ -8,9 +8,9 @@ export default function AuthenticatedRootLayout() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="home/Home" options={{ headerShown: false}} />
+      <Stack.Screen name="home/Home" options={{ headerShown: false }} />
       <Stack.Screen name="account/Account" />
-      <Stack.Screen name="notifications/Notifications" />
+      <Stack.Screen name="notifications/Notifications" options={{ presentation: 'modal' }} />
       <Stack.Screen name="pix/Pix" />
       <Stack.Screen name="qr-code/QRCode" />
       <Stack.Screen name="recharge/Recharge" />

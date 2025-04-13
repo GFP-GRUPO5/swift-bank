@@ -1,6 +1,6 @@
 export interface CardDTO {
   id: string | number
-  userId: string | number
+  userId: string
   lastFourDigits: string
   flag: string
   expeditionDate: Date
@@ -9,3 +9,5 @@ export interface CardDTO {
   createdAt: Date
   updatedAt: Date
 }
+
+export interface CreateCardDTO extends Partial<CardDTO>{}
