@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
+import devToolsEnhancer from 'redux-devtools-expo-dev-plugin';
 
 import authReducer from './features/auth/authSlice';
 import cardReducer from './features/card/cardSlice'
@@ -32,7 +33,8 @@ export function makeStore() {
         ],
       },
     }),
-    devTools: process.env.NODE_ENV !== 'production'
+    devTools: process.env.NODE_ENV !== 'production',
+    enhancers: getDefaultEnhancers => getDefaultEnhancers().concat(devToolsEnhancer()),
   })
 }
 
