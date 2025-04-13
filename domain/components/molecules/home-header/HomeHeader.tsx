@@ -1,10 +1,15 @@
 import { useAppSelector } from "@/redux/hooks";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { Link, useRouter } from "expo-router";
+import { Linking, Pressable, Text, View } from "react-native";
 
 export function HomeHeader() {
   const user = useAppSelector(state => state.auth.user)
+  const router = useRouter()
+
+  function handleProfileNavigation() {
+    router.push('/(authenticated)/user-profile/UserProfile')
+  }
 
   return (
     <View
@@ -16,10 +21,12 @@ export function HomeHeader() {
         marginBottom: 32,
       }}
     >
-      <Text style={{ fontSize: 24 }}>
-        Olá, {' '}
-        <Text style={{ fontWeight: 700 }}>{user?.name}</Text>
-      </Text>
+      <Link href={'/(authenticated)/user-profile/UserProfile'}>
+        <Text style={{ fontSize: 24 }}>
+          Olá, {' '}
+          <Text style={{ fontWeight: 700 }}>{user?.name}</Text>
+        </Text>
+      </Link>
       <Link href={'/(authenticated)/notifications/Notifications'}>
         <View style={{ position: 'relative' }}>
           <Ionicons name="notifications" size={24} color="black" />
