@@ -6,7 +6,11 @@ import { Text, View } from "react-native";
 export default function CardCreation() {
   return (
     <BackgroundGradient>
-        <AppHeader leftContent={<HeaderGoBackButton isModal/>} style={{ paddingTop: 16, borderBottomWidth: 1 }} centerContent='Novo Cartão'/>
+      <AppHeader
+        style={{ paddingTop: 16, borderBottomWidth: 1 }}
+        leftContent={<HeaderGoBackButton isModal />}
+        centerContent='Novo Cartão'
+      />
       <View>
         <Text>Card Creation</Text>
       </View>
