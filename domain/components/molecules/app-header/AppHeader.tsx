@@ -1,24 +1,30 @@
 import { useRouter } from "expo-router";
-import { Pressable, Text, View } from "react-native";
-import Entypo from '@expo/vector-icons/Entypo';
+import { Text, View } from "react-native";
 import { ReactNode } from "react";
+import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
 
-interface Props {
+interface Props extends ViewProps {
   leftContent?: ReactNode,
   centerContent?: ReactNode | string,
   rigthContent?: ReactNode | string,
 }
 
-export function AppHeader({ centerContent, leftContent, rigthContent }: Props) {
+/**
+ * @param centerContent
+ * @param leftContent
+ * @param rigthContent
+ */
+export function AppHeader({ centerContent, leftContent, rigthContent, style, ...props }: Props) {
   const router = useRouter()
+
   return (
-    <View style={{ backgroundColor: 'transparent', marginBottom: 16 , flexDirection: 'row', alignItems: 'center'}}>
+    <View style={[style ,{ backgroundColor: 'transparent', marginBottom: 16 , flexDirection: 'row', alignItems: 'center'}]} {...props}>
       <View style={{ flex: 1, justifyContent: 'center' }}>
         { leftContent && leftContent}
       </View>
 
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        { typeof centerContent === 'string' ? <Text>{centerContent}</Text> : centerContent }
+        { typeof centerContent === 'string' ? <Text numberOfLines={1} ellipsizeMode="tail" style={{  }}>{centerContent}</Text> : centerContent }
       </View>
 
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

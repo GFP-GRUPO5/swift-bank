@@ -1,4 +1,4 @@
-import { AuthService } from "@/services/auth.services";
+import { AuthService } from "@/services/auth.service";
 import { CreateAuthUserDTO } from "@/domain/types/auth.types";
 import { createAsyncThunk, isRejected, isRejectedWithValue } from "@reduxjs/toolkit";
 

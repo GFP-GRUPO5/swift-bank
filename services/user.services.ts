@@ -1,6 +1,7 @@
 import { db } from "@/firebase/config"
 import { CreateUserDOT, FEUserDOT } from "@/domain/models/User.dto"
 import { addDoc, collection, doc, getDoc, runTransaction } from "firebase/firestore"
+import { FirebaseSimplification } from "@/firebase/firebase-simplifications"
 
 export class UserService {
   static async createUser(userData: CreateUserDOT) {
@@ -21,7 +22,7 @@ export class UserService {
           throw new Error('This email is already in use.')
         }
 
-        const docRef = await addDoc(collection(db, 'users'), user)
+        await addDoc(collection(db, 'users'), user)
       })
     } catch (error) {
       console.error('Transaction failed: ', error)
@@ -30,11 +31,9 @@ export class UserService {
 
   static async fetchUserById(userId: string) {
     try {
-      const userRef = doc(db, 'users', userId)
-      const result = await getDoc(userRef)
+      const result = await FirebaseSimplification.fetchDocumentById(userId, 'users')
 
-      if (result.exists()) {
-        console.log(result.data)
+      if (result?.exists()) {
         return result.data()
       }
 
