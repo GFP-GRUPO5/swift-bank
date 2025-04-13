@@ -2,7 +2,7 @@ import { doc, DocumentData, DocumentReference, DocumentSnapshot, getDoc, setDoc,
 import { db } from "./config";
 
 export class FirebaseSimplification {
-  static async createDocument<T extends WithFieldValue<DocumentData>>(collection: string, data: T, details?: string) {
+  static async createDocument<T extends WithFieldValue<DocumentData>>(collection: string, data: T, details?: string): Promise<void> {
     try {
       let ref;
 
