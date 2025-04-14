@@ -41,7 +41,11 @@ export default function HomeScreen() {
       <ScrollView showsVerticalScrollIndicator={false} style={{ paddingBottom: 80 }}>
         <LinearGradient colors={['transparent', 'transparent']}>
           <View style={{ paddingTop: 12 }}>
-            <CardCreationCard />
+            <CardCreationCard
+              sectionTitle="Você possui nenhum cartão"
+              buttonTitle="Adicionar cartão"
+              href={"/(authenticated)/card-creation/CardCreation"}
+            />
           </View>
           <Link href={'/(authenticated)/loans/Loans'} style={{ marginBottom: 16 }}>
             <Card>
@@ -81,7 +85,8 @@ export default function HomeScreen() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginBottom: 16
-                  }}>
+                  }}
+                >
                   {transaction.icon}
                 </View>
                 <View>

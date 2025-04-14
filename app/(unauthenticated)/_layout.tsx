@@ -1,7 +1,7 @@
 import { useAppSelector } from "@/redux/hooks";
 import { Redirect, Stack } from "expo-router";
 
-export default function SignUpLayout() {
+export default function UnauthenticatedLayout() {
   const { user } = useAppSelector(state => state.auth)
 
   if (user && Object.keys(user).length) {

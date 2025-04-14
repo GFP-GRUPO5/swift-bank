@@ -3,7 +3,7 @@ import { colors } from "@/theme/colors";
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1, 
+    flex: 1,
   },
   title: {
     fontSize: 30,
@@ -45,6 +45,7 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.typography.body,
     paddingRight: 8,
+    marginBottom: 16,
   },
   button: {
     backgroundColor: "#2c2c2c",
@@ -70,11 +71,5 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 8,
   },
-  signUpLink: {
-    fontSize: 16,
-    fontWeight: "600",
-    textDecorationLine: "underline",
-    textAlign: "center",
-    color: colors.typography.body,
-  },
+
 });
