@@ -2,6 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 import { initialState } from './auth.constants'
 import { signUpUserWithEmail } from './thunks/sign-up'
 import { signInUserWithEmail } from './thunks/sign-in'
+import { UserDTO } from '@/domain/models/User.dto'
+import { signOutUser } from './thunks/sign-out'
+import { changePassword } from './thunks/change-password'
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -23,11 +26,15 @@ export const authSlice = createSlice({
       })
       .addCase(signUpUserWithEmail.fulfilled, (state, { payload }) => {
         state.loading = false
-        state.user = payload
+        state.errors = payload
         return state
       })
       .addCase(signUpUserWithEmail.rejected, (state) => {
         state.loading = false
+        state.errors = {
+          hasError: true,
+          error: { message: 'Ocorreu um erro ao tentar entrar no Swift Bank' }
+        }
         return state
       })
       // Sign In Flow
@@ -36,13 +43,46 @@ export const authSlice = createSlice({
         return state
       })
       .addCase(signInUserWithEmail.fulfilled, (state, { payload }) => {
-        state.user = payload
+        state.user = payload as UserDTO
         state.loading = false
         return state
       })
       .addCase(signInUserWithEmail.rejected, (state, { payload }) => {
         state.loading = false
         return state
+      })
+      // Sign Out Flow
+      .addCase(signOutUser.pending, (state) => {
+        state.loading = true
+        return state
+      })
+      .addCase(signOutUser.fulfilled, (state) => {
+        state.loading = false
+        state.user = null
+        state.errors = null
+        return state
+      })
+      .addCase(signOutUser.rejected, (state) => {
+        state.loading = false
+        state.errors = {
+          hasError: true,
+          error: { message: 'Ocorreu um erro ao sair da conta' }
+        }
+        return state
+      })
+      // Change Password Flow
+      .addCase(changePassword.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(changePassword.fulfilled, (state) => {
+        state.loading = false
+      })
+      .addCase(changePassword.rejected, (state) => {
+        state.loading = false
+        state.errors = {
+          hasError: true,
+          error: { message: 'Ocorreu um erro ao alterar a senha' }
+        }
       })
   }
 })

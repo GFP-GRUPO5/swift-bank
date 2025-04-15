@@ -1,5 +1,5 @@
-import { colors } from "@/theme/colors";
 import { StyleSheet } from "react-native";
+import { colors } from "@/theme/colors";
 
 export const styles = StyleSheet.create({
   container: {
@@ -34,10 +34,6 @@ export const styles = StyleSheet.create({
     position: "relative",
     marginBottom: 8,
   },
-  passwordConfirmedContainer: {
-    position: "relative",
-    marginBottom: 20,
-  },
   eyeIcon: {
     position: "absolute",
     right: 16,
@@ -49,6 +45,7 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.typography.body,
     paddingRight: 8,
+    marginBottom: 16,
   },
   button: {
     backgroundColor: "#2c2c2c",
@@ -68,32 +65,11 @@ export const styles = StyleSheet.create({
     right: 16,
     top: 14,
   },
-  signInText: {
+  signUpText: {
     fontSize: 16,
     color: colors.typography.body,
     textAlign: "center",
     marginBottom: 8,
   },
-  signInLink: {
-    fontSize: 16,
-    fontWeight: "600",
-    textDecorationLine: "underline",
-    textAlign: "center",
-    color: colors.typography.body,
-  },
-  checkbox: {
-    margin: 8,
-    textAlign: "center",
-  },
-  policyText: {
-    fontSize: 14,
-    color: colors.typography.body,
-    textAlign: "center",
-    marginBottom: 8,
-  },
-  policyContainer: {
-    flex: 1,
-    flexDirection: "row",
-    textAlign: "center",
-  },
+
 });

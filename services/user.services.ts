@@ -1,14 +1,13 @@
 import { db } from "@/firebase/config"
-import { CreateUserDOT, FEUserDOT } from "@/domain/models/User.dto"
-import { addDoc, collection, doc, getDoc, runTransaction } from "firebase/firestore"
-import { FirebaseSimplification } from "@/firebase/firebase-simplifications"
+import { CreateUserDOT, UserDTO } from "@/domain/models/User.dto"
+import { doc, getDoc, runTransaction, setDoc } from "firebase/firestore"
 
 export class UserService {
-  static async createUser(userData: CreateUserDOT) {
-    const user: FEUserDOT = {
+  static async createUser(userData: CreateUserDOT): Promise<void> {
+    const user: UserDTO = {
       ...userData,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     }
 
     const email = user.email!.toLowerCase()
@@ -22,7 +21,8 @@ export class UserService {
           throw new Error('This email is already in use.')
         }
 
-        await addDoc(collection(db, 'users'), user)
+        const userRef = doc(db, 'users', user.id!)
+        await setDoc(userRef, user)
       })
     } catch (error) {
       console.error('Transaction failed: ', error)
@@ -31,17 +31,17 @@ export class UserService {
 
   static async fetchUserById(userId: string) {
     try {
-      const result = await FirebaseSimplification.fetchDocumentById(userId, 'users')
+      const userRef = doc(db, 'users', userId)
+      const result = await getDoc(userRef)
 
-      if (result?.exists()) {
-        return result.data()
+      if (!result.exists()) {
+        throw new Error('User not found')
       }
 
-      throw new Error('User not found')
-      
+      return result.data()
     } catch (error) {
       if (error instanceof Error) {
-          throw new Error(error.message)
+        throw new Error(error.message)
       }
       throw new Error(JSON.stringify(error))
     }

@@ -39,63 +39,67 @@ export default function HomeScreen() {
         <HomeAccountCard />
       </View>
       <ScrollView showsVerticalScrollIndicator={false} style={{ paddingBottom: 80 }}>
-        <LinearGradient colors={['transparent', 'transparent']}>
-          <View style={{ paddingTop: 12 }}>
-            <CardCreationCard />
-          </View>
-          <Link href={'/(authenticated)/loans/Loans'} style={{ marginBottom: 16 }}>
-            <Card>
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Text style={{ fontWeight: 700, marginBottom: 8 }}>Empréstimos</Text>
-                <Entypo name={"chevron-small-right"} size={24} color="black" />
-              </View>
-              <Text>Simule seu crédito e antecipe seus planos.</Text>
-            </Card>
-          </Link>
-          <Link href={'/(authenticated)/loans/Loans'} style={{ marginBottom: 16 }}>
-            <Card>
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Text style={{ fontWeight: 700, marginBottom: 8 }}>Investimentos</Text>
-                <Entypo name={"chevron-small-right"} size={24} color="black" />
-              </View>
-              <Text>Invista e acelere a realização dos seus sonhos!</Text>
-            </Card>
-          </Link>
-
+        <View style={{ paddingTop: 12 }}>
+          <CardCreationCard
+            style={{ marginBottom: 24 }}
+            sectionTitle="Você possui nenhum cartão"
+            buttonTitle="Adicionar cartão"
+            href={"/(authenticated)/card-creation/CardCreation"}
+          />
+        </View>
+        <Link href={'/(authenticated)/loans/Loans'} style={{ marginBottom: 16 }}>
           <Card>
-            <Link href={'/(authenticated)/loans/Loans'} style={{ paddingBottom: 12, marginBottom: 12 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                <Text style={{ fontWeight: 700, marginBottom: 8 }}>Ultimas transações</Text>
-                <Entypo name={"chevron-small-right"} size={24} color="black" />
-              </View>
-            </Link>
-            {lastTransaction.map(transaction => (
-              <View key={transaction.id} style={{ flexDirection: 'row', gap: 16 }}>
-                <View
-                  style={{
-                    height: 48,
-                    width: 48,
-                    borderRadius: '100%',
-                    borderWidth: 1,
-                    borderColor: '#555',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: 16
-                  }}>
-                  {transaction.icon}
-                </View>
-                <View>
-                  <Text>
-                    {transaction.title}
-                  </Text>
-                  <Text>
-                    {transaction.value}
-                  </Text>
-                </View>
-              </View>
-            ))}
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Text style={{ fontWeight: 700, marginBottom: 8 }}>Empréstimos</Text>
+              <Entypo name={"chevron-small-right"} size={24} color="black" />
+            </View>
+            <Text>Simule seu crédito e antecipe seus planos.</Text>
           </Card>
-        </LinearGradient>
+        </Link>
+        <Link href={'/(authenticated)/loans/Loans'} style={{ marginBottom: 16 }}>
+          <Card>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Text style={{ fontWeight: 700, marginBottom: 8 }}>Investimentos</Text>
+              <Entypo name={"chevron-small-right"} size={24} color="black" />
+            </View>
+            <Text>Invista e acelere a realização dos seus sonhos!</Text>
+          </Card>
+        </Link>
+
+        <Card>
+          <Link href={'/(authenticated)/loans/Loans'} style={{ paddingBottom: 12, marginBottom: 12 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+              <Text style={{ fontWeight: 700, marginBottom: 8 }}>Ultimas transações</Text>
+              <Entypo name={"chevron-small-right"} size={24} color="black" />
+            </View>
+          </Link>
+          {lastTransaction.map(transaction => (
+            <View key={transaction.id} style={{ flexDirection: 'row', gap: 16 }}>
+              <View
+                style={{
+                  height: 48,
+                  width: 48,
+                  borderRadius: '100%',
+                  borderWidth: 1,
+                  borderColor: '#555',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: 16
+                }}
+              >
+                {transaction.icon}
+              </View>
+              <View>
+                <Text>
+                  {transaction.title}
+                </Text>
+                <Text>
+                  {transaction.value}
+                </Text>
+              </View>
+            </View>
+          ))}
+        </Card>
       </ScrollView>
     </BackgroundGradient>
   )

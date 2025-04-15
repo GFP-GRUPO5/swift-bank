@@ -11,7 +11,7 @@ import { createAsyncThunk, isRejected, isRejectedWithValue } from "@reduxjs/tool
  * @summary password: string
  */
 export const signUpUserWithEmail = createAsyncThunk(
-  'users/signInUserWithEmail',
+  'auth/signUpUserWithEmail',
   async (userInput: CreateAuthUserDTO) => {
     try {
       return await AuthService.signUp(userInput)

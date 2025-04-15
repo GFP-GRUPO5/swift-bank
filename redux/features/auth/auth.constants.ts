@@ -1,9 +1,12 @@
+import { UserDTO } from "@/domain/models/User.dto"
+
 interface IInitialState {
   credentials: {
     accessToken: string | null
   },
   loading: boolean
-  user: any
+  user: UserDTO | null
+  errors: any
 }
 
 export const initialState: IInitialState = {
@@ -11,5 +14,6 @@ export const initialState: IInitialState = {
     accessToken: null
   },
   loading: false,
-  user: {}
+  user: null,
+  errors: null,
 }

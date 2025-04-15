@@ -1,16 +1,15 @@
-import { colors } from "@/theme/colors";
 import { useState } from "react";
 import { View, Text, Pressable, ActivityIndicator } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import { Link } from "expo-router";
-
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { signInUserWithEmail } from "@/redux/features/auth/thunks/sign-in";
 import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
 import { TextField } from "@/domain/components/atoms/text-field/TextField";
 import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
 
-import { styles } from "./SigIn.styles"; // Importando os estilos
+import { styles } from "../../../domain/styles/SigIn.styles"; // Importando os estilos
+import { TextLink } from "@/domain/components/atoms/text-link/TextLink";
 
 export default function SignInScreen() {
   const [isVisible, setIsVisible] = useState(false)
@@ -36,12 +35,15 @@ export default function SignInScreen() {
         Swift {' '}
         <Text style={{ fontWeight: 300 }}>
           Bank
-          </Text>
+        </Text>
       </Text>
-      <Text
-       style={styles.subtitle}>Login</Text>
-      <Text style={styles.welcomeText}>Boas-Vindas</Text>
-      
+      <Text style={styles.subtitle}>
+        Login
+      </Text>
+      <Text style={styles.welcomeText}>
+        Boas-Vindas
+      </Text>
+
       <View style={{ marginBottom: 16 }}>
         <Text style={styles.label}>Insira seu email</Text>
         <TextField
@@ -73,9 +75,12 @@ export default function SignInScreen() {
         </View>
       </View>
 
-      <Link href={"/(unauthenticated)/sign-up/SignUp"} style={{ marginBottom: 32 }}>
-        <Text style={styles.forgotPasswordLink}>Esqueci minha senha</Text>
-      </Link>
+      <TextLink
+        linkStyles={{ marginBottom: 16 }}
+        textStyles={styles.forgotPasswordLink}
+        href="/(unauthenticated)/forgot-password/ForgotPassword"
+        label="Esqueci minha senha"
+      />
 
       <ButtonAction style={styles.button} onPress={handleLogin} disabled={loading}>
         <Text style={styles.buttonText}>Entrar</Text>
@@ -83,9 +88,8 @@ export default function SignInScreen() {
       </ButtonAction>
 
       <Text style={styles.signUpText}>Ainda não tem conta?</Text>
-      <Link href={"/(unauthenticated)/sign-up/SignUp"}>
-        <Text style={styles.signUpLink}>Faça seu cadastro!</Text>
-      </Link>
+      <TextLink href="/(unauthenticated)/sign-up/SignUp" label="Faça seu cadastro!" />
+
     </BackgroundGradient>
   );
 }

@@ -1,11 +1,19 @@
-import { auth, db } from "@/firebase/config"
+import { auth } from "@/firebase/config"
 import { SignInUserDTO } from "@/domain/types/auth.types"
-import { isRejectedWithValue } from "@reduxjs/toolkit"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from "firebase/auth"
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut as logOut,
+  UserCredential,
+  updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential
+} from "firebase/auth"
 import { UserService } from "./user.services"
-import { doc, setDoc } from "firebase/firestore"
 import { AccountService } from "./account.service"
-import { FirebaseSimplification } from "@/firebase/firebase-simplifications"
+import { clearAsyncStorage, setItemAsyncStorage } from "@/utils/AsyncStorage"
+import { USER_DATA_KEY } from "@/domain/constants/async-storage-user"
+import { FirebaseError } from "firebase/app"
 
 interface CreateAuthUserDTO {
   email: string
@@ -26,8 +34,18 @@ export class AuthService {
     try {
       const { email, password } = loginData
       const { user } = await signInWithEmailAndPassword(auth, email, password)
-      
-      return await UserService.fetchUserById(user.uid)
+
+      if (!user) {
+        throw new Error('Credenciais incorretas, email ou senha não correspondem.')
+      }
+
+      const createdUser = await UserService.fetchUserById(user.uid)
+
+      if (!createdUser) {
+        throw new Error('Usuário não encontrado')
+      }
+
+      return createdUser
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message)
@@ -42,9 +60,9 @@ export class AuthService {
       const { email, password, name, lastName } = data
       const { user } = await createUserWithEmailAndPassword(auth, email, password)
 
-      FirebaseSimplification.createDocument('users', { email, name, lastName, id: user.uid })
-
+      await UserService.createUser({ id: user.uid, email, lastName, name })
       await AccountService.createAccount(user.uid)
+
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message)
@@ -58,7 +76,40 @@ export class AuthService {
 
   }
 
-  static async logout() {
+  static async signOut() {
+    try {
+      clearAsyncStorage(USER_DATA_KEY)
+      await logOut(auth)
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message)
+      }
+      throw new Error(JSON.stringify(error))
+    }
+  }
 
+  static async updatePassword(currentPassword: string, newPassword: string) {
+    try {
+      const user = auth.currentUser
+
+      if (!user || !user.email) {
+        throw new Error('Usuário não encontrado!')
+      }
+
+      const credential = EmailAuthProvider.credential(user.email, currentPassword)
+
+      const cred2 = await reauthenticateWithCredential(user, credential)
+      console.log(cred2)
+      await updatePassword(user, newPassword)
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        if (error.code === 'auth/requires-recent-login') {
+          console.error('Please reauthenticate and try again.');
+        } else {
+          console.error('Error updating password:', error.message);
+        }
+      }
+      throw error;
+    }
   }
 }

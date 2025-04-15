@@ -1,9 +1,9 @@
-import { StyleSheet } from "react-native";
 import { colors } from "@/theme/colors";
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1, 
+    flex: 1,
   },
   title: {
     fontSize: 30,
@@ -33,6 +33,10 @@ export const styles = StyleSheet.create({
   passwordContainer: {
     position: "relative",
     marginBottom: 8,
+  },
+  passwordConfirmedContainer: {
+    position: "relative",
+    marginBottom: 20,
   },
   eyeIcon: {
     position: "absolute",
@@ -64,17 +68,33 @@ export const styles = StyleSheet.create({
     right: 16,
     top: 14,
   },
-  signUpText: {
+  signInText: {
     fontSize: 16,
     color: colors.typography.body,
     textAlign: "center",
     marginBottom: 8,
   },
-  signUpLink: {
+  signInLink: {
     fontSize: 16,
     fontWeight: "600",
     textDecorationLine: "underline",
     textAlign: "center",
     color: colors.typography.body,
+  },
+  checkbox: {
+    margin: 8,
+    textAlign: "center",
+  },
+  policyText: {
+    fontSize: 14,
+    color: colors.typography.body,
+    textAlign: "center",
+  },
+  policyContainer: {
+    flex: 1,
+    flexDirection: "row",
+    textAlign: "center",
+    alignItems: 'center',
+    marginBottom: 16,
   },
 });

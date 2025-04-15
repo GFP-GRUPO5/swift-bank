@@ -1,7 +1,8 @@
 import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
 import { USER_DATA_KEY } from "@/domain/constants/async-storage-user";
+import { UserDTO } from "@/domain/models/User.dto";
 import { setUserDataFromAsyncStorage } from "@/redux/features/auth/authSlice";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getItemAsyncStorage } from "@/utils/AsyncStorage";
 import { Redirect } from "expo-router";
 import { useEffect, useState } from "react";
@@ -13,8 +14,8 @@ export default function Entry() {
   const [hasError, setHasError] = useState(false)
 
   async function getUserData() {
-    try{
-      const result = await getItemAsyncStorage(USER_DATA_KEY)
+    try {
+      const result = await getItemAsyncStorage<UserDTO>(USER_DATA_KEY)
 
       if (!result) {
         setLoadingState(false)
@@ -24,7 +25,7 @@ export default function Entry() {
 
       dispatch(setUserDataFromAsyncStorage(result))
       setLoadingState(false)
-    } catch(error) {
+    } catch (error) {
       setHasError(true)
     } finally {
       setLoadingState(false)

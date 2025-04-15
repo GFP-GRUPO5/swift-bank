@@ -8,9 +8,9 @@ import Checkbox from "expo-checkbox";
 import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
 import { TextField } from "@/domain/components/atoms/text-field/TextField";
 import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
-import { Link } from "expo-router";
-import { ScrollView } from "react-native-gesture-handler";
-import { styles } from "./SigUp.styles"; // Importando os estilos
+import { Link, useRouter } from "expo-router";
+import { Pressable, ScrollView } from "react-native-gesture-handler";
+import { styles } from "../../../domain/styles/SigUp.styles"; // Importando os estilos
 import { signUpUserWithEmail } from "@/redux/features/auth/thunks/sign-up";
 
 const initialState: CreateAuthUserDTO = {
@@ -23,6 +23,8 @@ const initialState: CreateAuthUserDTO = {
 export default function SignUp() {
   const [isChecked, setChecked] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter()
+
   const [userCredentials, setUserCredentials] = useState({
     email: "",
     nome: "",
@@ -64,12 +66,12 @@ export default function SignUp() {
 
   return (
     <BackgroundGradient style={styles.container}>
-      <ScrollView scrollEnabled>
-        <Text style={styles.title}>
-          Swift <Text style={{ fontWeight: 300 }}>Bank</Text>
-        </Text>
+      <Text style={styles.title}>
+        Swift <Text style={{ fontWeight: 300 }}>Bank</Text>
+      </Text>
+      <Text style={styles.subtitle}>Cadastro</Text>
+      <ScrollView style={{ flex: 1, height: '120%' }} scrollEnabled showsVerticalScrollIndicator={false}>
 
-        <Text style={styles.subtitle}>Cadastro</Text>
 
         <Text style={styles.welcomeText}>
           Boas-Vindas! Preencha seus dados para criar sua conta.
@@ -150,9 +152,11 @@ export default function SignUp() {
         </ButtonAction>
 
         <Text style={styles.signInText}>Já tem conta?</Text>
-        <Link href={"/(unauthenticated)/sign-in/SignIn"}>
+        <Pressable onPress={() => router.back()}
+          style={{ paddingBottom: 180 }}
+        >
           <Text style={styles.signInLink}>Faça seu login!</Text>
-        </Link>
+        </Pressable>
       </ScrollView>
     </BackgroundGradient>
   );
