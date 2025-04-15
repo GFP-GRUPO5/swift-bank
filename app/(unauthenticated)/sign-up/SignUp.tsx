@@ -1,7 +1,7 @@
 import { CreateAuthUserDTO } from "@/domain/types/auth.types";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useState } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, Alert, Text, View } from "react-native";
 
 import Checkbox from "expo-checkbox";
 
@@ -11,6 +11,7 @@ import { BackgroundGradient } from "@/domain/components/templates/background-gra
 import { Link } from "expo-router";
 import { ScrollView } from "react-native-gesture-handler";
 import { styles } from "./SigUp.styles"; // Importando os estilos
+import { signUpUserWithEmail } from "@/redux/features/auth/thunks/sign-up";
 
 const initialState: CreateAuthUserDTO = {
   name: "",
@@ -22,15 +23,15 @@ const initialState: CreateAuthUserDTO = {
 export default function SignUp() {
   const [isChecked, setChecked] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-
-  const { loading } = useAppSelector((state) => state.auth);
-
   const [userCredentials, setUserCredentials] = useState({
     email: "",
     nome: "",
     password: "",
     passwordConfirmed: "",
   });
+
+  const dispatch = useAppDispatch()
+  const { loading } = useAppSelector((state) => state.auth);
 
   function handleTextChange(
     inputName: "nome" | "email" | "password" | "passwordConfirmed",
@@ -42,11 +43,23 @@ export default function SignUp() {
     }));
   }
 
-  function handleLogin() {
+  function handleSignUp() {
     const { nome, email, password, passwordConfirmed } = userCredentials;
     const policy = isChecked;
 
-    //TODO - Logica de subir cadastro
+    if (!policy) {
+      Alert.alert('Para usar nossos serviços você precisar concordar com nossas políticas.')
+      return
+    }
+
+    if (password !== passwordConfirmed) {
+      Alert.alert('As senhas não coincidem')
+      return
+    }
+
+    const names = nome.split(' ')
+
+    dispatch(signUpUserWithEmail({ email, password, name: names[0], lastName: names[1] }))
   }
 
   return (
@@ -68,7 +81,7 @@ export default function SignUp() {
             placeholder="Insira seu nome completo"
             onChangeText={(nome) => handleTextChange("nome", nome)}
             value={userCredentials.nome}
-            autoCapitalize="none"
+            autoCapitalize="words"
           />
         </View>
 
@@ -127,7 +140,7 @@ export default function SignUp() {
 
         <ButtonAction
           style={styles.button}
-          onPress={handleLogin}
+          onPress={handleSignUp}
           disabled={loading}
         >
           <Text style={styles.buttonText}>Cadastrar</Text>
