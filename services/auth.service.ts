@@ -1,10 +1,19 @@
 import { auth } from "@/firebase/config"
 import { SignInUserDTO } from "@/domain/types/auth.types"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut as logOut, UserCredential } from "firebase/auth"
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut as logOut,
+  UserCredential,
+  updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential
+} from "firebase/auth"
 import { UserService } from "./user.services"
 import { AccountService } from "./account.service"
 import { clearAsyncStorage, setItemAsyncStorage } from "@/utils/AsyncStorage"
 import { USER_DATA_KEY } from "@/domain/constants/async-storage-user"
+import { FirebaseError } from "firebase/app"
 
 interface CreateAuthUserDTO {
   email: string
@@ -76,6 +85,31 @@ export class AuthService {
         throw new Error(error.message)
       }
       throw new Error(JSON.stringify(error))
+    }
+  }
+
+  static async updatePassword(currentPassword: string, newPassword: string) {
+    try {
+      const user = auth.currentUser
+
+      if (!user || !user.email) {
+        throw new Error('Usuário não encontrado!')
+      }
+
+      const credential = EmailAuthProvider.credential(user.email, currentPassword)
+
+      const cred2 = await reauthenticateWithCredential(user, credential)
+      console.log(cred2)
+      await updatePassword(user, newPassword)
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        if (error.code === 'auth/requires-recent-login') {
+          console.error('Please reauthenticate and try again.');
+        } else {
+          console.error('Error updating password:', error.message);
+        }
+      }
+      throw error;
     }
   }
 }

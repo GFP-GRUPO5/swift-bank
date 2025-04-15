@@ -14,6 +14,9 @@ import { fetchAllAccounts } from "@/redux/features/account/thunks/fetch-accounts
 import { AccountType } from "@/domain/models/Account.dto";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { CardCreationCard } from "@/domain/components/molecules/card-creation-card/CardCreationCard";
+import { ScrollView } from "react-native-gesture-handler";
+import { LinearGradient } from "expo-linear-gradient";
+import { changePassword } from "@/redux/features/auth/thunks/change-password";
 
 const accountTypeMap: { [key in AccountType]: string } = {
   'debit': 'Débito',
@@ -23,7 +26,6 @@ const accountTypeMap: { [key in AccountType]: string } = {
 interface UserData {
   name: string
   email: string
-  password: string | null
 }
 
 export default function UserProfile() {
@@ -35,8 +37,9 @@ export default function UserProfile() {
   const [userData, setUserData] = useState<UserData>({
     name: `${user?.name} ${user?.lastName}`,
     email: `${user?.email}`,
-    password: null,
   })
+  const [password, setPassword] = useState({ currentPassword: '', newPassword: '' })
+  const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
     dispatch(fetchAllAccounts(user?.id!))
@@ -55,14 +58,22 @@ export default function UserProfile() {
   }
 
   function handleSavePassword() {
+    const { currentPassword, newPassword } = password
 
+    if (currentPassword && newPassword) {
+      dispatch(changePassword({ currentPassword, newPassword }))
+    }
   }
+
+  const updatePasswordButtonDisabled = !password.currentPassword
+    && !password.newPassword
 
   return (
     <BackgroundGradient>
       <AppHeader
         style={{ paddingTop: 16, borderBottomWidth: 1 }}
         leftContent={<HeaderGoBackButton isModal />}
+        centerContent={<Text style={{ fontSize: 24, fontWeight: 600 }}>Perfil</Text>}
       />
       <Text
         style={{
@@ -98,14 +109,71 @@ export default function UserProfile() {
           <TextInput value={userData.email} />
         </View>
         <View style={{ marginBottom: 16 }}>
-          <Text style={{ marginBottom: 16 }}>Senha</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <TextInput style={{ borderBottomWidth: 1, width: 150 }} placeholder="******" value={userData.password ?? ''} />
-            <Pressable style={{ backgroundColor: '#2c2c2c', paddingHorizontal: 16, paddingVertical: 4, borderRadius: 4 }} onPress={handleSavePassword}>
-              <Text style={{ color: '#EFEFEF', fontWeight: 600 }}>
-                Alterar senha
+          <View style={{ marginBottom: 32 }}>
+            <Text style={{ marginBottom: 16 }}>
+              Senha atual
+            </Text>
+            <View style={{ position: 'relative', width: 150 }}>
+              <TextInput
+                style={{ borderBottomWidth: 1, width: 150 }}
+                placeholder="******"
+                onChangeText={(currentPassword) => setPassword(state => ({
+                  ...state,
+                  currentPassword,
+                }))}
+                secureTextEntry={showPassword}
+                value={password.currentPassword ?? ''}
+                autoCapitalize="none"
+              />
+              <Pressable
+                style={{ position: 'absolute', right: 0 }}
+                onPress={() => setShowPassword(state => !state)}
+              >
+                <AntDesign name={showPassword ? "eye" : "eyeo"} />
+              </Pressable>
+            </View>
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+            <View>
+              <Text style={{ marginBottom: 16 }}>
+                Nova senha
               </Text>
-            </Pressable>
+              <View style={{ position: 'relative', width: 150 }}>
+                <TextInput
+                  style={{ borderBottomWidth: 1, width: 150 }}
+                  placeholder="******"
+                  onChangeText={(newPassword) => setPassword(state => ({
+                    ...state,
+                    newPassword,
+                  }))}
+                  secureTextEntry={showPassword}
+                  value={password.newPassword ?? ''}
+                  autoCapitalize="none"
+                />
+                <Pressable
+                  style={{ position: 'absolute', right: 0 }}
+                  onPress={() => setShowPassword(state => !state)}
+                >
+                  <AntDesign name={showPassword ? "eye" : "eyeo"} />
+                </Pressable>
+              </View>
+            </View>
+            <View>
+              <Pressable
+                style={{
+                  backgroundColor: updatePasswordButtonDisabled ? '#2c2c2cbb' : '#2c2c2c',
+                  paddingHorizontal: 16,
+                  paddingVertical: 4,
+                  borderRadius: 4,
+                }}
+                onPress={handleSavePassword}
+                disabled={updatePasswordButtonDisabled}
+              >
+                <Text style={{ color: '#EFEFEF', fontWeight: 600 }}>
+                  Alterar senha
+                </Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </Card>
@@ -114,35 +182,43 @@ export default function UserProfile() {
         buttonTitle="Criar nova conta"
         href="/(authenticated)/account/creation/AccountCreation"
         sectionTitle=""
+        style={{}}
       />
 
       <Suspense fallback={<View><ActivityIndicator /></View>}>
-        {accounts?.map(account => (
-          <View key={account.userId}>
-            <Text>
-              Conta {accountTypeMap[account?.accountType]}
-            </Text>
-            <Text>
-              Criada em {format(account?.createdAt, 'dd/MM/yyyy')}
-            </Text>
-            <Text>
-              Saldo disponível: {new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              }).format(account.currentAmmount)}
-            </Text>
-            <Text>
-              Última transação em: {format(account?.updatedAt, 'dd/MM/yyyy')}
-            </Text>
-          </View>
-        ))}
+        <ScrollView style={{ paddingTop: 32 }}>
+
+          {accounts?.map(account => (
+            <Card key={account.userId} style={{ marginBottom: 16 }}>
+              <Text style={{ fontWeight: 700, marginBottom: 24 }}>
+                Conta {accountTypeMap[account?.accountType]}
+              </Text>
+              <Text style={{ marginBottom: 16 }}>
+                Saldo disponível:{' '}
+                <Text style={{ fontWeight: 700 }}>{new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(account.currentAmmount)}
+                </Text>
+              </Text>
+              <Text style={{ marginBottom: 8 }}>
+                Criada em {format(account?.createdAt, 'dd/MM/yyyy')}
+              </Text>
+              <Text>
+                Última transação em: {format(account?.updatedAt, 'dd/MM/yyyy')}
+              </Text>
+            </Card>
+          ))}
+        </ScrollView>
       </Suspense>
+
       <Pressable
         style={{
           backgroundColor: 'red',
           paddingHorizontal: 16,
           paddingVertical: 16,
           borderRadius: 8,
+          marginTop: 'auto'
         }}
         onPress={handleSignOut}
         disabled={loading}

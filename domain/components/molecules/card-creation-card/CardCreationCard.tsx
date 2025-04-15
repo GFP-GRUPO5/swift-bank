@@ -1,16 +1,16 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { ExternalPathString, Link, RelativePathString } from "expo-router";
-import { Text, View } from "react-native";
+import { Text, View, ViewProps } from "react-native";
 
-interface Props {
+interface Props extends ViewProps {
   sectionTitle: string
   href: RelativePathString | ExternalPathString | any
   buttonTitle: string
 }
 
-export function CardCreationCard({ buttonTitle, href, sectionTitle }: Props) {
+export function CardCreationCard({ buttonTitle, href, sectionTitle, style, ...props }: Props) {
   return (
-    <View style={{ marginBottom: 16 }}>
+    <View style={style} {...props}>
       <Text style={{ marginBottom: 16, fontWeight: 700 }}>{sectionTitle}</Text>
       <Link href={href}>
         <View

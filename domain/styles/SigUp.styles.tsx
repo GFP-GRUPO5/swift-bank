@@ -89,11 +89,12 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.typography.body,
     textAlign: "center",
-    marginBottom: 8,
   },
   policyContainer: {
     flex: 1,
     flexDirection: "row",
     textAlign: "center",
+    alignItems: 'center',
+    marginBottom: 16,
   },
 });
