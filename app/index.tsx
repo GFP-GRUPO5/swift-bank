@@ -5,6 +5,7 @@ import { setUserDataFromAsyncStorage } from "@/redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getItemAsyncStorage } from "@/utils/AsyncStorage";
 import { Redirect } from "expo-router";
+import { User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 
@@ -15,7 +16,7 @@ export default function Entry() {
 
   async function getUserData() {
     try {
-      const result = await getItemAsyncStorage<UserDTO>(USER_DATA_KEY)
+      const result = await getItemAsyncStorage<User>(USER_DATA_KEY)
 
       if (!result) {
         setLoadingState(false)

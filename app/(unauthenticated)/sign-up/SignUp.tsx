@@ -71,9 +71,7 @@ export default function SignUp() {
         Swift <Text style={{ fontWeight: 300 }}>Bank</Text>
       </Text>
       <Text style={styles.subtitle}>Cadastro</Text>
-      <ScrollView style={{ flex: 1, height: '120%' }} scrollEnabled showsVerticalScrollIndicator={false}>
-
-
+      <ScrollView style={{ flex: 1 }} scrollEnabled showsVerticalScrollIndicator={false}>
         <Text style={styles.welcomeText}>
           Boas-Vindas! Preencha seus dados para criar sua conta.
         </Text>
@@ -135,16 +133,18 @@ export default function SignUp() {
           </View>
         </View>
 
-        <View style={styles.policyContainer}>
+        <Pressable
+          style={styles.policyContainer}
+          onPress={() => setChecked(state => !state)}
+        >
           <Checkbox
             style={styles.checkbox}
             value={isChecked}
-            onValueChange={setChecked}
           />
           <Text style={styles.policyText}>
             Li e estou ciente quanto a Politica e Privacidade.
           </Text>
-        </View>
+        </Pressable>
 
         <ButtonAction
           style={styles.button}
@@ -159,7 +159,7 @@ export default function SignUp() {
 
         <Text style={styles.signInText}>Já tem conta?</Text>
         <Pressable onPress={() => router.back()}
-          style={{ paddingBottom: 180 }}
+          style={{ paddingBottom: 80 }}
         >
           <Text style={styles.signInLink}>Faça seu login!</Text>
         </Pressable>

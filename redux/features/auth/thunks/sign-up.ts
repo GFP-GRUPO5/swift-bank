@@ -16,7 +16,9 @@ export const signUpUserWithEmail = createAsyncThunk(
   async (userInput: CreateAuthUserDTO) => {
     try {
       Alert.alert('Verifique seu email', 'Enviamos um email de confirmação')
-      return await AuthService.signUp(userInput)
+
+      await AuthService.signUp(userInput)
+      await AuthService.updateUserProfile(userInput)
     } catch (error) {
       isRejectedWithValue(error)
     }

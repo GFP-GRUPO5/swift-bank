@@ -1,4 +1,4 @@
-import { UserDTO } from "@/domain/models/User.dto"
+import { AppUser } from "@/domain/types/user"
 import { User } from "firebase/auth"
 
 interface ErrorMetadata {
@@ -17,7 +17,7 @@ interface IInitialState {
   credentials: {
     accessToken: string | null
   },
-  user: User | undefined
+  user: AppUser | undefined | null
   signInMetadata: Metadata
   signUpMetadata: Metadata
   signOutMetadata: Metadata

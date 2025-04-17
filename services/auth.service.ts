@@ -1,5 +1,4 @@
 import { auth } from "@/firebase/config"
-import { SignInUserDTO } from "@/domain/types/auth.types"
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -9,11 +8,11 @@ import {
   reauthenticateWithCredential,
   User,
   onAuthStateChanged,
-  sendEmailVerification
+  sendEmailVerification,
+  updateProfile
 } from "firebase/auth"
-import { clearAsyncStorage, setItemAsyncStorage } from "@/utils/AsyncStorage"
-import { USER_DATA_KEY } from "@/domain/constants/async-storage-user"
 import { FirebaseError } from "firebase/app"
+import { AppUser } from "@/domain/types/user"
 
 interface CreateAuthUserDTO {
   email: string
@@ -30,10 +29,19 @@ interface CreateAuthUserDTO {
  * @static function logout()
  */
 export class AuthService {
-  static async signIn(email: string, password: string): Promise<User | undefined> {
+  static async signIn(email: string, password: string): Promise<AppUser | undefined> {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password)
-      return user
+
+      return {
+        uid: user.uid,
+        displayName: user.displayName,
+        createdAt: user.metadata.creationTime,
+        email: user.email,
+        emailVerified: user.emailVerified,
+        lastLoginAt: user.metadata.lastSignInTime,
+        phoneNumber: user.phoneNumber,
+      }
     } catch (error) {
       if (error instanceof FirebaseError) {
         throw error
@@ -73,7 +81,6 @@ export class AuthService {
 
   static async signOut() {
     try {
-      clearAsyncStorage(USER_DATA_KEY)
       await logOut(auth)
     } catch (error) {
       if (error instanceof Error) {
@@ -118,5 +125,22 @@ export class AuthService {
 
   static async getCurrentUser() {
     return auth.currentUser
+  }
+
+  static async updateUserProfile(userData: CreateAuthUserDTO) {
+    try {
+      const user = auth.currentUser
+
+      if (!user) {
+        throw Error('Usuário não encontrado.')
+      }
+
+      await updateProfile(user, { displayName: userData.name })
+      await auth.updateCurrentUser({ ...user, displayName: userData.name })
+
+      return auth.currentUser
+    } catch (error) {
+      throw error
+    }
   }
 }

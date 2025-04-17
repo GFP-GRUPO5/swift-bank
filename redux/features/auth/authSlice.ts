@@ -63,6 +63,7 @@ export const authSlice = createSlice({
       .addCase(signOutUser.fulfilled, (state) => {
         state.signOutMetadata.isFufilled = true
         state.signOutMetadata.loading = false
+        state.user = undefined
       })
       .addCase(signOutUser.rejected, (state, { payload }) => {
         state.signOutMetadata.isFufilled = true

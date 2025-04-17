@@ -44,7 +44,7 @@ export default function UserProfile() {
   const [shouldSignOut, setShouldSignOut] = useState(false)
 
   useEffect(() => {
-    dispatch(fetchAllAccounts(user?.id!))
+    dispatch(fetchAllAccounts(user?.uid!))
   }, [])
 
   function handleEditProfile() {
@@ -69,6 +69,8 @@ export default function UserProfile() {
 
   const updatePasswordButtonDisabled = !password.currentPassword
     && !password.newPassword
+
+  console.log('################################\n', user, '\n################################')
 
   return (
     <>
@@ -96,7 +98,7 @@ export default function UserProfile() {
           <Card>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
               <TextInput
-                style={{ fontWeight: 600, fontSize: 24 }}
+                style={{ fontWeight: 600, fontSize: 24, marginBottom: 16 }}
                 value={userData.name}
                 onChangeText={(text) => setUserData(state => ({ ...state, name: text }))}
                 autoCapitalize="words"
@@ -106,9 +108,6 @@ export default function UserProfile() {
                 {editionMode ? <AntDesign name="checkcircleo" size={24} color="black" /> : <Feather name="edit-2" size={24} color="black" />}
               </Pressable>
             </View>
-            <Text style={{ fontSize: 12, marginBottom: 16 }}>
-              Conta criada em {user && format(user?.createdAt!, 'dd/MM/yyyy')}
-            </Text>
             <View style={{ marginBottom: 32, gap: 8 }}>
               <Text style={{ fontWeight: 600 }}>Email ativo</Text>
               <TextInput value={userData.email} editable={editionMode} />
