@@ -3,10 +3,11 @@ import { BackgroundGradient } from "@/domain/components/templates/background-gra
 import { Alert, Text, View, Pressable } from "react-native";
 import { TextField } from "@/domain/components/atoms/text-field/TextField";
 import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
-import { changePasswordStyles } from "./ChangePassword.styles";
-import { useRouter } from "expo-router";
+import { changePasswordStyles } from "../../../../styles/ChangePassword.styles";
+import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
 import Entypo from "@expo/vector-icons/Entypo";
+import { UnauthenticatedWrapper } from "@/domain/components/templates/unauthenticated-wrapper/UnauthenticatedWrapper";
 
 export default function VerificationCode() {
   const router = useRouter();
@@ -28,19 +29,17 @@ export default function VerificationCode() {
     Alert.alert("Sucesso", "Senha alterada com sucesso!", [
       {
         text: "OK",
-        onPress: () => router.replace("../sign-in/SignIn"),
+        onPress: () => router.dismissTo('/(unauthenticated)/sign-in/SignIn'),
       },
     ]);
   };
 
   return (
-    <BackgroundGradient style={{ flex: 1 }}>
-      <View style={changePasswordStyles.logo}>
-        <SwiftBankLogo />
-      </View>
-      <Text style={changePasswordStyles.title}>Altere a sua Senha</Text>
-      <Text style={changePasswordStyles.subtitle}>Digite sua nova senha.</Text>
-
+    <UnauthenticatedWrapper
+      title="Altere a sua Senha"
+      subtitle="Digite sua nova senha"
+    >
+      <Stack.Screen options={{ headerShown: false }} />
       <View style={{ marginBottom: 16 }}>
         <Text style={changePasswordStyles.label}>Senha</Text>
         <View style={changePasswordStyles.passwordContainer}>
@@ -91,6 +90,6 @@ export default function VerificationCode() {
       <ButtonAction style={changePasswordStyles.button} onPress={handleChangePassword}>
         <Text style={changePasswordStyles.buttonText}>Alterar</Text>
       </ButtonAction>
-    </BackgroundGradient>
+    </UnauthenticatedWrapper>
   );
 }

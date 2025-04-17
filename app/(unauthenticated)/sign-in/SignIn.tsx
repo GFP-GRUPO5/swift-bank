@@ -10,7 +10,7 @@ import { BackgroundGradient } from "@/domain/components/templates/background-gra
 import { TextField } from "@/domain/components/atoms/text-field/TextField";
 import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
 
-import { styles } from "./SigIn.styles"; // Importando os estilos
+import { styles } from "../../../styles/SigIn.styles"; // Importando os estilos
 
 export default function SignInScreen() {
   const [isVisible, setIsVisible] = useState(false)
