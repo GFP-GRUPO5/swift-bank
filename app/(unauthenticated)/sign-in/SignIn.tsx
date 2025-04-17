@@ -8,7 +8,7 @@ import { BackgroundGradient } from "@/domain/components/templates/background-gra
 import { TextField } from "@/domain/components/atoms/text-field/TextField";
 import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
 
-import { styles } from "../../../domain/styles/SigIn.styles"; // Importando os estilos
+import { styles } from "../../../styles/SigIn.styles"; // Importando os estilos
 import { TextLink } from "@/domain/components/atoms/text-link/TextLink";
 
 export default function SignInScreen() {
@@ -37,12 +37,9 @@ export default function SignInScreen() {
           Bank
         </Text>
       </Text>
-      <Text style={styles.subtitle}>
-        Login
-      </Text>
-      <Text style={styles.welcomeText}>
-        Boas-Vindas
-      </Text>
+      <Text
+        style={styles.subtitle}>Login</Text>
+      <Text style={styles.welcomeText}>Boas-Vindas</Text>
 
       <View style={{ marginBottom: 16 }}>
         <Text style={styles.label}>Insira seu email</Text>
@@ -74,22 +71,18 @@ export default function SignInScreen() {
           </Pressable>
         </View>
       </View>
-
       <TextLink
         linkStyles={{ marginBottom: 16 }}
         textStyles={styles.forgotPasswordLink}
         href="/(unauthenticated)/forgot-password/ForgotPassword"
         label="Esqueci minha senha"
       />
-
       <ButtonAction style={styles.button} onPress={handleLogin} disabled={loading}>
         <Text style={styles.buttonText}>Entrar</Text>
         {loading && <ActivityIndicator style={styles.loadingIndicator} color={"#FFF"} />}
       </ButtonAction>
-
       <Text style={styles.signUpText}>Ainda não tem conta?</Text>
       <TextLink href="/(unauthenticated)/sign-up/SignUp" label="Faça seu cadastro!" />
-
     </BackgroundGradient>
   );
 }

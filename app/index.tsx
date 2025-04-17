@@ -16,7 +16,7 @@ export default function Entry() {
 
   async function getUserData() {
     try {
-      const result = await getItemAsyncStorage<User>(USER_DATA_KEY)
+      const result = await getItemAsyncStorage(USER_DATA_KEY)
 
       if (!result) {
         setLoadingState(false)

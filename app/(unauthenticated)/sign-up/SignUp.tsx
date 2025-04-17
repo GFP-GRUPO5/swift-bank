@@ -7,9 +7,11 @@ import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonActi
 import { TextField } from "@/domain/components/atoms/text-field/TextField";
 import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
 import { useRouter } from "expo-router";
-import { Pressable, ScrollView } from "react-native-gesture-handler";
+import { Pressable } from "react-native-gesture-handler";
 import { styles } from "../../../domain/styles/SigUp.styles"; // Importando os estilos
 import { signUpUserWithEmail } from "@/redux/features/auth/thunks/sign-up";
+import { ScrollView } from "react-native-gesture-handler";
+
 
 const initialState: CreateAuthUserDTO = {
   name: "",
