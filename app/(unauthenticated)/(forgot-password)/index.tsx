@@ -2,7 +2,7 @@ import { Alert, Text, TouchableOpacity, View } from "react-native"
 import { forgotPasswordStyles } from "../../../styles/ForgotPassword.styles"
 import { TextField } from "@/domain/components/atoms/text-field/TextField"
 import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction"
-import { router } from "expo-router"
+import { router, Stack } from "expo-router"
 import { useState } from "react"
 import { UnauthenticatedWrapper } from "@/domain/components/templates/unauthenticated-wrapper/UnauthenticatedWrapper"
 
@@ -25,6 +25,7 @@ export default function ForgotPassword() {
       title="Esqueceu sua senha?"
       subtitle="Enviaremos um e-mail com instruções de como redefinir sua senha."
     >
+      <Stack.Screen options={{ headerShown: false }} />
       <View style={{ marginBottom: 16 }}>
         <Text style={forgotPasswordStyles.label}>Insira seu email</Text>
         <TextField
