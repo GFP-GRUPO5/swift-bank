@@ -10,7 +10,7 @@ import { BackgroundGradient } from "@/domain/components/templates/background-gra
 import { TextField } from "@/domain/components/atoms/text-field/TextField";
 import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
 
-import { styles } from "./SigIn.styles"; // Importando os estilos
+import { styles } from "../../../styles/SigIn.styles"; // Importando os estilos
 
 export default function SignInScreen() {
   const [isVisible, setIsVisible] = useState(false)
@@ -36,12 +36,12 @@ export default function SignInScreen() {
         Swift {' '}
         <Text style={{ fontWeight: 300 }}>
           Bank
-          </Text>
+        </Text>
       </Text>
       <Text
-       style={styles.subtitle}>Login</Text>
+        style={styles.subtitle}>Login</Text>
       <Text style={styles.welcomeText}>Boas-Vindas</Text>
-      
+
       <View style={{ marginBottom: 16 }}>
         <Text style={styles.label}>Insira seu email</Text>
         <TextField
@@ -73,7 +73,7 @@ export default function SignInScreen() {
         </View>
       </View>
 
-      <Link href={"/(unauthenticated)/sign-up/SignUp"} style={{ marginBottom: 32 }}>
+      <Link href={"/(unauthenticated)/forgot-password/ForgotPassword"} style={{ marginBottom: 32 }}>
         <Text style={styles.forgotPasswordLink}>Esqueci minha senha</Text>
       </Link>
 

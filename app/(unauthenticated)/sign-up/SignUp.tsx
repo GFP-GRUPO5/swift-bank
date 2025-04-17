@@ -10,7 +10,7 @@ import { TextField } from "@/domain/components/atoms/text-field/TextField";
 import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
 import { Link } from "expo-router";
 import { ScrollView } from "react-native-gesture-handler";
-import { styles } from "./SigUp.styles"; // Importando os estilos
+import { styles } from "../../../styles/SigUp.styles"; // Importando os estilos
 
 const initialState: CreateAuthUserDTO = {
   name: "",

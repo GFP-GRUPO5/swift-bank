@@ -12,38 +12,38 @@ export default function Entry() {
   const [loadingStates, setLoadingState] = useState(true)
   const [hasError, setHasError] = useState(false)
 
-  async function getUserData() {
-    try{
-      const result = await getItemAsyncStorage(USER_DATA_KEY)
+  // async function getUserData() {
+  //   try{
+  //     const result = await getItemAsyncStorage(USER_DATA_KEY)
 
-      if (!result) {
-        setLoadingState(false)
-        setHasError(true)
-        return
-      }
+  //     if (!result) {
+  //       setLoadingState(false)
+  //       setHasError(true)
+  //       return
+  //     }
 
-      dispatch(setUserDataFromAsyncStorage(result))
-      setLoadingState(false)
-    } catch(error) {
-      setHasError(true)
-    } finally {
-      setLoadingState(false)
-    }
-  }
+  //     dispatch(setUserDataFromAsyncStorage(result))
+  //     setLoadingState(false)
+  //   } catch(error) {
+  //     setHasError(true)
+  //   } finally {
+  //     setLoadingState(false)
+  //   }
+  // }
 
-  useEffect(() => {
-    getUserData()
-  }, [])
+  // useEffect(() => {
+  //   getUserData()
+  // }, [])
 
-  if (loadingStates) {
-    return (
-      <BackgroundGradient>
-        <View>
-          <ActivityIndicator />
-        </View>
-      </BackgroundGradient>
-    )
-  }
+  // if (loadingStates) {
+  //   return (
+  //     <BackgroundGradient>
+  //       <View>
+  //         <ActivityIndicator />
+  //       </View>
+  //     </BackgroundGradient>
+  //   )
+  // }
 
   return <Redirect href="/(unauthenticated)/sign-in/SignIn" />;
 }
