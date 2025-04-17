@@ -4,13 +4,13 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut as logOut,
-  UserCredential,
   updatePassword,
   EmailAuthProvider,
-  reauthenticateWithCredential
+  reauthenticateWithCredential,
+  User,
+  onAuthStateChanged,
+  sendEmailVerification
 } from "firebase/auth"
-import { UserService } from "./user.services"
-import { AccountService } from "./account.service"
 import { clearAsyncStorage, setItemAsyncStorage } from "@/utils/AsyncStorage"
 import { USER_DATA_KEY } from "@/domain/constants/async-storage-user"
 import { FirebaseError } from "firebase/app"
@@ -30,28 +30,15 @@ interface CreateAuthUserDTO {
  * @static function logout()
  */
 export class AuthService {
-  static async signIn(loginData: SignInUserDTO) {
+  static async signIn(email: string, password: string): Promise<User | undefined> {
     try {
-      const { email, password } = loginData
       const { user } = await signInWithEmailAndPassword(auth, email, password)
-
-      if (!user) {
-        throw new Error('Credenciais incorretas, email ou senha não correspondem.')
-      }
-
-      const createdUser = await UserService.fetchUserById(user.uid)
-
-      if (!createdUser) {
-        throw new Error('Usuário não encontrado')
-      }
-
-      return createdUser
+      return user
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message)
+      if (error instanceof FirebaseError) {
+        throw error
       }
-
-      throw new Error(JSON.stringify(error))
+      throw error
     }
   }
 
@@ -60,9 +47,17 @@ export class AuthService {
       const { email, password, name, lastName } = data
       const { user } = await createUserWithEmailAndPassword(auth, email, password)
 
-      await UserService.createUser({ id: user.uid, email, lastName, name })
-      await AccountService.createAccount(user.uid)
-
+      sendEmailVerification(user, {
+        url: 'https://your-app.com/finishSignUp',
+        handleCodeInApp: true,
+        iOS: { bundleId: 'com.yourcompany.yourapp' },
+        android: {
+          packageName: 'com.yourcompany.yourapp',
+          installApp: true,
+          minimumVersion: '12',
+        },
+        dynamicLinkDomain: 'yourapp.page.link',
+      })
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message)
@@ -111,5 +106,17 @@ export class AuthService {
       }
       throw error;
     }
+  }
+
+  static async onAuthStateChange(callback: (user: User | null) => void) {
+    try {
+      return onAuthStateChanged(auth, callback)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  static async getCurrentUser() {
+    return auth.currentUser
   }
 }

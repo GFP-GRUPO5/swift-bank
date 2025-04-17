@@ -14,7 +14,7 @@ import { TextLink } from "@/domain/components/atoms/text-link/TextLink";
 export default function SignInScreen() {
   const [isVisible, setIsVisible] = useState(false)
   const [userCredentials, setUserCredentials] = useState({ email: '', password: '' })
-  const { loading } = useAppSelector(state => state.auth)
+  const { loading } = useAppSelector(state => state.auth.signInMetadata)
   const dispatch = useAppDispatch()
 
   function handleTextChange(inputName: 'email' | 'password', text: string) {

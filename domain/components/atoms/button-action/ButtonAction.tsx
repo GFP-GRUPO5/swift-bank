@@ -6,6 +6,7 @@ import { buttonActionStyle } from "./ButtonAction.styles";
 interface Props extends PressableProps {
   children?: ReactNode
   label?: string
+  contrast?: boolean
 }
 
 /**
@@ -13,7 +14,7 @@ interface Props extends PressableProps {
  * @prop label string
  */
 export const ButtonAction = forwardRef<Ref<typeof Pressable>, Props>((
-  { children, label, style, ...props },
+  { children, contrast, label, style, ...props },
   ref: React.ForwardedRef<Ref<(props: PressableProps) => React.JSX.Element>>
 ) => {
 
@@ -30,7 +31,7 @@ export const ButtonAction = forwardRef<Ref<typeof Pressable>, Props>((
       {
         children
           ? children
-          : <Text style={buttonActionStyle.text}>{label}</Text>
+          : <Text style={[buttonActionStyle.text, { color: contrast ? '#2c2c2c' : '#EDEDED' }]}>{label}</Text>
       }
     </Pressable>
   )

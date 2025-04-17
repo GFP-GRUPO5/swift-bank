@@ -1,16 +1,15 @@
 import { CreateAuthUserDTO } from "@/domain/types/auth.types";
-import { useAppSelector } from "@/redux/hooks";
-import { useState } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
-
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, Alert, Text, View } from "react-native";
 import Checkbox from "expo-checkbox";
-
 import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
 import { TextField } from "@/domain/components/atoms/text-field/TextField";
 import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { Pressable, ScrollView } from "react-native-gesture-handler";
 import { styles } from "../../../domain/styles/SigUp.styles"; // Importando os estilos
+import { signUpUserWithEmail } from "@/redux/features/auth/thunks/sign-up";
 
 const initialState: CreateAuthUserDTO = {
   name: "",
@@ -23,17 +22,27 @@ export default function SignUp() {
   const [isChecked, setChecked] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const router = useRouter()
-  const { loading } = useAppSelector((state) => state.auth);
+  const { loading, error, isFufilled } = useAppSelector((state) => state.auth.signUpMetadata);
+  const dispatch = useAppDispatch()
 
   const [userCredentials, setUserCredentials] = useState({
     email: "",
-    nome: "",
+    name: "",
     password: "",
     passwordConfirmed: "",
   });
 
+  useEffect(() => {
+    if (isFufilled && !error) {
+      router.back()
+    }
+    if (isFufilled && error) {
+      Alert.alert('Tivemos um erro')
+    }
+  }, [isFufilled, error])
+
   function handleTextChange(
-    inputName: "nome" | "email" | "password" | "passwordConfirmed",
+    inputName: "name" | "email" | "password" | "passwordConfirmed",
     text: string,
   ) {
     setUserCredentials((state) => ({
@@ -43,10 +52,17 @@ export default function SignUp() {
   }
 
   function handleLogin() {
-    const { nome, email, password, passwordConfirmed } = userCredentials;
+    const { name, email, password, passwordConfirmed } = userCredentials;
     const policy = isChecked;
 
-    //TODO - Logica de subir cadastro
+    if (password !== passwordConfirmed) {
+      Alert.alert('As senhas não conferem!')
+      return
+    }
+
+    const names = name.split(' ')
+
+    dispatch(signUpUserWithEmail({ email, name: names[0], lastName: names[1], password }))
   }
 
   return (
@@ -63,17 +79,22 @@ export default function SignUp() {
         </Text>
 
         <View style={{ marginBottom: 16 }}>
-          <Text style={styles.label}>Nome</Text>
+          <Text style={styles.label}>
+            Nome
+          </Text>
           <TextField
             placeholder="Insira seu nome completo"
-            onChangeText={(nome) => handleTextChange("nome", nome)}
-            value={userCredentials.nome}
-            autoCapitalize="none"
+            onChangeText={(name) => handleTextChange("name", name)}
+            value={userCredentials.name}
+            autoCapitalize="words"
+
           />
         </View>
 
         <View style={{ marginBottom: 16 }}>
-          <Text style={styles.label}>Insira seu email</Text>
+          <Text style={styles.label}>
+            Insira seu email
+          </Text>
           <TextField
             placeholder="E-mail"
             onChangeText={(email) => handleTextChange("email", email)}

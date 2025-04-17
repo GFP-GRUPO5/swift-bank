@@ -1,14 +1,14 @@
 import { AuthService } from "@/services/auth.service";
-import { SignInUserDTO } from "@/domain/types/auth.types";
 import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 import { USER_DATA_KEY } from "@/domain/constants/async-storage-user";
 import { setItemAsyncStorage } from "@/utils/AsyncStorage";
+import { User } from "firebase/auth";
 
-export const signInUserWithEmail = createAsyncThunk(
+export const signInUserWithEmail = createAsyncThunk<User | undefined, { email: string, password: string }>(
   'auth/signInUserWithEmail',
-  async (data: SignInUserDTO) => {
+  async ({ email, password }) => {
     try {
-      const result = await AuthService.signIn(data)
+      const result = await AuthService.signIn(email, password)
       setItemAsyncStorage<typeof result>(USER_DATA_KEY, result)
       return result
     } catch (error) {

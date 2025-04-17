@@ -21,67 +21,74 @@ export const authSlice = createSlice({
     builder
       // Sign Up Flow 
       .addCase(signUpUserWithEmail.pending, (state) => {
-        state.loading = true
-        return state
+        state.signUpMetadata.loading = true
+        state.signUpMetadata.error = null
       })
-      .addCase(signUpUserWithEmail.fulfilled, (state, { payload }) => {
-        state.loading = false
-        state.errors = payload
-        return state
+      .addCase(signUpUserWithEmail.fulfilled, (state) => {
+        state.signUpMetadata.isFufilled = true
+        state.signUpMetadata.loading = false
       })
-      .addCase(signUpUserWithEmail.rejected, (state) => {
-        state.loading = false
-        state.errors = {
+      .addCase(signUpUserWithEmail.rejected, (state, { payload }) => {
+        state.signUpMetadata.isFufilled = true
+        state.signUpMetadata.loading = false
+        state.signUpMetadata.error = {
           hasError: true,
-          error: { message: 'Ocorreu um erro ao tentar entrar no Swift Bank' }
+          details: payload,
+          message: 'Error while signing user with email!'
         }
-        return state
       })
       // Sign In Flow
       .addCase(signInUserWithEmail.pending, (state, { payload }) => {
-        state.loading = true
-        return state
+        state.signInMetadata.loading = true
+        state.signInMetadata.error = null
       })
       .addCase(signInUserWithEmail.fulfilled, (state, { payload }) => {
-        state.user = payload as UserDTO
-        state.loading = false
-        return state
+        state.signInMetadata.loading = false
+        state.signInMetadata.isFufilled = true
+        state.user = payload
       })
       .addCase(signInUserWithEmail.rejected, (state, { payload }) => {
-        state.loading = false
-        return state
+        state.signInMetadata.loading = false
+        state.signInMetadata.isFufilled = true
+        state.signInMetadata.error = {
+          details: payload,
+          hasError: true,
+          message: 'Error while siging in user with email'
+        }
       })
       // Sign Out Flow
       .addCase(signOutUser.pending, (state) => {
-        state.loading = true
-        return state
+        state.signOutMetadata.loading = true
       })
       .addCase(signOutUser.fulfilled, (state) => {
-        state.loading = false
-        state.user = null
-        state.errors = null
-        return state
+        state.signOutMetadata.isFufilled = true
+        state.signOutMetadata.loading = false
       })
-      .addCase(signOutUser.rejected, (state) => {
-        state.loading = false
-        state.errors = {
+      .addCase(signOutUser.rejected, (state, { payload }) => {
+        state.signOutMetadata.isFufilled = true
+        state.signOutMetadata.loading = false
+        state.signOutMetadata.error = {
           hasError: true,
-          error: { message: 'Ocorreu um erro ao sair da conta' }
+          details: payload,
+          message: 'Ocorreu um erro ao sair da conta'
         }
-        return state
       })
       // Change Password Flow
       .addCase(changePassword.pending, (state) => {
-        state.loading = true
+        state.changePasswordMetadata.error = null
+        state.changePasswordMetadata.loading = true
       })
       .addCase(changePassword.fulfilled, (state) => {
-        state.loading = false
+        state.changePasswordMetadata.loading = false
+        state.changePasswordMetadata.isFufilled = true
       })
-      .addCase(changePassword.rejected, (state) => {
-        state.loading = false
-        state.errors = {
+      .addCase(changePassword.rejected, (state, { payload }) => {
+        state.changePasswordMetadata.isFufilled = true
+        state.changePasswordMetadata.loading = false
+        state.changePasswordMetadata.error = {
+          details: payload,
           hasError: true,
-          error: { message: 'Ocorreu um erro ao alterar a senha' }
+          message: 'Ocorreu um erro ao alterar a senha'
         }
       })
   }

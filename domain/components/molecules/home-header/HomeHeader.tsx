@@ -24,7 +24,7 @@ export function HomeHeader() {
       <Link href={'/(authenticated)/user-profile/UserProfile'}>
         <Text style={{ fontSize: 24 }}>
           Olá, {' '}
-          <Text style={{ fontWeight: 700 }}>{user?.name}</Text>
+          <Text style={{ fontWeight: 700 }}>{user?.displayName}</Text>
         </Text>
       </Link>
       <Link href={'/(authenticated)/notifications/Notifications'}>
