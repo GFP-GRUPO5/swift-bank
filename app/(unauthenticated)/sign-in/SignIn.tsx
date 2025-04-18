@@ -4,12 +4,11 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { Link } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { signInUserWithEmail } from "@/redux/features/auth/thunks/sign-in";
-import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
-import { TextField } from "@/domain/components/atoms/text-field/TextField";
-import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
-
-import { styles } from "../../../styles/SigIn.styles"; // Importando os estilos
-import { TextLink } from "@/domain/components/atoms/text-link/TextLink";
+import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
+import { TextField } from "@/shared/components/text-field/TextField";
+import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
+import { TextLink } from "@/shared/components/text-link/TextLink";
+import { signInStyles } from "@/domain/styles/SigIn.styles";
 
 export default function SignInScreen() {
   const [isVisible, setIsVisible] = useState(false)
@@ -30,19 +29,19 @@ export default function SignInScreen() {
   }
 
   return (
-    <BackgroundGradient style={styles.container}>
-      <Text style={styles.title}>
+    <BackgroundGradient style={signInStyles.container}>
+      <Text style={signInStyles.title}>
         Swift {' '}
         <Text style={{ fontWeight: 300 }}>
           Bank
         </Text>
       </Text>
       <Text
-        style={styles.subtitle}>Login</Text>
-      <Text style={styles.welcomeText}>Boas-Vindas</Text>
+        style={signInStyles.subtitle}>Login</Text>
+      <Text style={signInStyles.welcomeText}>Boas-Vindas</Text>
 
       <View style={{ marginBottom: 16 }}>
-        <Text style={styles.label}>Insira seu email</Text>
+        <Text style={signInStyles.label}>Insira seu email</Text>
         <TextField
           placeholder="E-mail"
           onChangeText={(email) => handleTextChange('email', email)}
@@ -52,8 +51,8 @@ export default function SignInScreen() {
       </View>
 
       <View>
-        <Text style={styles.label}>Senha</Text>
-        <View style={styles.passwordContainer}>
+        <Text style={signInStyles.label}>Senha</Text>
+        <View style={signInStyles.passwordContainer}>
           <TextField
             placeholder="***********"
             secureTextEntry={isVisible}
@@ -62,7 +61,7 @@ export default function SignInScreen() {
             value={userCredentials.password}
             autoCapitalize="none"
           />
-          <Pressable style={styles.eyeIcon} onPress={() => setIsVisible((state) => !state)}>
+          <Pressable style={signInStyles.eyeIcon} onPress={() => setIsVisible((state) => !state)}>
             {isVisible ? (
               <Entypo name="eye-with-line" size={24} color="black" />
             ) : (
@@ -73,15 +72,15 @@ export default function SignInScreen() {
       </View>
       <TextLink
         linkStyles={{ marginBottom: 16 }}
-        textStyles={styles.forgotPasswordLink}
+        textStyles={signInStyles.forgotPasswordLink}
         href="/(unauthenticated)/(forgot-password)/"
         label="Esqueci minha senha"
       />
-      <ButtonAction style={styles.button} onPress={handleLogin} disabled={loading}>
-        <Text style={styles.buttonText}>Entrar</Text>
-        {loading && <ActivityIndicator style={styles.loadingIndicator} color={"#FFF"} />}
+      <ButtonAction style={signInStyles.button} onPress={handleLogin} disabled={loading}>
+        <Text style={signInStyles.buttonText}>Entrar</Text>
+        {loading && <ActivityIndicator style={signInStyles.loadingIndicator} color={"#FFF"} />}
       </ButtonAction>
-      <Text style={styles.signUpText}>Ainda não tem conta?</Text>
+      <Text style={signInStyles.signUpText}>Ainda não tem conta?</Text>
       <TextLink href="/(unauthenticated)/sign-up/SignUp" label="Faça seu cadastro!" />
     </BackgroundGradient>
   );

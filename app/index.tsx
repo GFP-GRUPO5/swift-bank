@@ -1,9 +1,9 @@
-import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
-import { USER_DATA_KEY } from "@/domain/constants/async-storage-user";
-import { UserDTO } from "@/domain/models/User.dto";
+import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
+import { USER_DATA_KEY } from "@/authentication/constants/async-storage-user";
+import { UserDTO } from "@/domains/authentication/models/User.dto";
 import { setUserDataFromAsyncStorage } from "@/redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getItemAsyncStorage } from "@/utils/AsyncStorage";
+import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
 import { Redirect } from "expo-router";
 import { User } from "firebase/auth";
 import { useEffect, useState } from "react";

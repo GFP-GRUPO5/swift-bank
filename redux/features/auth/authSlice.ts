@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { initialState } from './auth.constants'
 import { signUpUserWithEmail } from './thunks/sign-up'
 import { signInUserWithEmail } from './thunks/sign-in'
-import { UserDTO } from '@/domain/models/User.dto'
+import { UserDTO } from '@/domains/authentication/models/User.dto'
 import { signOutUser } from './thunks/sign-out'
 import { changePassword } from './thunks/change-password'
 

@@ -1,5 +1,5 @@
-import { SwiftBankLogo } from "@/domain/components/icons/swiftBankLogo"
-import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient"
+import { SwiftBankLogo } from "@/shared/icons/swiftBankLogo"
+import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient"
 import { forgotPasswordStyles } from "@/styles/ForgotPassword.styles"
 import { Slot, Stack } from "expo-router"
 import { ReactNode } from "react"

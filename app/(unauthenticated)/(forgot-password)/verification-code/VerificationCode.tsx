@@ -1,12 +1,10 @@
-import { SwiftBankLogo } from "@/domain/components/icons/swiftBankLogo";
-import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
 import { Text, View } from "react-native";
-import { verificationCodeStyles } from "../../../../styles/VerificationCode.styles";
-import { TextField } from "@/domain/components/atoms/text-field/TextField";
-import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
+import { TextField } from "@/shared/components/text-field/TextField";
+import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
-import { UnauthenticatedWrapper } from "@/domain/components/templates/unauthenticated-wrapper/UnauthenticatedWrapper";
+import { verificationCodeStyles } from "@/authentication/styles/VerificationCode.styles";
+import { UnauthenticatedWrapper } from "@/authentication/components/unauthenticated-wrapper/UnauthenticatedWrapper";
 
 export default function VerificationCode() {
 

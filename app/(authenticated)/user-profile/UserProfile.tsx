@@ -1,8 +1,8 @@
 
-import { Card } from "@/domain/components/atoms/card/Card";
-import { HeaderGoBackButton } from "@/domain/components/atoms/header-go-back-button/HeaderGoBackButton";
-import { AppHeader } from "@/domain/components/molecules/app-header/AppHeader";
-import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
+import { Card } from "@/domains/cards/components/card/Card";
+import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
+import { AppHeader } from "@/shared/components/app-header/AppHeader";
+import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "expo-router";
@@ -11,13 +11,13 @@ import Feather from '@expo/vector-icons/Feather';
 import { Suspense, useEffect, useState } from "react";
 import { format } from 'date-fns'
 import { fetchAllAccounts } from "@/redux/features/account/thunks/fetch-accounts";
-import { AccountType } from "@/domain/models/Account.dto";
+import { AccountType } from "@/account/models/Account.dto";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { CardCreationCard } from "@/domain/components/molecules/card-creation-card/CardCreationCard";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import { changePassword } from "@/redux/features/auth/thunks/change-password";
-import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
+import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 
 const accountTypeMap: { [key in AccountType]: string } = {
   'debit': 'Débito',

@@ -1,8 +1,8 @@
-import { AuthService } from "@/services/auth.service";
 import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
-import { USER_DATA_KEY } from "@/domain/constants/async-storage-user";
-import { setItemAsyncStorage } from "@/utils/AsyncStorage";
-import { AppUser } from "@/domain/types/user";
+import { setItemAsyncStorage } from "@/shared/utils/AsyncStorage";
+import { AppUser } from "@/domains/authentication/types/user";
+import { USER_DATA_KEY } from "@/domains/authentication/constants/async-storage-user";
+import { AuthService } from "@/domains/authentication/services/auth.service";
 
 export const signInUserWithEmail = createAsyncThunk<AppUser | undefined, { email: string, password: string }>(
   'auth/signInUserWithEmail',

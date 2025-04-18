@@ -1,13 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchAllAccounts } from "./thunks/fetch-accounts";
-import { IAccount } from "@/domain/models/Account.dto";
-import { IThunkError } from "@/domain/types/thunk-error.types";
+import { IAccount } from "@/domains/account/models/Account.dto";
 
 interface InitialState {
   loading: boolean
   accounts: IAccount[]
   selectedAccount: IAccount | null
-  errors: IThunkError | null
+  errors: any
 }
 
 const initialState: InitialState = {

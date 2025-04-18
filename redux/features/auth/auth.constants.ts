@@ -1,4 +1,4 @@
-import { AppUser } from "@/domain/types/user"
+import { AppUser } from "@/authentication/types/user"
 import { User } from "firebase/auth"
 
 interface ErrorMetadata {

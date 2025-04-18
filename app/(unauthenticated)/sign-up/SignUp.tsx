@@ -1,11 +1,11 @@
-import { CreateAuthUserDTO } from "@/domain/types/auth.types";
+import { CreateAuthUserDTO } from "@/authentication/types/auth.types";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Text, View } from "react-native";
 import Checkbox from "expo-checkbox";
-import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
-import { TextField } from "@/domain/components/atoms/text-field/TextField";
-import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
+import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
+import { TextField } from "@/shared/components/text-field/TextField";
+import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { useRouter } from "expo-router";
 import { Pressable } from "react-native-gesture-handler";
 import { styles } from "../../../domain/styles/SigUp.styles"; // Importando os estilos

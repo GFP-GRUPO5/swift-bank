@@ -1,13 +1,11 @@
-import { SwiftBankLogo } from "@/domain/components/icons/swiftBankLogo";
-import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
 import { Alert, Text, View, Pressable } from "react-native";
-import { TextField } from "@/domain/components/atoms/text-field/TextField";
-import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
-import { changePasswordStyles } from "../../../../styles/ChangePassword.styles";
+import { TextField } from "@/shared/components/text-field/TextField";
+import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
 import Entypo from "@expo/vector-icons/Entypo";
-import { UnauthenticatedWrapper } from "@/domain/components/templates/unauthenticated-wrapper/UnauthenticatedWrapper";
+import { changePasswordStyles } from "@/authentication/styles/ChangePassword.styles";
+import { UnauthenticatedWrapper } from "@/authentication/components/unauthenticated-wrapper/UnauthenticatedWrapper";
 
 export default function VerificationCode() {
   const router = useRouter();

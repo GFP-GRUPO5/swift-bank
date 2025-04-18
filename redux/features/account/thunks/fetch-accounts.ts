@@ -1,4 +1,4 @@
-import { AccountService } from "@/services/account.service";
+import { AccountService } from "@/domains/account/services/account.service";
 import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 
 export const fetchAllAccounts = createAsyncThunk(

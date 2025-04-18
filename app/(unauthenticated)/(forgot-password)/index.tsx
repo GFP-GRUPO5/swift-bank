@@ -1,10 +1,10 @@
 import { Alert, Text, TouchableOpacity, View } from "react-native"
-import { forgotPasswordStyles } from "../../../styles/ForgotPassword.styles"
-import { TextField } from "@/domain/components/atoms/text-field/TextField"
-import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction"
+import { TextField } from "@/shared/components/text-field/TextField"
+import { ButtonAction } from "@/shared/components/button-action/ButtonAction"
 import { router, Stack } from "expo-router"
 import { useState } from "react"
-import { UnauthenticatedWrapper } from "@/domain/components/templates/unauthenticated-wrapper/UnauthenticatedWrapper"
+import { UnauthenticatedWrapper } from "@/authentication/components/unauthenticated-wrapper/UnauthenticatedWrapper"
+import { forgotPasswordStyles } from "@/authentication/styles/ForgotPassword.styles"
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("")
