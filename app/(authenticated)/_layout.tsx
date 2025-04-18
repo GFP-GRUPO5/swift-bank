@@ -1,5 +1,4 @@
 import { Stack } from "expo-router";
-import { Pressable, Text, View } from "react-native";
 
 export default function AuthenticatedRootLayout() {
   return (
@@ -17,6 +16,7 @@ export default function AuthenticatedRootLayout() {
       <Stack.Screen name="transfer/Transfer" />
       <Stack.Screen name="card-creation/CardCreation" options={{ presentation: 'modal' }} />
       <Stack.Screen name="loans/Loans" />
+      <Stack.Screen name="user-profile/UserProfile" options={{ presentation: 'modal' }} />
     </Stack>
   )
 }

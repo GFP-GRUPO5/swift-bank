@@ -1,11 +1,12 @@
-import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
-import { USER_DATA_KEY } from "@/domain/constants/async-storage-user";
+import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { setUserDataFromAsyncStorage } from "@/redux/features/auth/authSlice";
-import { useAppDispatch } from "@/redux/hooks";
-import { getItemAsyncStorage } from "@/utils/AsyncStorage";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
 import { Redirect } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
+import { USER_DATA_KEY } from "@/domains/authentication/constants/async-storage-user";
+import { AppUser } from "@/domains/authentication/types/user";
 
 export default function Entry() {
   const dispatch = useAppDispatch()
@@ -13,8 +14,8 @@ export default function Entry() {
   const [hasError, setHasError] = useState(false)
 
   async function getUserData() {
-    try{
-      const result = await getItemAsyncStorage(USER_DATA_KEY)
+    try {
+      const result = await getItemAsyncStorage<AppUser>(USER_DATA_KEY)
 
       if (!result) {
         setLoadingState(false)
@@ -24,7 +25,7 @@ export default function Entry() {
 
       dispatch(setUserDataFromAsyncStorage(result))
       setLoadingState(false)
-    } catch(error) {
+    } catch (error) {
       setHasError(true)
     } finally {
       setLoadingState(false)

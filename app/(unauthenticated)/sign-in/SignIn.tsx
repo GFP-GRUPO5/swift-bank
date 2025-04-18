@@ -1,21 +1,18 @@
-import { colors } from "@/theme/colors";
 import { useState } from "react";
 import { View, Text, Pressable, ActivityIndicator } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
-import { Link } from "expo-router";
-
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { signInUserWithEmail } from "@/redux/features/auth/thunks/sign-in";
-import { BackgroundGradient } from "@/domain/components/templates/background-gradient/BackgroundGradient";
-import { TextField } from "@/domain/components/atoms/text-field/TextField";
-import { ButtonAction } from "@/domain/components/atoms/button-action/ButtonAction";
-
-import { styles } from "./SigIn.styles"; // Importando os estilos
+import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
+import { TextField } from "@/shared/components/text-field/TextField";
+import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
+import { TextLink } from "@/shared/components/text-link/TextLink";
+import { signInStyles } from '@/domains/authentication/styles/SigIn.styles'
 
 export default function SignInScreen() {
   const [isVisible, setIsVisible] = useState(false)
   const [userCredentials, setUserCredentials] = useState({ email: '', password: '' })
-  const { loading } = useAppSelector(state => state.auth)
+  const { signInMetadata: { loading }, user } = useAppSelector(state => state.auth)
   const dispatch = useAppDispatch()
 
   function handleTextChange(inputName: 'email' | 'password', text: string) {
@@ -31,19 +28,19 @@ export default function SignInScreen() {
   }
 
   return (
-    <BackgroundGradient style={styles.container}>
-      <Text style={styles.title}>
+    <BackgroundGradient style={signInStyles.container}>
+      <Text style={signInStyles.title}>
         Swift {' '}
         <Text style={{ fontWeight: 300 }}>
           Bank
-          </Text>
+        </Text>
       </Text>
       <Text
-       style={styles.subtitle}>Login</Text>
-      <Text style={styles.welcomeText}>Boas-Vindas</Text>
-      
+        style={signInStyles.subtitle}>Login</Text>
+      <Text style={signInStyles.welcomeText}>Boas-Vindas</Text>
+
       <View style={{ marginBottom: 16 }}>
-        <Text style={styles.label}>Insira seu email</Text>
+        <Text style={signInStyles.label}>Insira seu email</Text>
         <TextField
           placeholder="E-mail"
           onChangeText={(email) => handleTextChange('email', email)}
@@ -53,8 +50,8 @@ export default function SignInScreen() {
       </View>
 
       <View>
-        <Text style={styles.label}>Senha</Text>
-        <View style={styles.passwordContainer}>
+        <Text style={signInStyles.label}>Senha</Text>
+        <View style={signInStyles.passwordContainer}>
           <TextField
             placeholder="***********"
             secureTextEntry={isVisible}
@@ -63,7 +60,7 @@ export default function SignInScreen() {
             value={userCredentials.password}
             autoCapitalize="none"
           />
-          <Pressable style={styles.eyeIcon} onPress={() => setIsVisible((state) => !state)}>
+          <Pressable style={signInStyles.eyeIcon} onPress={() => setIsVisible((state) => !state)}>
             {isVisible ? (
               <Entypo name="eye-with-line" size={24} color="black" />
             ) : (
@@ -72,20 +69,18 @@ export default function SignInScreen() {
           </Pressable>
         </View>
       </View>
-
-      <Link href={"/(unauthenticated)/sign-up/SignUp"} style={{ marginBottom: 32 }}>
-        <Text style={styles.forgotPasswordLink}>Esqueci minha senha</Text>
-      </Link>
-
-      <ButtonAction style={styles.button} onPress={handleLogin} disabled={loading}>
-        <Text style={styles.buttonText}>Entrar</Text>
-        {loading && <ActivityIndicator style={styles.loadingIndicator} color={"#FFF"} />}
+      <TextLink
+        linkStyles={{ marginBottom: 16 }}
+        textStyles={signInStyles.forgotPasswordLink}
+        href="/(unauthenticated)/(forgot-password)/"
+        label="Esqueci minha senha"
+      />
+      <ButtonAction style={signInStyles.button} onPress={handleLogin} disabled={loading}>
+        <Text style={signInStyles.buttonText}>Entrar</Text>
+        {loading && <ActivityIndicator style={signInStyles.loadingIndicator} color={"#FFF"} />}
       </ButtonAction>
-
-      <Text style={styles.signUpText}>Ainda não tem conta?</Text>
-      <Link href={"/(unauthenticated)/sign-up/SignUp"}>
-        <Text style={styles.signUpLink}>Faça seu cadastro!</Text>
-      </Link>
+      <Text style={signInStyles.signUpText}>Ainda não tem conta?</Text>
+      <TextLink href="/(unauthenticated)/sign-up/SignUp" label="Faça seu cadastro!" />
     </BackgroundGradient>
   );
 }
