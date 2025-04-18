@@ -11,13 +11,12 @@ import Feather from '@expo/vector-icons/Feather';
 import { Suspense, useEffect, useState } from "react";
 import { format } from 'date-fns'
 import { fetchAllAccounts } from "@/redux/features/account/thunks/fetch-accounts";
-import { AccountType } from "@/account/models/Account.dto";
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { CardCreationCard } from "@/domain/components/molecules/card-creation-card/CardCreationCard";
 import { ScrollView } from "react-native-gesture-handler";
-import { LinearGradient } from "expo-linear-gradient";
 import { changePassword } from "@/redux/features/auth/thunks/change-password";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
+import { AccountType } from "@/domains/account/models/Account.dto";
+import { CardCreationCard } from "@/domains/cards/components/card-creation-card/CardCreationCard";
 
 const accountTypeMap: { [key in AccountType]: string } = {
   'debit': 'Débito',

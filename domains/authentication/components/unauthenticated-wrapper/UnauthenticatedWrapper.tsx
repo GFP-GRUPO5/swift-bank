@@ -1,8 +1,8 @@
 import { Text, View } from "react-native";
 import { ReactNode } from "react";
 import { SwiftBankLogo } from "@/shared/icons/swiftBankLogo";
-import { forgotPasswordStyles } from "@/authentication/styles/ForgotPassword.styles";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
+import { forgotPasswordStyles } from "../../styles/ForgotPassword.styles";
 
 interface Props {
   title: string

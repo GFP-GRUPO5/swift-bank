@@ -4,8 +4,8 @@ import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
 import Entypo from "@expo/vector-icons/Entypo";
-import { changePasswordStyles } from "@/authentication/styles/ChangePassword.styles";
-import { UnauthenticatedWrapper } from "@/authentication/components/unauthenticated-wrapper/UnauthenticatedWrapper";
+import { changePasswordStyles } from "@/domains/authentication/styles/ChangePassword.styles";
+import { UnauthenticatedWrapper } from "@/domains/authentication/components/unauthenticated-wrapper/UnauthenticatedWrapper";
 
 export default function VerificationCode() {
   const router = useRouter();

@@ -1,8 +1,8 @@
 import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
 import { useAppDispatch } from "@/redux/hooks";
-import { AuthService } from "@/authentication/services/auth.service";
 import { onAuthStateChanged } from "firebase/auth";
 import { ReactNode, useEffect } from "react";
+import { AuthService } from "../../services/auth.service";
 
 interface Props {
   children: ReactNode

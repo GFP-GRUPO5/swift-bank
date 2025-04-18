@@ -1,4 +1,4 @@
-import { AuthService } from "@/authentication/services/auth.service";
+import { AuthService } from "@/domains/authentication/services/auth.service";
 import { createAsyncThunk, isRejected, isRejectedWithValue } from "@reduxjs/toolkit";
 
 export const changePassword = createAsyncThunk(

@@ -1,5 +1,4 @@
 import { Link, Redirect, useRouter } from "expo-router";
-import { Card } from "../../../../cards/components/card/Card";
 import { Pressable, Text, View } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import { homeAccountCardStyles } from "./HomeAccountCard.styles";
@@ -7,6 +6,7 @@ import { PixIcon } from "../../../../shared/icons/PixIcon";
 import { CardIcon } from "../../../../shared/icons/CardIcon";
 import { QRCodeIcon } from "../../../../shared/icons/QRCodeIcon";
 import { PhoneIcon } from "../../../../shared/icons/PhoneIcon";
+import { Card } from "@/domains/cards/components/card/Card";
 
 type TransactionNagivation = 'pix' | 'transfer' | 'qrcode' | 'recharge'
 

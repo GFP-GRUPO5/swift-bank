@@ -1,5 +1,6 @@
-import { USER_DATA_KEY } from "@/authentication/constants/async-storage-user";
-import { AuthService } from "@/authentication/services/auth.service";
+import { USER_DATA_KEY } from "@/domains/authentication/constants/async-storage-user";
+import { AuthService } from "@/domains/authentication/services/auth.service";
+AuthService
 import { clearAsyncStorage } from "@/shared/utils/AsyncStorage";
 import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 

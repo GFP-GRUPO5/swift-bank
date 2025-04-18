@@ -3,8 +3,8 @@ import { TextField } from "@/shared/components/text-field/TextField";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
-import { verificationCodeStyles } from "@/authentication/styles/VerificationCode.styles";
-import { UnauthenticatedWrapper } from "@/authentication/components/unauthenticated-wrapper/UnauthenticatedWrapper";
+import { verificationCodeStyles } from "@/domains/authentication/styles/VerificationCode.styles";
+import { UnauthenticatedWrapper } from "@/domains/authentication/components/unauthenticated-wrapper/UnauthenticatedWrapper";
 
 export default function VerificationCode() {
 

@@ -1,6 +1,6 @@
-import { AuthService } from "@/authentication/services/auth.service";
-import { CreateAuthUserDTO } from "@/authentication/types/auth.types";
-import { createAsyncThunk, isRejected, isRejectedWithValue } from "@reduxjs/toolkit";
+import { AuthService } from "@/domains/authentication/services/auth.service";
+import { CreateAuthUserDTO } from "@/domains/authentication/types/auth.types";
+import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 import { Alert } from "react-native";
 
 /**

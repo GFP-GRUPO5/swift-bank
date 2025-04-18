@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { View, Text, Pressable, ActivityIndicator } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
-import { Link } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { signInUserWithEmail } from "@/redux/features/auth/thunks/sign-in";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { TextField } from "@/shared/components/text-field/TextField";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { TextLink } from "@/shared/components/text-link/TextLink";
-import { signInStyles } from "@/domain/styles/SigIn.styles";
+import { signInStyles } from '@/domains/authentication/styles/SigIn.styles'
 
 export default function SignInScreen() {
   const [isVisible, setIsVisible] = useState(false)

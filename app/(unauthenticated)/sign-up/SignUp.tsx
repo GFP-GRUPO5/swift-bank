@@ -1,4 +1,3 @@
-import { CreateAuthUserDTO } from "@/authentication/types/auth.types";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Text, View } from "react-native";
@@ -8,10 +7,10 @@ import { TextField } from "@/shared/components/text-field/TextField";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { useRouter } from "expo-router";
 import { Pressable } from "react-native-gesture-handler";
-import { styles } from "../../../domain/styles/SigUp.styles"; // Importando os estilos
 import { signUpUserWithEmail } from "@/redux/features/auth/thunks/sign-up";
 import { ScrollView } from "react-native-gesture-handler";
-
+import { signUpStyles } from "@/domains/authentication/styles/SigUp.styles";
+import { CreateAuthUserDTO } from "@/domains/authentication/types/auth.types";
 
 const initialState: CreateAuthUserDTO = {
   name: "",
@@ -68,18 +67,18 @@ export default function SignUp() {
   }
 
   return (
-    <BackgroundGradient style={styles.container}>
-      <Text style={styles.title}>
+    <BackgroundGradient style={signUpStyles.container}>
+      <Text style={signUpStyles.title}>
         Swift <Text style={{ fontWeight: 300 }}>Bank</Text>
       </Text>
-      <Text style={styles.subtitle}>Cadastro</Text>
+      <Text style={signUpStyles.subtitle}>Cadastro</Text>
       <ScrollView style={{ flex: 1 }} scrollEnabled showsVerticalScrollIndicator={false}>
-        <Text style={styles.welcomeText}>
+        <Text style={signUpStyles.welcomeText}>
           Boas-Vindas! Preencha seus dados para criar sua conta.
         </Text>
 
         <View style={{ marginBottom: 16 }}>
-          <Text style={styles.label}>
+          <Text style={signUpStyles.label}>
             Nome
           </Text>
           <TextField
@@ -92,7 +91,7 @@ export default function SignUp() {
         </View>
 
         <View style={{ marginBottom: 16 }}>
-          <Text style={styles.label}>
+          <Text style={signUpStyles.label}>
             Insira seu email
           </Text>
           <TextField
@@ -104,8 +103,8 @@ export default function SignUp() {
         </View>
 
         <View>
-          <Text style={styles.label}>Senha</Text>
-          <View style={styles.passwordContainer}>
+          <Text style={signUpStyles.label}>Senha</Text>
+          <View style={signUpStyles.passwordContainer}>
             <TextField
               placeholder="***********"
               secureTextEntry={isVisible}
@@ -120,8 +119,8 @@ export default function SignUp() {
         </View>
 
         <View>
-          <Text style={styles.label}>Confirme sua senha</Text>
-          <View style={styles.passwordConfirmedContainer}>
+          <Text style={signUpStyles.label}>Confirme sua senha</Text>
+          <View style={signUpStyles.passwordConfirmedContainer}>
             <TextField
               placeholder="***********"
               secureTextEntry={isVisible}
@@ -136,34 +135,34 @@ export default function SignUp() {
         </View>
 
         <Pressable
-          style={styles.policyContainer}
+          style={signUpStyles.policyContainer}
           onPress={() => setChecked(state => !state)}
         >
           <Checkbox
-            style={styles.checkbox}
+            style={signUpStyles.checkbox}
             value={isChecked}
           />
-          <Text style={styles.policyText}>
+          <Text style={signUpStyles.policyText}>
             Li e estou ciente quanto a Politica e Privacidade.
           </Text>
         </Pressable>
 
         <ButtonAction
-          style={styles.button}
+          style={signUpStyles.button}
           onPress={handleLogin}
           disabled={loading}
         >
-          <Text style={styles.buttonText}>Cadastrar</Text>
+          <Text style={signUpStyles.buttonText}>Cadastrar</Text>
           {loading && (
-            <ActivityIndicator style={styles.loadingIndicator} color={"#FFF"} />
+            <ActivityIndicator style={signUpStyles.loadingIndicator} color={"#FFF"} />
           )}
         </ButtonAction>
 
-        <Text style={styles.signInText}>Já tem conta?</Text>
+        <Text style={signUpStyles.signInText}>Já tem conta?</Text>
         <Pressable onPress={() => router.back()}
           style={{ paddingBottom: 80 }}
         >
-          <Text style={styles.signInLink}>Faça seu login!</Text>
+          <Text style={signUpStyles.signInLink}>Faça seu login!</Text>
         </Pressable>
       </ScrollView>
     </BackgroundGradient>

@@ -3,8 +3,8 @@ import { TextField } from "@/shared/components/text-field/TextField"
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction"
 import { router, Stack } from "expo-router"
 import { useState } from "react"
-import { UnauthenticatedWrapper } from "@/authentication/components/unauthenticated-wrapper/UnauthenticatedWrapper"
-import { forgotPasswordStyles } from "@/authentication/styles/ForgotPassword.styles"
+import { UnauthenticatedWrapper } from "@/domains/authentication/components/unauthenticated-wrapper/UnauthenticatedWrapper"
+import { forgotPasswordStyles } from "@/domains/authentication/styles/ForgotPassword.styles"
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("")

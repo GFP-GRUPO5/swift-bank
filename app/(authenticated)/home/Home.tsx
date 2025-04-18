@@ -1,14 +1,13 @@
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
-import { HomeAccountCard } from "@/domain/components/organism/home-account-card/HomeAccountCard";
-import { CardCreationCard } from "@/domain/components/molecules/card-creation-card/CardCreationCard";
 import { Card } from "@/domains/cards/components/card/Card";
 import { Link } from "expo-router";
 import { Text, View } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import { ScrollView } from "react-native-gesture-handler";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { LinearGradient } from "expo-linear-gradient";
 import { HomeHeader } from "@/shared/components/home-header/HomeHeader";
+import { HomeAccountCard } from "@/domains/account/components/home-account-card/HomeAccountCard";
+import { CardCreationCard } from "@/domains/cards/components/card-creation-card/CardCreationCard";
 
 const lastTransaction = [
   {
