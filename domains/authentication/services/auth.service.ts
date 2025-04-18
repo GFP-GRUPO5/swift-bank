@@ -12,7 +12,8 @@ import {
   updateProfile
 } from "firebase/auth"
 import { FirebaseError } from "firebase/app"
-import { AppUser } from "@/authentication/types/user"
+import { AppUser } from "@/domains/authentication/types/user"
+import { AccountService } from "@/domains/account/services/account.service"
 
 interface CreateAuthUserDTO {
   email: string
@@ -54,6 +55,8 @@ export class AuthService {
     try {
       const { email, password, name, lastName } = data
       const { user } = await createUserWithEmailAndPassword(auth, email, password)
+
+      AccountService.createAccount(user.uid)
 
       sendEmailVerification(user, {
         url: 'https://your-app.com/finishSignUp',
