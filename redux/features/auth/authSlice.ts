@@ -1,11 +1,12 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { initialState } from './auth.constants'
-import { signUpUserWithEmail } from './thunks/sign-up'
-import { signInUserWithEmail } from './thunks/sign-in'
-import { UserDTO } from '@/domains/authentication/models/User.dto'
-import { signOutUser } from './thunks/sign-out'
-import { changePassword } from './thunks/change-password'
 import { SignInAppUser } from '@/domains/authentication/types/user'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Alert } from 'react-native'
+import { initialState } from './auth.constants'
+import { changePassword } from './thunks/change-password'
+import { signInUserWithEmail } from './thunks/sign-in'
+import { signOutUser } from './thunks/sign-out'
+import { signUpUserWithEmail } from './thunks/sign-up'
+import { updateUserProfile } from './thunks/update-user-profile'
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -34,12 +35,11 @@ export const authSlice = createSlice({
         state.signUpMetadata.loading = false
         state.signUpMetadata.error = {
           hasError: true,
-          details: payload,
-          message: 'Error while signing user with email!'
+          message: payload as string
         }
       })
       // Sign In Flow
-      .addCase(signInUserWithEmail.pending, (state, { payload }) => {
+      .addCase(signInUserWithEmail.pending, (state) => {
         state.signInMetadata.loading = true
         state.signInMetadata.error = null
       })
@@ -65,11 +65,10 @@ export const authSlice = createSlice({
       })
       .addCase(signInUserWithEmail.rejected, (state, { payload }) => {
         state.signInMetadata.loading = false
-        state.signInMetadata.isFufilled = true
+        state.signInMetadata.isFufilled = false
         state.signInMetadata.error = {
-          details: payload,
           hasError: true,
-          message: 'Error while siging in user with email'
+          message: payload as string
         }
       })
       // Sign Out Flow
@@ -86,26 +85,59 @@ export const authSlice = createSlice({
         state.signOutMetadata.loading = false
         state.signOutMetadata.error = {
           hasError: true,
-          details: payload,
-          message: 'Ocorreu um erro ao sair da conta'
+          message: payload as string
         }
       })
       // Change Password Flow
       .addCase(changePassword.pending, (state) => {
         state.changePasswordMetadata.error = null
         state.changePasswordMetadata.loading = true
+        state.changePasswordMetadata.isFufilled = false
       })
       .addCase(changePassword.fulfilled, (state) => {
         state.changePasswordMetadata.loading = false
         state.changePasswordMetadata.isFufilled = true
+        state.changePasswordMetadata.error = null
+        Alert.alert('Sucesso', 'Senha alterada com sucesso')
       })
       .addCase(changePassword.rejected, (state, { payload }) => {
         state.changePasswordMetadata.isFufilled = true
         state.changePasswordMetadata.loading = false
         state.changePasswordMetadata.error = {
-          details: payload,
           hasError: true,
-          message: 'Ocorreu um erro ao alterar a senha'
+          message: payload as string
+        }
+        Alert.alert('Erro', JSON.stringify(payload))
+      })
+      // Update User Profile
+      .addCase(updateUserProfile.pending, (state) => {
+        state.updateUserProfile.loading = true
+        state.updateUserProfile.isFufilled = false
+      })
+      .addCase(updateUserProfile.fulfilled, (state, { payload }: PayloadAction<SignInAppUser>) => {
+        state.updateUserProfile.loading = false
+        state.updateUserProfile.isFufilled = true
+        state.user = {
+          uid: payload?.uid,
+          email: payload?.email,
+          emailVerified: !!payload?.emailVerified,
+          displayName: payload?.displayName,
+          phoneNumber: payload?.phoneNumber,
+          createdAt: payload?.createdAt,
+          lastLoginAt: payload?.lastLoginAt,
+        }
+        state.credentials = {
+          accessTokenId: payload?.accessTokenId!,
+          refreshToken: payload?.refreshToken!,
+          expiresIn: payload?.expirationTime!,
+        }
+      })
+      .addCase(updateUserProfile.rejected, (state, { payload }) => {
+        state.updateUserProfile.loading = false
+        state.updateUserProfile.isFufilled = false
+        state.updateUserProfile.error = {
+          hasError: true,
+          message: payload as string
         }
       })
   }

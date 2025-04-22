@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { View, Text, Pressable, ActivityIndicator } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, Pressable, ActivityIndicator, Alert } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { signInUserWithEmail } from "@/redux/features/auth/thunks/sign-in";
@@ -12,8 +12,14 @@ import { signInStyles } from '@/domains/authentication/styles/SigIn.styles'
 export default function SignInScreen() {
   const [isVisible, setIsVisible] = useState(false)
   const [userCredentials, setUserCredentials] = useState({ email: '', password: '' })
-  const { signInMetadata: { loading }, user } = useAppSelector(state => state.auth)
+  const { signInMetadata: { loading, error }, user } = useAppSelector(state => state.auth)
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (error?.hasError && error?.message) {
+      Alert.alert('Erro ao entrar', error.message)
+    }
+  }, [error])
 
   function handleTextChange(inputName: 'email' | 'password', text: string) {
     setUserCredentials(state => ({
@@ -24,6 +30,9 @@ export default function SignInScreen() {
 
   function handleLogin() {
     const { email, password } = userCredentials
+
+    if (!email || !password) return
+
     dispatch(signInUserWithEmail({ email, password }))
   }
 

@@ -3,7 +3,6 @@ import { AppUser } from "@/domains/authentication/types/user"
 
 interface ErrorMetadata {
   hasError: boolean | null
-  details: any | null
   message: string | null
 }
 
@@ -25,6 +24,7 @@ interface IInitialState {
   signOutMetadata: Metadata
   updatePasswordMetadata: Metadata
   changePasswordMetadata: Metadata
+  updateUserProfile: Metadata
 }
 
 export const initialState: IInitialState = {
@@ -55,6 +55,11 @@ export const initialState: IInitialState = {
     error: null,
   },
   changePasswordMetadata: {
+    isFufilled: null,
+    loading: false,
+    error: null,
+  },
+  updateUserProfile: {
     isFufilled: null,
     loading: false,
     error: null,
