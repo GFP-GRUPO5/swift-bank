@@ -1,6 +1,13 @@
-import { IAccount, UpdateAccountDTO } from "@/account/models/Account.dto";
 import { db } from "@/firebase/config";
-import { collection, doc, DocumentData, getDocs, query, QueryDocumentSnapshot, setDoc, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
+import { IAccount, UpdateAccountDTO } from "../models/Account.dto";
 
 export class AccountService {
   static async createAccount(userId: string) {

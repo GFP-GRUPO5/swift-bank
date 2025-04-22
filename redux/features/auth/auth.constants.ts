@@ -1,5 +1,5 @@
-import { AppUser } from "@/authentication/types/user"
-import { User } from "firebase/auth"
+import { AppUser } from "@/domains/authentication/types/user"
+
 
 interface ErrorMetadata {
   hasError: boolean | null
@@ -15,7 +15,9 @@ interface Metadata {
 
 interface IInitialState {
   credentials: {
-    accessToken: string | null
+    accessTokenId: string | null
+    refreshToken: string | null
+    expiresIn: string | null
   },
   user: AppUser | undefined | null
   signInMetadata: Metadata
@@ -27,7 +29,9 @@ interface IInitialState {
 
 export const initialState: IInitialState = {
   credentials: {
-    accessToken: null
+    accessTokenId: null,
+    refreshToken: null,
+    expiresIn: null
   },
   user: undefined,
   signInMetadata: {

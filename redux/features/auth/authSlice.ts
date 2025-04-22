@@ -1,20 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { initialState } from './auth.constants'
 import { signUpUserWithEmail } from './thunks/sign-up'
 import { signInUserWithEmail } from './thunks/sign-in'
 import { UserDTO } from '@/domains/authentication/models/User.dto'
 import { signOutUser } from './thunks/sign-out'
 import { changePassword } from './thunks/change-password'
+import { SignInAppUser } from '@/domains/authentication/types/user'
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    updateAccessToken: (state, { payload: { accessToken } }) => {
-      state.credentials.accessToken = accessToken
-    },
     setUserDataFromAsyncStorage: (state, { payload }) => {
       state.user = payload
+    },
+    setExpirationTime: (state, { payload }) => {
+      state.credentials.expiresIn = payload
     }
   },
   extraReducers: (builder) => {
@@ -42,10 +43,25 @@ export const authSlice = createSlice({
         state.signInMetadata.loading = true
         state.signInMetadata.error = null
       })
-      .addCase(signInUserWithEmail.fulfilled, (state, { payload }) => {
+      .addCase(signInUserWithEmail.fulfilled, (state, { payload }: PayloadAction<SignInAppUser | undefined>) => {
         state.signInMetadata.loading = false
         state.signInMetadata.isFufilled = true
-        state.user = payload
+        state.user = {
+          uid: payload?.uid ?? '',
+          email: payload?.email ?? '',
+          emailVerified: !!payload?.emailVerified,
+          displayName: payload?.displayName ?? '',
+          phoneNumber: payload?.phoneNumber ?? '',
+          createdAt: payload?.createdAt,
+          lastLoginAt: payload?.lastLoginAt,
+        }
+
+        state.credentials = {
+          accessTokenId: payload?.accessTokenId ?? '',
+          refreshToken: payload?.refreshToken ?? '',
+          expiresIn: `${payload?.expirationTime}`
+        }
+
       })
       .addCase(signInUserWithEmail.rejected, (state, { payload }) => {
         state.signInMetadata.loading = false
@@ -96,8 +112,8 @@ export const authSlice = createSlice({
 })
 
 export const {
-  updateAccessToken,
   setUserDataFromAsyncStorage,
+  setExpirationTime,
 } = authSlice.actions
 
 export default authSlice.reducer

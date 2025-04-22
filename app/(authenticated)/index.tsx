@@ -1,13 +1,19 @@
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { Card } from "@/domains/cards/components/card/Card";
-import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { Link, Redirect } from "expo-router";
+import { AppState, Text, View } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import { ScrollView } from "react-native-gesture-handler";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { HomeHeader } from "@/shared/components/home-header/HomeHeader";
 import { HomeAccountCard } from "@/domains/account/components/home-account-card/HomeAccountCard";
 import { CardCreationCard } from "@/domains/cards/components/card-creation-card/CardCreationCard";
+import { useEffect } from "react";
+import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
+import { USER_EXPIRATION_TIME } from "@/domains/authentication/constants/async-storage-user";
+import { isAfter } from "date-fns";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
 
 const lastTransaction = [
   {
@@ -31,6 +37,48 @@ const lastTransaction = [
 ]
 
 export default function HomeScreen() {
+  const dispatch = useAppDispatch()
+  const { user } = useAppSelector(state => state.auth)
+
+  async function checkIfTokenIsValid() {
+    const now = Date.now()
+    const storageExpiresIn = await getItemAsyncStorage<string>(USER_EXPIRATION_TIME)
+
+
+    if (storageExpiresIn) {
+      const then = new Date(storageExpiresIn!).valueOf()
+
+      if (isAfter(now, then)) {
+        dispatch(signOutUser())
+      }
+    } else {
+      dispatch(signOutUser())
+    }
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      checkIfTokenIsValid()
+    }, 60 * 60 * 1000)
+    console.log('MOUNTED')
+
+
+    return () => {
+      console.log('UNMOUNTED')
+      clearInterval(interval)
+    }
+  }, [])
+
+  useEffect(() => {
+    AppState.addEventListener('change', (something) => {
+      checkIfTokenIsValid()
+    })
+  }, [])
+
+  if (!user) {
+    return <Redirect href={'/(unauthenticated)/sign-in/SignIn'} />
+  }
+
   return (
     <BackgroundGradient>
       <HomeHeader />

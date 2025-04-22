@@ -1,7 +1,8 @@
 import { useAppSelector } from "@/redux/hooks";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Link, useRouter } from "expo-router";
-import { Linking, Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 export function HomeHeader() {
   const user = useAppSelector(state => state.auth.user)
@@ -22,10 +23,21 @@ export function HomeHeader() {
       }}
     >
       <Link href={'/(authenticated)/user-profile/UserProfile'}>
-        <Text style={{ fontSize: 24 }}>
-          Olá, {' '}
-          <Text style={{ fontWeight: 700 }}>{user?.displayName}</Text>
-        </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'baseline',
+            gap: 8
+          }}
+        >
+          <Text style={{ fontSize: 24 }}>
+            Olá,
+          </Text>
+          <Text style={{ fontSize: 24, fontWeight: 700 }}>
+            {user?.displayName}
+          </Text>
+          <AntDesign name="edit" size={24} color="black" />
+        </View>
       </Link>
       <Link href={'/(authenticated)/notifications/Notifications'}>
         <View style={{ position: 'relative' }}>
