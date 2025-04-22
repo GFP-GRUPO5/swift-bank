@@ -53,7 +53,6 @@ export default function UserProfile() {
   function handleSignOut() {
     dispatch(signOutUser())
     setTimeout(() => {
-      console.log(user)
       router.push('/(unauthenticated)/sign-in/SignIn')
     }, 500)
   }
@@ -68,8 +67,6 @@ export default function UserProfile() {
 
   const updatePasswordButtonDisabled = !password.currentPassword
     && !password.newPassword
-
-  console.log('################################\n', user, '\n################################')
 
   return (
     <>
