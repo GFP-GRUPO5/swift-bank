@@ -60,11 +60,8 @@ export default function HomeScreen() {
     const interval = setInterval(() => {
       checkIfTokenIsValid()
     }, 60 * 60 * 1000)
-    console.log('MOUNTED')
-
 
     return () => {
-      console.log('UNMOUNTED')
       clearInterval(interval)
     }
   }, [])
