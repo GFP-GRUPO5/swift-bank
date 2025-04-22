@@ -1,6 +1,8 @@
 import { AuthService } from "@/domains/authentication/services/auth.service";
 import { CreateAuthUserDTO } from "@/domains/authentication/types/auth.types";
+import { getFirebaseErrorMessage } from "@/shared/utils/firebase-error-handler";
 import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
+import { FirebaseError } from "firebase/app";
 import { Alert } from "react-native";
 
 /**
@@ -13,14 +15,16 @@ import { Alert } from "react-native";
  */
 export const signUpUserWithEmail = createAsyncThunk(
   'auth/signUpUserWithEmail',
-  async (userInput: CreateAuthUserDTO) => {
+  async (userInput: CreateAuthUserDTO, { rejectWithValue }) => {
     try {
-      Alert.alert('Verifique seu email', 'Enviamos um email de confirmação')
-
       await AuthService.signUp(userInput)
-      await AuthService.updateUserProfile(userInput)
+      await AuthService.updateUserProfile({ displayName: userInput.name })
     } catch (error) {
-      isRejectedWithValue(error)
+      if (error instanceof FirebaseError) {
+        const message = getFirebaseErrorMessage(error)
+        return rejectWithValue(message)
+      }
+      return rejectWithValue('Erro desconhecido')
     }
   }
 )

@@ -1,4 +1,6 @@
+import { USER_DATA_KEY } from "@/domains/authentication/constants/async-storage-user";
 import { useAppSelector } from "@/redux/hooks";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Redirect, Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
@@ -17,7 +19,7 @@ export default function UnauthenticatedLayout() {
     }
 
 
-    setIsUserLoggedIn(!!user)
+    setIsUserLoggedIn(!!user?.email)
   }, [user])
 
   if (isUserLoggedIn) {

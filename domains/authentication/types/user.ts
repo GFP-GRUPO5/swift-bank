@@ -20,3 +20,8 @@ export interface AppUser {
   createdAt: string | null | undefined
   lastLoginAt: string | null | undefined
 }
+
+export interface UpdateUserDTO {
+  displayName?: string | null | undefined
+  photoURL?: string | null | undefined
+}
