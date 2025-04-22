@@ -23,7 +23,6 @@ export const signInUserWithEmail = createAsyncThunk<SignInAppUser | undefined, {
         const message = getFirebaseErrorMessage(error)
         return rejectWithValue(message)
       }
-      console.log('AQUI', JSON.stringify(error))
       return rejectWithValue('Erro desconhecido')
     }
   }
