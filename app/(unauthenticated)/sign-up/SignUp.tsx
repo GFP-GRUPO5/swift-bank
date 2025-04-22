@@ -14,7 +14,6 @@ import { CreateAuthUserDTO } from "@/domains/authentication/types/auth.types";
 
 const initialState: CreateAuthUserDTO = {
   name: "",
-  lastName: "",
   email: "",
   password: "",
 };
@@ -61,9 +60,7 @@ export default function SignUp() {
       return
     }
 
-    const names = name.split(' ')
-
-    dispatch(signUpUserWithEmail({ email, name: names[0], lastName: names[1], password }))
+    dispatch(signUpUserWithEmail({ email, name: name, password }))
   }
 
   return (

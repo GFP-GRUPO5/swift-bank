@@ -17,6 +17,7 @@ import { changePassword } from "@/redux/features/auth/thunks/change-password";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { AccountType } from "@/domains/account/models/Account.dto";
 import { CardCreationCard } from "@/domains/cards/components/card-creation-card/CardCreationCard";
+import { updateUserProfile } from "@/redux/features/auth/thunks/update-user-profile";
 
 const accountTypeMap: { [key in AccountType]: string } = {
   'debit': 'Débito',
@@ -47,6 +48,12 @@ export default function UserProfile() {
   }, [])
 
   function handleEditProfile() {
+    if (editionMode && (!!userData.name)) {
+      console.log('passou aqui', userData.name)
+      dispatch(updateUserProfile({ displayName: userData.name }))
+      setEditionMode(false)
+      return
+    }
     setEditionMode(state => !state)
   }
 
@@ -106,7 +113,7 @@ export default function UserProfile() {
             </View>
             <View style={{ marginBottom: 32, gap: 8 }}>
               <Text style={{ fontWeight: 600 }}>Email ativo</Text>
-              <TextInput value={userData.email} editable={editionMode} />
+              <Text>{user?.email}</Text>
             </View>
             <View style={{ marginBottom: 16 }}>
               <View style={{ marginBottom: 32 }}>
