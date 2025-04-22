@@ -9,10 +9,11 @@ import {
   User,
   onAuthStateChanged,
   sendEmailVerification,
-  updateProfile
+  updateProfile,
+  getAuth
 } from "firebase/auth"
 import { FirebaseError } from "firebase/app"
-import { AppUser } from "@/domains/authentication/types/user"
+import { SignInAppUser } from "@/domains/authentication/types/user"
 import { AccountService } from "@/domains/account/services/account.service"
 
 interface CreateAuthUserDTO {
@@ -30,9 +31,13 @@ interface CreateAuthUserDTO {
  * @static function logout()
  */
 export class AuthService {
-  static async signIn(email: string, password: string): Promise<AppUser | undefined> {
+  static async signIn(email: string, password: string): Promise<SignInAppUser | undefined> {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password)
+
+      const expirationTime = (await user.getIdTokenResult()).expirationTime
+
+      console.log(expirationTime)
 
       return {
         uid: user.uid,
@@ -42,6 +47,9 @@ export class AuthService {
         emailVerified: user.emailVerified,
         lastLoginAt: user.metadata.lastSignInTime,
         phoneNumber: user.phoneNumber,
+        accessTokenId: await user.getIdToken(),
+        refreshToken: user.refreshToken,
+        expirationTime,
       }
     } catch (error) {
       if (error instanceof FirebaseError) {
@@ -78,10 +86,6 @@ export class AuthService {
     }
   }
 
-  static async refreshToken() {
-
-  }
-
   static async signOut() {
     try {
       await logOut(auth)
@@ -104,7 +108,7 @@ export class AuthService {
       const credential = EmailAuthProvider.credential(user.email, currentPassword)
 
       const cred2 = await reauthenticateWithCredential(user, credential)
-      console.log(cred2)
+
       await updatePassword(user, newPassword)
     } catch (error) {
       if (error instanceof FirebaseError) {
@@ -145,5 +149,16 @@ export class AuthService {
     } catch (error) {
       throw error
     }
+  }
+
+  static async isTokenExpired(): Promise<boolean> {
+    const user = auth.currentUser
+
+    if (!user) return false
+
+    const { expirationTime } = await user.getIdTokenResult()
+    const expiresAt = new Date(expirationTime).getTime()
+
+    return Date.now() >= expiresAt
   }
 }

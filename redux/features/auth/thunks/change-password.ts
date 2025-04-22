@@ -5,7 +5,6 @@ export const changePassword = createAsyncThunk(
   'auth/changePassword',
   async (data: { currentPassword: string, newPassword: string }) => {
     try {
-      console.log(data)
       const { currentPassword, newPassword } = data
       return await AuthService.updatePassword(currentPassword, newPassword)
     } catch (error) {

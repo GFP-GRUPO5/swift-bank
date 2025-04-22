@@ -1,10 +1,10 @@
 import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 import { setItemAsyncStorage } from "@/shared/utils/AsyncStorage";
-import { AppUser } from "@/domains/authentication/types/user";
-import { USER_DATA_KEY } from "@/domains/authentication/constants/async-storage-user";
+import { SignInAppUser } from "@/domains/authentication/types/user";
+import { USER_DATA_KEY, USER_EXPIRATION_TIME } from "@/domains/authentication/constants/async-storage-user";
 import { AuthService } from "@/domains/authentication/services/auth.service";
 
-export const signInUserWithEmail = createAsyncThunk<AppUser | undefined, { email: string, password: string }>(
+export const signInUserWithEmail = createAsyncThunk<SignInAppUser | undefined, { email: string, password: string }>(
   'auth/signInUserWithEmail',
   async ({ email, password }) => {
     try {
@@ -12,7 +12,8 @@ export const signInUserWithEmail = createAsyncThunk<AppUser | undefined, { email
 
       if (!result) throw new Error('Usuário não encontrado')
 
-      setItemAsyncStorage<AppUser>(USER_DATA_KEY, result)
+      setItemAsyncStorage<SignInAppUser>(USER_DATA_KEY, result)
+      setItemAsyncStorage<string>(USER_EXPIRATION_TIME, result.expirationTime!)
 
       return result
     } catch (error) {

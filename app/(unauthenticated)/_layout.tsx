@@ -20,12 +20,9 @@ export default function UnauthenticatedLayout() {
     setIsUserLoggedIn(!!user)
   }, [user])
 
-  console.log(JSON.stringify(user))
-
   if (isUserLoggedIn) {
-    return <Redirect href="/(authenticated)/home/Home" />
+    return <Redirect href="/(authenticated)" />
   }
-
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
