@@ -7,7 +7,7 @@ export default function AuthenticatedRootLayout() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="home/Home" options={{ headerShown: false }} />
+      <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="account/Account" />
       <Stack.Screen name="notifications/Notifications" options={{ presentation: 'modal' }} />
       <Stack.Screen name="pix/Pix" />
