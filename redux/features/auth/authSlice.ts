@@ -1,10 +1,11 @@
+import { SignInAppUser } from '@/domains/authentication/types/user'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Alert } from 'react-native'
 import { initialState } from './auth.constants'
-import { signUpUserWithEmail } from './thunks/sign-up'
+import { changePassword } from './thunks/change-password'
 import { signInUserWithEmail } from './thunks/sign-in'
 import { signOutUser } from './thunks/sign-out'
-import { changePassword } from './thunks/change-password'
-import { SignInAppUser } from '@/domains/authentication/types/user'
+import { signUpUserWithEmail } from './thunks/sign-up'
 import { updateUserProfile } from './thunks/update-user-profile'
 
 export const authSlice = createSlice({
@@ -91,10 +92,13 @@ export const authSlice = createSlice({
       .addCase(changePassword.pending, (state) => {
         state.changePasswordMetadata.error = null
         state.changePasswordMetadata.loading = true
+        state.changePasswordMetadata.isFufilled = false
       })
       .addCase(changePassword.fulfilled, (state) => {
         state.changePasswordMetadata.loading = false
         state.changePasswordMetadata.isFufilled = true
+        state.changePasswordMetadata.error = null
+        Alert.alert('Sucesso', 'Senha alterada com sucesso')
       })
       .addCase(changePassword.rejected, (state, { payload }) => {
         state.changePasswordMetadata.isFufilled = true
@@ -103,6 +107,7 @@ export const authSlice = createSlice({
           hasError: true,
           message: payload as string
         }
+        Alert.alert('Erro', JSON.stringify(payload))
       })
       // Update User Profile
       .addCase(updateUserProfile.pending, (state) => {
