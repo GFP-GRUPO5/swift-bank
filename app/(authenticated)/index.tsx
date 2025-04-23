@@ -1,19 +1,20 @@
-import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
-import { Card } from "@/domains/cards/components/card/Card";
-import { Link, Redirect } from "expo-router";
-import { AppState, Text, View } from "react-native";
-import Entypo from "@expo/vector-icons/Entypo";
-import { ScrollView } from "react-native-gesture-handler";
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { HomeHeader } from "@/shared/components/home-header/HomeHeader";
 import { HomeAccountCard } from "@/domains/account/components/home-account-card/HomeAccountCard";
-import { CardCreationCard } from "@/domains/cards/components/card-creation-card/CardCreationCard";
-import { useEffect } from "react";
-import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
 import { USER_EXPIRATION_TIME } from "@/domains/authentication/constants/async-storage-user";
-import { isAfter } from "date-fns";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { CardCreationCard } from "@/domains/cards/components/card-creation-card/CardCreationCard";
+import { Card } from "@/domains/cards/components/card/Card";
+import { fetchAccount } from "@/redux/features/account/thunks/fetch-accounts";
 import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { HomeHeader } from "@/shared/components/home-header/HomeHeader";
+import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
+import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
+import Entypo from "@expo/vector-icons/Entypo";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { isAfter } from "date-fns";
+import { Link, Redirect } from "expo-router";
+import { useEffect } from "react";
+import { AppState, Text, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 const lastTransaction = [
   {
@@ -72,6 +73,12 @@ export default function HomeScreen() {
     })
   }, [])
 
+  useEffect(() => {
+    if (user?.uid) {
+      dispatch(fetchAccount(user?.uid))
+    }
+  }, [user])
+
   if (!user) {
     return <Redirect href={'/(unauthenticated)/sign-in/SignIn'} />
   }
@@ -94,10 +101,14 @@ export default function HomeScreen() {
         <Link href={'/(authenticated)/loans/Loans'} style={{ marginBottom: 16 }}>
           <Card>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text style={{ fontWeight: 700, marginBottom: 8 }}>Empréstimos</Text>
+              <Text style={{ fontWeight: 700, marginBottom: 8 }}>
+                Empréstimos
+              </Text>
               <Entypo name={"chevron-small-right"} size={24} color="black" />
             </View>
-            <Text>Simule seu crédito e antecipe seus planos.</Text>
+            <Text>
+              Simule seu crédito e antecipe seus planos.
+            </Text>
           </Card>
         </Link>
         <Link href={'/(authenticated)/loans/Loans'} style={{ marginBottom: 16 }}>
@@ -106,14 +117,20 @@ export default function HomeScreen() {
               <Text style={{ fontWeight: 700, marginBottom: 8 }}>Investimentos</Text>
               <Entypo name={"chevron-small-right"} size={24} color="black" />
             </View>
-            <Text>Invista e acelere a realização dos seus sonhos!</Text>
+            <Text>
+              Invista e acelere a realização dos seus sonhos!
+            </Text>
           </Card>
         </Link>
-
         <Card>
-          <Link href={'/(authenticated)/loans/Loans'} style={{ paddingBottom: 12, marginBottom: 12 }}>
+          <Link
+            href={'/(authenticated)/loans/Loans'}
+            style={{ paddingBottom: 12, marginBottom: 12 }}
+          >
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-              <Text style={{ fontWeight: 700, marginBottom: 8 }}>Ultimas transações</Text>
+              <Text style={{ fontWeight: 700, marginBottom: 8 }}>
+                Ultimas transações
+              </Text>
               <Entypo name={"chevron-small-right"} size={24} color="black" />
             </View>
           </Link>
