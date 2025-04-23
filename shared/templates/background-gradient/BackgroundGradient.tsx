@@ -1,11 +1,11 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { ReactNode } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { ViewStyle } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Props {
-  children: ReactNode;
-  style?: ViewStyle; // Adicionamos `style` aqui
+  children: ReactNode
+  style?: ViewStyle
 }
 
 const colorsGradient: readonly [string, string, ...string[]] = ["rgba(255, 186, 5, 1)", "rgba(255, 251, 240, 1)"];
