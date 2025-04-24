@@ -6,11 +6,11 @@ import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/He
 import { Logo } from "@/shared/components/logo/Logo";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import CurrencyInput from 'react-native-currency-input';
 
 export default function RechargeScreen() {
-  const { account } = useAppSelector(state => state.account)
+  const { account, loading } = useAppSelector(state => state.account)
   const dispatch = useAppDispatch()
   const [value, setValue] = useState<number | null>(0)
 
@@ -22,11 +22,12 @@ export default function RechargeScreen() {
       accountId: account?.userId,
       statement: {
         createdAt: new Date().toISOString(),
-        category: 'food',
+        category: 'recharge',
         type: 'recharge',
         value
       }
     }))
+    setValue(0)
   }
 
   return (
@@ -69,11 +70,12 @@ export default function RechargeScreen() {
       <ButtonAction
         onPress={handleAddRecharge}
         style={{
-          backgroundColor: '#2c2c2c',
+          backgroundColor: loading ? '#2c2c2c77' : '#2c2c2c',
           padding: 16,
           borderRadius: 4,
           marginBottom: 40,
         }}
+        disabled={loading}
       >
         <Text style={{
           textAlign: 'center',
@@ -83,6 +85,13 @@ export default function RechargeScreen() {
         }}>
           Recarregar conta
         </Text>
+        {loading && (
+          <ActivityIndicator
+            size={'small'}
+            style={{ position: 'absolute', right: 16, top: 18 }}
+            color={'#FFF'}
+          />
+        )}
       </ButtonAction>
     </BackgroundGradient>
   )

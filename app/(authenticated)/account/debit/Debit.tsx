@@ -43,7 +43,7 @@ export default function DebitScreen() {
                     <View style={{
                       flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8
                     }}>
-                      <Text style={{ textTransform: 'capitalize', width: 60, fontWeight: '700' }}>
+                      <Text style={{ textTransform: 'capitalize', fontWeight: 700 }}>
                         {item.category}
                       </Text>
                       <Text>{format(item.createdAt, 'dd/MM/yyyy')}</Text>
