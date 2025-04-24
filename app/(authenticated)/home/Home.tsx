@@ -7,7 +7,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { HomeHeader } from "@/shared/components/home-header/HomeHeader";
 import { HomeAccountCard } from "@/domains/account/components/home-account-card/HomeAccountCard";
-import { CardCreationCard } from "@/domains/cards/components/card-creation-card/CardCreationCard";
+import CardButtons from "@/domains/cards/components/card-buttons/CardButtons";
 
 const lastTransaction = [
   {
@@ -28,7 +28,7 @@ const lastTransaction = [
     title: 'Compra na Leroy Merlin',
     value: 'R$ 1480,90'
   },
-]
+];
 
 export default function HomeScreen() {
   return (
@@ -38,14 +38,7 @@ export default function HomeScreen() {
         <HomeAccountCard />
       </View>
       <ScrollView showsVerticalScrollIndicator={false} style={{ paddingBottom: 80 }}>
-        <View style={{ paddingTop: 12 }}>
-          <CardCreationCard
-            style={{ marginBottom: 24 }}
-            sectionTitle="Você possui nenhum cartão"
-            buttonTitle="Adicionar cartão"
-            href={"/(authenticated)/card-creation/CardCreation"}
-          />
-        </View>
+        <CardButtons />
         <Link href={'/(authenticated)/loans/Loans'} style={{ marginBottom: 16 }}>
           <Card>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -68,7 +61,7 @@ export default function HomeScreen() {
         <Card>
           <Link href={'/(authenticated)/loans/Loans'} style={{ paddingBottom: 12, marginBottom: 12 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-              <Text style={{ fontWeight: 700, marginBottom: 8 }}>Ultimas transações</Text>
+              <Text style={{ fontWeight: 700, marginBottom: 8 }}>Últimas transações</Text>
               <Entypo name={"chevron-small-right"} size={24} color="black" />
             </View>
           </Link>
@@ -89,17 +82,13 @@ export default function HomeScreen() {
                 {transaction.icon}
               </View>
               <View>
-                <Text>
-                  {transaction.title}
-                </Text>
-                <Text>
-                  {transaction.value}
-                </Text>
+                <Text>{transaction.title}</Text>
+                <Text>{transaction.value}</Text>
               </View>
             </View>
           ))}
         </Card>
       </ScrollView>
     </BackgroundGradient>
-  )
+  );
 }
