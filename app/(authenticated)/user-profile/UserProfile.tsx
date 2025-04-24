@@ -1,23 +1,23 @@
-
-import { Card } from "@/domains/cards/components/card/Card";
-import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
-import { AppHeader } from "@/shared/components/app-header/AppHeader";
-import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
-import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { useRouter } from "expo-router";
-import { ActivityIndicator, Pressable, Text, TextInput, TextInputBase, View } from "react-native";
-import Feather from '@expo/vector-icons/Feather';
-import { Suspense, useEffect, useState } from "react";
-import { format } from 'date-fns'
-import { fetchAllAccounts } from "@/redux/features/account/thunks/fetch-accounts";
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { ScrollView } from "react-native-gesture-handler";
-import { changePassword } from "@/redux/features/auth/thunks/change-password";
-import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { AccountType } from "@/domains/account/models/Account.dto";
 import { CardCreationCard } from "@/domains/cards/components/card-creation-card/CardCreationCard";
+import { Card } from "@/domains/cards/components/card/Card";
+import { fetchAccount } from "@/redux/features/account/thunks/fetch-accounts";
+import { changePassword } from "@/redux/features/auth/thunks/change-password";
+import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
 import { updateUserProfile } from "@/redux/features/auth/thunks/update-user-profile";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { AppHeader } from "@/shared/components/app-header/AppHeader";
+import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
+import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
+import { Logo } from "@/shared/components/logo/Logo";
+import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Feather from '@expo/vector-icons/Feather';
+import { format } from 'date-fns';
+import { useRouter } from "expo-router";
+import { Suspense, useEffect, useState } from "react";
+import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 const accountTypeMap: { [key in AccountType]: string } = {
   'debit': 'Débito',
@@ -30,8 +30,8 @@ interface UserData {
 }
 
 export default function UserProfile() {
-  const { user } = useAppSelector(state => state.auth)
-  const { accounts } = useAppSelector(state => state.account)
+  const { user, changePasswordMetadata: { isFufilled, error } } = useAppSelector(state => state.auth)
+  const { account } = useAppSelector(state => state.account)
   const [editionMode, setEditionMode] = useState(false)
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -44,12 +44,11 @@ export default function UserProfile() {
   const [shouldSignOut, setShouldSignOut] = useState(false)
 
   useEffect(() => {
-    dispatch(fetchAllAccounts(user?.uid!))
+    dispatch(fetchAccount(user?.uid!))
   }, [])
 
   function handleEditProfile() {
     if (editionMode && (!!userData.name)) {
-      console.log('passou aqui', userData.name)
       dispatch(updateUserProfile({ displayName: userData.name }))
       setEditionMode(false)
       return
@@ -69,6 +68,7 @@ export default function UserProfile() {
 
     if (currentPassword && newPassword) {
       dispatch(changePassword({ currentPassword, newPassword }))
+      setPassword({ currentPassword: '', newPassword: '' })
     }
   }
 
@@ -81,21 +81,16 @@ export default function UserProfile() {
         <AppHeader
           style={{ paddingTop: 16, borderBottomWidth: 1 }}
           leftContent={<HeaderGoBackButton isModal />}
-          centerContent={<Text style={{ fontSize: 24, fontWeight: 600 }}>Perfil</Text>}
+          centerContent={<Logo />}
         />
         <Text
           style={{
             fontSize: 30,
             fontWeight: "700",
-            marginTop: 8,
             textAlign: "center",
-            marginBottom: 16,
           }}
         >
-          Swift {' '}
-          <Text style={{ fontWeight: 300 }}>
-            Bank
-          </Text>
+          Perfil {' '}
         </Text>
         <ScrollView style={{ paddingTop: 32 }} showsVerticalScrollIndicator={false}>
           <Card>
@@ -108,7 +103,11 @@ export default function UserProfile() {
                 editable={editionMode}
               />
               <Pressable onPress={handleEditProfile}>
-                {editionMode ? <AntDesign name="checkcircleo" size={24} color="black" /> : <Feather name="edit-2" size={24} color="black" />}
+                {
+                  editionMode
+                    ? <AntDesign name="checkcircleo" size={24} color="black" />
+                    : <Feather name="edit-2" size={24} color="black" />
+                }
               </Pressable>
             </View>
             <View style={{ marginBottom: 32, gap: 8 }}>
@@ -195,33 +194,30 @@ export default function UserProfile() {
           <Suspense fallback={<View><ActivityIndicator /></View>}>
             <View style={{ flexDirection: 'row', marginBottom: 8, marginTop: 16, alignItems: 'center', gap: 8 }}>
               <View style={{ height: 8, width: 8, borderRadius: '100%', backgroundColor: 'green' }} />
-              <Text style={{ fontWeight: 600 }}>Contas ativas {accounts.length}</Text>
             </View>
-            {accounts?.map(account => (
-              <Card key={account.userId} style={{ marginBottom: 16 }}>
-                <Text style={{ fontWeight: 700, marginBottom: 24 }}>
-                  Conta {accountTypeMap[account?.accountType]}
+
+            <Card key={account?.userId} style={{ marginBottom: 16 }}>
+              <Text style={{ fontWeight: 700, marginBottom: 24 }}>
+                Conta {accountTypeMap[account?.accountType!]}
+              </Text>
+              <Text style={{ marginBottom: 16 }}>
+                Saldo disponível:{' '}
+                <Text style={{ fontWeight: 700 }}>{new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(account?.currentAmmount!)}
                 </Text>
-                <Text style={{ marginBottom: 16 }}>
-                  Saldo disponível:{' '}
-                  <Text style={{ fontWeight: 700 }}>{new Intl.NumberFormat('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                  }).format(account.currentAmmount)}
-                  </Text>
-                </Text>
-                <Text style={{ marginBottom: 8 }}>
-                  Criada em {format(account?.createdAt, 'dd/MM/yyyy')}
-                </Text>
-                <Text>
-                  Última transação em: {format(account?.updatedAt, 'dd/MM/yyyy')}
-                </Text>
-              </Card>
-            ))}
+              </Text>
+              <Text style={{ marginBottom: 8 }}>
+                Criada em {format(account?.createdAt!, 'dd/MM/yyyy')}
+              </Text>
+              <Text>
+                Última transação em: {format(account?.updatedAt!, 'dd/MM/yyyy')}
+              </Text>
+            </Card>
 
           </Suspense>
         </ScrollView>
-
         <Pressable
           style={{
             backgroundColor: 'red',

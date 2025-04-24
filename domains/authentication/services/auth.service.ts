@@ -1,20 +1,21 @@
+import { AccountService } from "@/domains/account/services/account.service"
+import { SignInAppUser, UpdateUserDTO } from "@/domains/authentication/types/user"
 import { auth } from "@/firebase/config"
+import { getFirebaseErrorMessage } from "@/shared/utils/firebase-error-handler"
+import { FirebaseError } from "firebase/app"
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut as logOut,
-  updatePassword,
   EmailAuthProvider,
-  reauthenticateWithCredential,
-  User,
+  signOut as logOut,
   onAuthStateChanged,
+  reauthenticateWithCredential,
+  reload,
   sendEmailVerification,
+  signInWithEmailAndPassword,
+  updatePassword,
   updateProfile,
-  reload
+  User
 } from "firebase/auth"
-import { FirebaseError } from "firebase/app"
-import { SignInAppUser, UpdateUserDTO } from "@/domains/authentication/types/user"
-import { AccountService } from "@/domains/account/services/account.service"
 
 interface CreateAuthUserDTO {
   email: string
@@ -96,16 +97,35 @@ export class AuthService {
   }
 
   static async updatePassword(currentPassword: string, newPassword: string) {
-    try {
-      const user = auth.currentUser
+    if (!currentPassword || !newPassword) {
+      throw new Error('Você precisa preencher a senha atual e a nova senha!')
+    }
 
+    const user = auth.currentUser
+
+    if (!user) {
+      throw new Error('Usuário não encontrado!')
+    }
+
+    try {
+      const credential = EmailAuthProvider.credential(
+        user.email || '',
+        currentPassword
+      )
+
+      await reauthenticateWithCredential(user, credential)
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        const message = getFirebaseErrorMessage(error)
+        throw new Error(message)
+      }
+      throw JSON.stringify(error)
+    }
+
+    try {
       if (!user || !user.email) {
         throw new Error('Usuário não encontrado!')
       }
-
-      const credential = EmailAuthProvider.credential(user.email, currentPassword)
-
-      const cred2 = await reauthenticateWithCredential(user, credential)
 
       await updatePassword(user, newPassword)
     } catch (error) {

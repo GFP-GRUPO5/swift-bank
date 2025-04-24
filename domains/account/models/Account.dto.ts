@@ -6,8 +6,11 @@ export interface CreateAccountDTO {
   accountType: AccountType
   createdAt: Date
   updatedAt: Date
+  statements: any[]
 }
 
 export interface UpdateAccountDTO extends Partial<CreateAccountDTO> { }
 
-export interface IAccount extends CreateAccountDTO { }
+export interface IAccount extends CreateAccountDTO {
+  id: string
+}
