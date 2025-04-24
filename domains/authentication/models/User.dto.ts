@@ -19,3 +19,8 @@ export interface CreateUserDOT {
   lastName: string
   email: string
 }
+
+export interface UpdateAuthUserDTO {
+  displayName: string
+  email: string
+}

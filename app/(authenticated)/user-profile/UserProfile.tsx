@@ -1,22 +1,22 @@
-
-import { Card } from "@/domains/cards/components/card/Card";
-import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
-import { AppHeader } from "@/shared/components/app-header/AppHeader";
-import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
-import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { useRouter } from "expo-router";
-import { ActivityIndicator, Pressable, Text, TextInput, TextInputBase, View } from "react-native";
-import Feather from '@expo/vector-icons/Feather';
-import { Suspense, useEffect, useState } from "react";
-import { format } from 'date-fns'
-import { fetchAllAccounts } from "@/redux/features/account/thunks/fetch-accounts";
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { ScrollView } from "react-native-gesture-handler";
-import { changePassword } from "@/redux/features/auth/thunks/change-password";
-import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { AccountType } from "@/domains/account/models/Account.dto";
 import { CardCreationCard } from "@/domains/cards/components/card-creation-card/CardCreationCard";
+import { Card } from "@/domains/cards/components/card/Card";
+import { fetchAllAccounts } from "@/redux/features/account/thunks/fetch-accounts";
+import { changePassword } from "@/redux/features/auth/thunks/change-password";
+import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
+import { updateUserProfile } from "@/redux/features/auth/thunks/update-user-profile";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { AppHeader } from "@/shared/components/app-header/AppHeader";
+import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
+import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
+import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Feather from '@expo/vector-icons/Feather';
+import { format } from 'date-fns';
+import { useRouter } from "expo-router";
+import { Suspense, useEffect, useState } from "react";
+import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 const accountTypeMap: { [key in AccountType]: string } = {
   'debit': 'Débito',
@@ -29,7 +29,7 @@ interface UserData {
 }
 
 export default function UserProfile() {
-  const { user } = useAppSelector(state => state.auth)
+  const { user, changePasswordMetadata: { isFufilled, error } } = useAppSelector(state => state.auth)
   const { accounts } = useAppSelector(state => state.account)
   const [editionMode, setEditionMode] = useState(false)
   const dispatch = useAppDispatch()
@@ -47,13 +47,17 @@ export default function UserProfile() {
   }, [])
 
   function handleEditProfile() {
+    if (editionMode && (!!userData.name)) {
+      dispatch(updateUserProfile({ displayName: userData.name }))
+      setEditionMode(false)
+      return
+    }
     setEditionMode(state => !state)
   }
 
   function handleSignOut() {
     dispatch(signOutUser())
     setTimeout(() => {
-      console.log(user)
       router.push('/(unauthenticated)/sign-in/SignIn')
     }, 500)
   }
@@ -63,13 +67,12 @@ export default function UserProfile() {
 
     if (currentPassword && newPassword) {
       dispatch(changePassword({ currentPassword, newPassword }))
+      setPassword({ currentPassword: '', newPassword: '' })
     }
   }
 
   const updatePasswordButtonDisabled = !password.currentPassword
     && !password.newPassword
-
-  console.log('################################\n', user, '\n################################')
 
   return (
     <>
@@ -104,12 +107,16 @@ export default function UserProfile() {
                 editable={editionMode}
               />
               <Pressable onPress={handleEditProfile}>
-                {editionMode ? <AntDesign name="checkcircleo" size={24} color="black" /> : <Feather name="edit-2" size={24} color="black" />}
+                {
+                  editionMode
+                    ? <AntDesign name="checkcircleo" size={24} color="black" />
+                    : <Feather name="edit-2" size={24} color="black" />
+                }
               </Pressable>
             </View>
             <View style={{ marginBottom: 32, gap: 8 }}>
               <Text style={{ fontWeight: 600 }}>Email ativo</Text>
-              <TextInput value={userData.email} editable={editionMode} />
+              <Text>{user?.email}</Text>
             </View>
             <View style={{ marginBottom: 16 }}>
               <View style={{ marginBottom: 32 }}>

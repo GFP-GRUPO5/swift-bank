@@ -1,14 +1,14 @@
 import { AuthService } from "@/domains/authentication/services/auth.service";
+import { SignInAppUser, UpdateUserDTO } from "@/domains/authentication/types/user";
 import { getFirebaseErrorMessage } from "@/shared/utils/firebase-error-handler";
-import { createAsyncThunk, isRejected, isRejectedWithValue } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { FirebaseError } from "firebase/app";
 
-export const changePassword = createAsyncThunk(
-  'auth/changePassword',
-  async (data: { currentPassword: string, newPassword: string }, { rejectWithValue }) => {
+export const updateUserProfile = createAsyncThunk<SignInAppUser, UpdateUserDTO>(
+  'auth/updateAuthUserProfile',
+  async (data: UpdateUserDTO, { rejectWithValue }) => {
     try {
-      const { currentPassword, newPassword } = data
-      return await AuthService.updatePassword(currentPassword, newPassword)
+      return await AuthService.updateUserProfile(data)
     } catch (error) {
       if (error instanceof FirebaseError) {
         const message = getFirebaseErrorMessage(error)

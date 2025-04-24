@@ -1,24 +1,25 @@
+import { AccountService } from "@/domains/account/services/account.service"
+import { SignInAppUser, UpdateUserDTO } from "@/domains/authentication/types/user"
 import { auth } from "@/firebase/config"
+import { getFirebaseErrorMessage } from "@/shared/utils/firebase-error-handler"
+import { FirebaseError } from "firebase/app"
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut as logOut,
-  updatePassword,
   EmailAuthProvider,
-  reauthenticateWithCredential,
-  User,
+  signOut as logOut,
   onAuthStateChanged,
+  reauthenticateWithCredential,
+  reload,
   sendEmailVerification,
-  updateProfile
+  signInWithEmailAndPassword,
+  updatePassword,
+  updateProfile,
+  User
 } from "firebase/auth"
-import { FirebaseError } from "firebase/app"
-import { AppUser } from "@/domains/authentication/types/user"
-import { AccountService } from "@/domains/account/services/account.service"
 
 interface CreateAuthUserDTO {
   email: string
   name: string
-  lastName: string
   password: string
 }
 
@@ -30,9 +31,11 @@ interface CreateAuthUserDTO {
  * @static function logout()
  */
 export class AuthService {
-  static async signIn(email: string, password: string): Promise<AppUser | undefined> {
+  static async signIn(email: string, password: string): Promise<SignInAppUser> {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password)
+
+      const tokenResult = (await user.getIdTokenResult())
 
       return {
         uid: user.uid,
@@ -42,8 +45,12 @@ export class AuthService {
         emailVerified: user.emailVerified,
         lastLoginAt: user.metadata.lastSignInTime,
         phoneNumber: user.phoneNumber,
+        accessTokenId: await user.getIdToken(),
+        refreshToken: user.refreshToken,
+        expirationTime: tokenResult.expirationTime,
       }
     } catch (error) {
+      console.log(error)
       if (error instanceof FirebaseError) {
         throw error
       }
@@ -53,7 +60,7 @@ export class AuthService {
 
   static async signUp(data: CreateAuthUserDTO): Promise<void> {
     try {
-      const { email, password, name, lastName } = data
+      const { email, password, name } = data
       const { user } = await createUserWithEmailAndPassword(auth, email, password)
 
       AccountService.createAccount(user.uid)
@@ -78,10 +85,6 @@ export class AuthService {
     }
   }
 
-  static async refreshToken() {
-
-  }
-
   static async signOut() {
     try {
       await logOut(auth)
@@ -94,17 +97,36 @@ export class AuthService {
   }
 
   static async updatePassword(currentPassword: string, newPassword: string) {
-    try {
-      const user = auth.currentUser
+    if (!currentPassword || !newPassword) {
+      throw new Error('Você precisa preencher a senha atual e a nova senha!')
+    }
 
+    const user = auth.currentUser
+
+    if (!user) {
+      throw new Error('Usuário não encontrado!')
+    }
+
+    try {
+      const credential = EmailAuthProvider.credential(
+        user.email || '',
+        currentPassword
+      )
+
+      await reauthenticateWithCredential(user, credential)
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        const message = getFirebaseErrorMessage(error)
+        throw new Error(message)
+      }
+      throw JSON.stringify(error)
+    }
+
+    try {
       if (!user || !user.email) {
         throw new Error('Usuário não encontrado!')
       }
 
-      const credential = EmailAuthProvider.credential(user.email, currentPassword)
-
-      const cred2 = await reauthenticateWithCredential(user, credential)
-      console.log(cred2)
       await updatePassword(user, newPassword)
     } catch (error) {
       if (error instanceof FirebaseError) {
@@ -130,7 +152,7 @@ export class AuthService {
     return auth.currentUser
   }
 
-  static async updateUserProfile(userData: CreateAuthUserDTO) {
+  static async updateUserProfile(userData: UpdateUserDTO): Promise<SignInAppUser> {
     try {
       const user = auth.currentUser
 
@@ -138,12 +160,41 @@ export class AuthService {
         throw Error('Usuário não encontrado.')
       }
 
-      await updateProfile(user, { displayName: userData.name })
-      await auth.updateCurrentUser({ ...user, displayName: userData.name })
+      await updateProfile(user, { ...userData })
+      await reload(user)
 
-      return auth.currentUser
+      if (!auth.currentUser) {
+        throw new Error('Usuário não encontrado!')
+      }
+
+      const newUser = auth.currentUser
+      const tokenResult = (await newUser.getIdTokenResult())
+
+      return {
+        uid: newUser.uid,
+        displayName: newUser.displayName,
+        createdAt: newUser.metadata.creationTime,
+        email: newUser.email,
+        emailVerified: newUser.emailVerified,
+        lastLoginAt: newUser.metadata.lastSignInTime,
+        phoneNumber: newUser.phoneNumber,
+        accessTokenId: await newUser.getIdToken(),
+        refreshToken: newUser.refreshToken,
+        expirationTime: tokenResult.expirationTime,
+      }
     } catch (error) {
       throw error
     }
+  }
+
+  static async isTokenExpired(): Promise<boolean> {
+    const user = auth.currentUser
+
+    if (!user) return false
+
+    const { expirationTime } = await user.getIdTokenResult()
+    const expiresAt = new Date(expirationTime).getTime()
+
+    return Date.now() >= expiresAt
   }
 }
