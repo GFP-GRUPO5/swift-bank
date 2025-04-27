@@ -2,7 +2,7 @@ export type AccountType = 'savings' | 'debit'
 
 export interface CreateAccountDTO {
   userId: string
-  currentAmmount: number
+  currentAmount: number
   accountType: AccountType
   createdAt: Date
   updatedAt: Date

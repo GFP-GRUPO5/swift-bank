@@ -1,7 +1,7 @@
 import { AccountType } from "@/domains/account/models/Account.dto";
 import { CardCreationCard } from "@/domains/cards/components/card-creation-card/CardCreationCard";
 import { Card } from "@/domains/cards/components/card/Card";
-import { fetchAccount } from "@/redux/features/account/thunks/fetch-accounts";
+import { fetchAccount } from "@/redux/features/account/thunks/fetch-account";
 import { changePassword } from "@/redux/features/auth/thunks/change-password";
 import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
 import { updateUserProfile } from "@/redux/features/auth/thunks/update-user-profile";
@@ -31,7 +31,7 @@ interface UserData {
 
 export default function UserProfile() {
   const { user, changePasswordMetadata: { isFufilled, error } } = useAppSelector(state => state.auth)
-  const { account } = useAppSelector(state => state.account)
+  const { currentAccount } = useAppSelector(state => state.account)
   const [editionMode, setEditionMode] = useState(false)
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -196,23 +196,23 @@ export default function UserProfile() {
               <View style={{ height: 8, width: 8, borderRadius: '100%', backgroundColor: 'green' }} />
             </View>
 
-            <Card key={account?.userId} style={{ marginBottom: 16 }}>
+            <Card key={currentAccount?.userId} style={{ marginBottom: 16 }}>
               <Text style={{ fontWeight: 700, marginBottom: 24 }}>
-                Conta {accountTypeMap[account?.accountType!]}
+                Conta {accountTypeMap[currentAccount?.accountType!]}
               </Text>
               <Text style={{ marginBottom: 16 }}>
                 Saldo disponível:{' '}
                 <Text style={{ fontWeight: 700 }}>{new Intl.NumberFormat('pt-BR', {
                   style: 'currency',
                   currency: 'BRL',
-                }).format(account?.currentAmmount!)}
+                }).format(currentAccount?.currentAmount ?? 0)}
                 </Text>
               </Text>
               <Text style={{ marginBottom: 8 }}>
-                Criada em {format(account?.createdAt!, 'dd/MM/yyyy')}
+                Criada em {format(currentAccount?.createdAt!, 'dd/MM/yyyy')}
               </Text>
               <Text>
-                Última transação em: {format(account?.updatedAt!, 'dd/MM/yyyy')}
+                Última transação em: {format(currentAccount?.updatedAt!, 'dd/MM/yyyy')}
               </Text>
             </Card>
 

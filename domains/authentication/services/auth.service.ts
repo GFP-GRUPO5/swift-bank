@@ -1,5 +1,6 @@
 import { AccountService } from "@/domains/account/services/account.service"
 import { SignInAppUser, UpdateUserDTO } from "@/domains/authentication/types/user"
+import { UsersService } from "@/domains/users/services/users.service"
 import { auth } from "@/firebase/config"
 import { getFirebaseErrorMessage } from "@/shared/utils/firebase-error-handler"
 import { FirebaseError } from "firebase/app"
@@ -50,7 +51,6 @@ export class AuthService {
         expirationTime: tokenResult.expirationTime,
       }
     } catch (error) {
-      console.log(error)
       if (error instanceof FirebaseError) {
         throw error
       }
@@ -63,7 +63,8 @@ export class AuthService {
       const { email, password, name } = data
       const { user } = await createUserWithEmailAndPassword(auth, email, password)
 
-      AccountService.createAccount(user.uid)
+      await AccountService.createAccount(user.uid)
+      await UsersService.createUser({ id: user.uid, name, email })
 
       sendEmailVerification(user, {
         url: 'https://your-app.com/finishSignUp',
@@ -76,6 +77,7 @@ export class AuthService {
         },
         dynamicLinkDomain: 'yourapp.page.link',
       })
+
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message)

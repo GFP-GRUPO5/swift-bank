@@ -1,11 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import devToolsEnhancer from 'redux-devtools-expo-dev-plugin';
+import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 
+import accountReducer from './features/account/accountSlice';
 import authReducer from './features/auth/authSlice';
-import cardReducer from './features/card/cardSlice'
-import accountReducer from './features/account/accountSlice'
+import cardReducer from './features/card/cardSlice';
+import usersReducer from './features/user/userSlice';
 
 const persistConfig = {
   key: 'root',
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   card: cardReducer,
   account: accountReducer,
+  user: usersReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
