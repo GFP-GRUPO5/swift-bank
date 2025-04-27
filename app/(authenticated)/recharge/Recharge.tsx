@@ -5,21 +5,23 @@ import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
 import { Logo } from "@/shared/components/logo/Logo";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
+import { useRouter } from "expo-router";
 import { useState } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, Alert, Text, View } from "react-native";
 import CurrencyInput from 'react-native-currency-input';
 
 export default function RechargeScreen() {
-  const { account, loading } = useAppSelector(state => state.account)
+  const router = useRouter()
   const dispatch = useAppDispatch()
+  const { currentAccount, loading } = useAppSelector(state => state.account)
   const [value, setValue] = useState<number | null>(0)
 
 
   function handleAddRecharge() {
-    if (!account?.userId || !value) return
+    if (!currentAccount?.userId || !value) return
 
     dispatch(addStatement({
-      accountId: account?.userId,
+      accountId: currentAccount?.userId,
       statement: {
         createdAt: new Date().toISOString(),
         category: 'recharge',
@@ -28,6 +30,7 @@ export default function RechargeScreen() {
       }
     }))
     setValue(0)
+    Alert.alert('Sucesso', 'Recarga bem sucedida', [{ onPress: () => router.dismissAll() }])
   }
 
   return (

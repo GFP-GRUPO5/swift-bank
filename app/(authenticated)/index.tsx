@@ -2,7 +2,7 @@ import { HomeAccountCard } from "@/domains/account/components/home-account-card/
 import { USER_EXPIRATION_TIME } from "@/domains/authentication/constants/async-storage-user";
 import { CardCreationCard } from "@/domains/cards/components/card-creation-card/CardCreationCard";
 import { Card } from "@/domains/cards/components/card/Card";
-import { fetchAccount } from "@/redux/features/account/thunks/fetch-accounts";
+import { fetchAccount } from "@/redux/features/account/thunks/fetch-account";
 import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { HomeHeader } from "@/shared/components/home-header/HomeHeader";
@@ -40,6 +40,7 @@ const lastTransaction = [
 export default function HomeScreen() {
   const dispatch = useAppDispatch()
   const { user } = useAppSelector(state => state.auth)
+  const { currentAccount } = useAppSelector(state => state.account)
 
   async function checkIfTokenIsValid() {
     const now = Date.now()
@@ -77,7 +78,7 @@ export default function HomeScreen() {
     if (user?.uid) {
       dispatch(fetchAccount(user?.uid))
     }
-  }, [user])
+  }, [user, currentAccount?.currentAmount])
 
   if (!user) {
     return <Redirect href={'/(unauthenticated)/sign-in/SignIn'} />
