@@ -1,6 +1,4 @@
-import { USER_DATA_KEY } from "@/domains/authentication/constants/async-storage-user";
 import { useAppSelector } from "@/redux/hooks";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Redirect, Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
@@ -30,6 +28,9 @@ export default function UnauthenticatedLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="sign-up/SignUp" />
       <Stack.Screen name="sign-in/SignIn" />
+      <Stack.Screen name="(forgot-password)/" />
+      <Stack.Screen name="(forgot-password)/change-password/ChangePassword" />
+      <Stack.Screen name="(forgot-password)/verification-code/VerificationCode" />
     </Stack>
   )
 }
