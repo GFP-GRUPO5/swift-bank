@@ -10,7 +10,8 @@ export default function AuthenticatedRootLayout() {
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="account/Account" />
       <Stack.Screen name="notifications/Notifications" options={{ presentation: 'modal' }} />
-      <Stack.Screen name="pix/Pix" />
+      <Stack.Screen name="pix" />
+      <Stack.Screen name="pix/Amount" />
       <Stack.Screen name="qr-code/QRCode" />
       <Stack.Screen name="recharge/Recharge" />
       <Stack.Screen name="transfer/Transfer" />
