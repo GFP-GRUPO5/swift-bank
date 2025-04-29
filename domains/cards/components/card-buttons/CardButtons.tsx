@@ -13,7 +13,7 @@ export default function CardButtons() {
       </ButtonAction>
       <ButtonAction
         style={{ backgroundColor: "#2C2C2C", padding: 16, borderRadius: 24 }}
-        onPress={() => router.navigate('/(authenticated)/card-creation/CardCreation')}
+        onPress={() => router.navigate('/(authenticated)/card-details/CardDetails')}
       >
         <Text style={{ fontSize: 16, fontWeight: '700', color: '#FFF' }}>Gerenciar cartões</Text>
       </ButtonAction>

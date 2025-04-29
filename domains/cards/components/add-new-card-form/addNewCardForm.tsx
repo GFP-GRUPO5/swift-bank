@@ -1,45 +1,38 @@
-import { useDispatch } from "react-redux";
 import { Text, View } from "react-native";
 import { addNewCardFormStyles } from "./addNewCardForm.styles";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { TextField } from "@/shared/components/text-field/TextField";
-import { db } from "@/firebase/config";
-import { addDoc, collection } from "firebase/firestore";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { addCard, ICreditCard } from "@/redux/features/card/cardSlice";
-
-const generateRandomId = () => {
-  return Math.random().toString(36).substring(2, 9);
-};
+import { ICreditCard } from "@/redux/features/card/cardSlice";
+import { createNewCard } from "@/redux/features/card/thunk/create-new-card";
+import { useAppDispatch } from "@/redux/hooks";
 
 export function AddNewCardForm() {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const [cardData, setCardData] = useState<Omit<ICreditCard, "id">>({
+  const [cardData, setCardData] = useState<ICreditCard>({
     number: "",
     name: "",
     expiry: "",
-    cvv: ""
+    cvv: "",
+    id: ""
   });
 
   const handleChange = (key: keyof typeof cardData, value: string) => {
     setCardData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleSubmit = async () => {
-    try {
-      const newCard: ICreditCard = {
-        ...cardData,
-        id: generateRandomId(),
-      };
-      await addDoc(collection(db, "cards"), newCard);
-      dispatch(addCard(newCard));
-      router.back();
-    } catch (error) {
-      console.error("Erro ao salvar cartão no Firestore:", error);
-    }
+  function handleSubmit() {
+    dispatch(createNewCard({
+      id: cardData.id,
+      number: cardData.number,
+      name: cardData.name,
+      cvv: cardData.cvv,
+      expiry: cardData.expiry,
+    }))
+    router.back();
   };
 
   return (

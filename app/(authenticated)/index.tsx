@@ -14,6 +14,7 @@ import { USER_EXPIRATION_TIME } from "@/domains/authentication/constants/async-s
 import { isAfter } from "date-fns";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
+import { CreditCardModel } from "@/domains/cards/components/credit-card-model/CreditCardModel";
 
 const lastTransaction = [
   {
@@ -38,7 +39,7 @@ const lastTransaction = [
 
 export default function HomeScreen() {
   const dispatch = useAppDispatch()
-  const { user } = useAppSelector(state => state.auth)
+  const { auth: { user }, card: { currentCard } } = useAppSelector(state => state)
 
   async function checkIfTokenIsValid() {
     const now = Date.now()
@@ -83,6 +84,7 @@ export default function HomeScreen() {
         <HomeAccountCard />
       </View>
       <ScrollView showsVerticalScrollIndicator={false} style={{ paddingBottom: 80 }}>
+        <CreditCardModel card={currentCard} />
         <CardButtons />
         <Link href={'/(authenticated)/loans/Loans'} style={{ marginBottom: 16 }}>
           <Card>
