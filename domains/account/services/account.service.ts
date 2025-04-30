@@ -1,24 +1,28 @@
-import { db } from "@/firebase/config";
+import { auth, db } from "@/firebase/config";
+import { FirebaseError } from "firebase/app";
 import {
-  collection,
+  arrayUnion,
   doc,
-  getDocs,
-  query,
+  getDoc,
+  increment,
   setDoc,
-  where,
+  updateDoc
 } from "firebase/firestore";
-import { IAccount, UpdateAccountDTO } from "../models/Account.dto";
+import { IAccount } from "../models/Account.dto";
+import { CreateStatementDTO } from "../types/statements.types";
 
+const ACCOUNT_COLLECTION = 'accounts'
 export class AccountService {
   static async createAccount(userId: string) {
     try {
-      const accountRef = doc(db, 'accounts', userId)
+      const accountRef = doc(db, ACCOUNT_COLLECTION, userId)
       await setDoc(accountRef, {
         userId,
         accountType: 'debit',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        currentAmmount: 0.0,
+        currentAmount: 0.0,
+        statements: [],
       })
     } catch (error) {
       if (error instanceof Error) {
@@ -27,15 +31,24 @@ export class AccountService {
     }
   }
 
-  static async fetchAccounts(userId: string): Promise<IAccount[]> {
+  static async fetchAccount(userId: string): Promise<IAccount> {
     try {
-      const q = query(collection(db, 'accounts'), where('userId', '==', userId))
-      const result = await getDocs(q)
-      const resultArray: any[] = []
+      const accountRef = doc(db, ACCOUNT_COLLECTION, userId)
+      const snap = await getDoc(accountRef)
 
-      result.forEach(res => resultArray.push(res.data()))
+      if (!snap.exists()) {
+        throw new Error('Conta não encontrada')
+      }
 
-      return resultArray
+      return {
+        accountType: snap.data().accountType,
+        createdAt: snap.data().createdAt,
+        currentAmount: snap.data().currentAmount,
+        id: snap.data().userId,
+        statements: snap.data().statements,
+        updatedAt: snap.data().updatedAt,
+        userId: snap.data().userId,
+      } as IAccount
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message)
@@ -45,11 +58,62 @@ export class AccountService {
     }
   }
 
-  static async updateAccount(account: UpdateAccountDTO) {
+  static async updateStatement(accountId: string, statement: CreateStatementDTO): Promise<IAccount> {
+    try {
+      const accountRef = doc(db, ACCOUNT_COLLECTION, accountId)
 
+      await updateDoc(accountRef, {
+        statements: arrayUnion(statement),
+        currentAmount: increment(statement.value),
+        updatedAt: new Date().toISOString(),
+      })
+
+      const snap = await getDoc(accountRef)
+
+      if (!snap.exists()) {
+        throw new Error('Conta não achada!!!')
+      }
+
+      return snap.data() as IAccount
+    } catch (error) {
+      throw new Error('Não rolou alguma coisa aqui!')
+    }
   }
 
-  static async forgotPassword(email: string) {
+  static async sendPixToUser(value: number, userId: string): Promise<void> {
+    try {
+      const currentUser = auth.currentUser
 
+      if (!currentUser) {
+        throw new Error('Usuário não logado!')
+      }
+
+      const senderRef = doc(db, ACCOUNT_COLLECTION, currentUser?.uid)
+
+      this.updateStatement(senderRef.id,
+        {
+          category: 'pix',
+          createdAt: new Date().toISOString(),
+          type: 'pix',
+          value: -value,
+        }
+      )
+
+      const otherUserAccountRef = doc(db, ACCOUNT_COLLECTION, userId)
+      this.updateStatement(
+        otherUserAccountRef.id,
+        {
+          category: 'pix',
+          createdAt: new Date().toISOString(),
+          type: 'pix',
+          value,
+        }
+      )
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        throw new Error(error.message)
+      }
+      throw error
+    }
   }
 }

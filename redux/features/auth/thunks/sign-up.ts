@@ -1,9 +1,8 @@
 import { AuthService } from "@/domains/authentication/services/auth.service";
 import { CreateAuthUserDTO } from "@/domains/authentication/types/auth.types";
 import { getFirebaseErrorMessage } from "@/shared/utils/firebase-error-handler";
-import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { FirebaseError } from "firebase/app";
-import { Alert } from "react-native";
 
 /**
  * @param CreateAuthUserDTO

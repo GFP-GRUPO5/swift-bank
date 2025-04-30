@@ -1,7 +1,7 @@
 import { AccountType } from "@/domains/account/models/Account.dto";
 import { CardCreationCard } from "@/domains/cards/components/card-creation-card/CardCreationCard";
 import { Card } from "@/domains/cards/components/card/Card";
-import { fetchAllAccounts } from "@/redux/features/account/thunks/fetch-accounts";
+import { fetchAccount } from "@/redux/features/account/thunks/fetch-account";
 import { changePassword } from "@/redux/features/auth/thunks/change-password";
 import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
 import { updateUserProfile } from "@/redux/features/auth/thunks/update-user-profile";
@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { AppHeader } from "@/shared/components/app-header/AppHeader";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
+import { Logo } from "@/shared/components/logo/Logo";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
@@ -30,7 +31,7 @@ interface UserData {
 
 export default function UserProfile() {
   const { user, changePasswordMetadata: { isFufilled, error } } = useAppSelector(state => state.auth)
-  const { accounts } = useAppSelector(state => state.account)
+  const { currentAccount } = useAppSelector(state => state.account)
   const [editionMode, setEditionMode] = useState(false)
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -43,7 +44,7 @@ export default function UserProfile() {
   const [shouldSignOut, setShouldSignOut] = useState(false)
 
   useEffect(() => {
-    dispatch(fetchAllAccounts(user?.uid!))
+    dispatch(fetchAccount(user?.uid!))
   }, [])
 
   function handleEditProfile() {
@@ -80,21 +81,16 @@ export default function UserProfile() {
         <AppHeader
           style={{ paddingTop: 16, borderBottomWidth: 1 }}
           leftContent={<HeaderGoBackButton isModal />}
-          centerContent={<Text style={{ fontSize: 24, fontWeight: 600 }}>Perfil</Text>}
+          centerContent={<Logo />}
         />
         <Text
           style={{
             fontSize: 30,
             fontWeight: "700",
-            marginTop: 8,
             textAlign: "center",
-            marginBottom: 16,
           }}
         >
-          Swift {' '}
-          <Text style={{ fontWeight: 300 }}>
-            Bank
-          </Text>
+          Perfil {' '}
         </Text>
         <ScrollView style={{ paddingTop: 32 }} showsVerticalScrollIndicator={false}>
           <Card>
@@ -198,33 +194,30 @@ export default function UserProfile() {
           <Suspense fallback={<View><ActivityIndicator /></View>}>
             <View style={{ flexDirection: 'row', marginBottom: 8, marginTop: 16, alignItems: 'center', gap: 8 }}>
               <View style={{ height: 8, width: 8, borderRadius: '100%', backgroundColor: 'green' }} />
-              <Text style={{ fontWeight: 600 }}>Contas ativas {accounts.length}</Text>
             </View>
-            {accounts?.map(account => (
-              <Card key={account.userId} style={{ marginBottom: 16 }}>
-                <Text style={{ fontWeight: 700, marginBottom: 24 }}>
-                  Conta {accountTypeMap[account?.accountType]}
+
+            <Card key={currentAccount?.userId} style={{ marginBottom: 16 }}>
+              <Text style={{ fontWeight: 700, marginBottom: 24 }}>
+                Conta {accountTypeMap[currentAccount?.accountType!]}
+              </Text>
+              <Text style={{ marginBottom: 16 }}>
+                Saldo disponível:{' '}
+                <Text style={{ fontWeight: 700 }}>{new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(currentAccount?.currentAmount ?? 0)}
                 </Text>
-                <Text style={{ marginBottom: 16 }}>
-                  Saldo disponível:{' '}
-                  <Text style={{ fontWeight: 700 }}>{new Intl.NumberFormat('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                  }).format(account.currentAmmount)}
-                  </Text>
-                </Text>
-                <Text style={{ marginBottom: 8 }}>
-                  Criada em {format(account?.createdAt, 'dd/MM/yyyy')}
-                </Text>
-                <Text>
-                  Última transação em: {format(account?.updatedAt, 'dd/MM/yyyy')}
-                </Text>
-              </Card>
-            ))}
+              </Text>
+              <Text style={{ marginBottom: 8 }}>
+                Criada em {format(currentAccount?.createdAt!, 'dd/MM/yyyy')}
+              </Text>
+              <Text>
+                Última transação em: {format(currentAccount?.updatedAt!, 'dd/MM/yyyy')}
+              </Text>
+            </Card>
 
           </Suspense>
         </ScrollView>
-
         <Pressable
           style={{
             backgroundColor: 'red',
