@@ -1,86 +1,9 @@
-// import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-// import { createNewCard } from './thunk/create-new-card';
-
-// export interface ICreditCard {
-//   id: string | null | undefined;
-//   number: string | null;
-//   name: string | null;
-//   expiry: string | null;
-//   cvv: string | null;
-// }
-
-// interface ICreditCardPartial extends Partial<ICreditCard> {
-// }
-
-// interface IInitialState {
-//   cards: ICreditCard[];
-//   card: ICreditCard | undefined | null;
-//   loading: boolean;
-//   error: null | {
-//     hasError: boolean,
-//     message: string
-//   }
-// }
-
-// const initialState: IInitialState = {
-//   cards: [],
-//   card: undefined,
-//   loading: false,
-//   error: null
-// };
-
-// export const creditCardSlice = createSlice({
-//   name: 'creditCard',
-//   initialState,
-//   reducers: {
-//     addCard: (state, { payload }: PayloadAction<ICreditCard>) => {
-//       state.cards.push(payload);
-//     },
-//     removeCard: (state, { payload: id }) => {
-//       state.cards = state.cards.filter(card => card.id !== id);
-//     },
-//     updateCard: (state, { payload }: PayloadAction<ICreditCardPartial>) => {
-//       const newCards = state.cards.map(card => {
-//         if (card.id === payload.id) {
-//           return {
-//             ...card,
-//             ...payload
-//           }
-//         }
-//         return card;
-//       })
-//       state.cards = newCards;
-//     }
-//   },
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(createNewCard.pending, (state) => {
-//         state.loading = true
-//         state.error = null
-//       })
-//       .addCase(createNewCard.fulfilled, (state, { payload }) => {
-//         state.loading = false
-//         state.card = payload
-//       })
-//       .addCase(createNewCard.rejected, (state, { payload }) => {
-//         state.loading = false
-//         state.error = {
-//           hasError: true,
-//           message: payload as string
-//         }
-//       })
-//   }
-// })
-
-// export const { addCard, removeCard, updateCard } = creditCardSlice.actions;
-
-// export default creditCardSlice.reducer;
-
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { createNewCard } from './thunk/create-new-card';
+import { deleteCard } from './thunk/delete-card';
 import { fetchAllCards } from './thunk/fetch-all-cards';
 import { fetchCardById } from './thunk/fetch-card-by-id';
-import { deleteCard } from './thunk/delete-card';
+import { setActiveCard } from './thunk/set-active-card';
 
 export interface ICreditCard {
   id: string;
@@ -90,8 +13,6 @@ export interface ICreditCard {
   cvv: string;
   isActive?: boolean;
 }
-
-// interface ICreditCardPartial extends Partial<ICreditCard> { }
 
 interface IInitialState {
   cards: ICreditCard[];
@@ -116,13 +37,6 @@ export const creditCardSlice = createSlice({
   name: 'creditCard',
   initialState,
   reducers: {
-    setActiveCard: (state, { payload }: PayloadAction<string>) => {
-      state.cards = state.cards.map(card => ({
-        ...card,
-        isActive: card.id === payload
-      }));
-      state.currentCard = state.cards.find(card => card.id === payload) || null;
-    },
     clearCards: (state) => {
       state.cards = [];
       state.currentCard = null;
@@ -195,9 +109,28 @@ export const creditCardSlice = createSlice({
           hasError: true,
           message: payload as string
         };
+      })
+      .addCase(setActiveCard.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(setActiveCard.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.cards = state.cards.map(card => ({
+          ...card,
+          isActive: card.id === payload
+        }));
+        state.currentCard = state.cards.find(card => card.id === payload) || null;
+      })
+      .addCase(setActiveCard .rejected, (state, { payload }) => {
+        state.loading = false;             
+        state.error = {
+          hasError: true,
+          message: payload as string
+        };
       });
   }
 });
 
-export const { setActiveCard, clearCards } = creditCardSlice.actions;
+export const { clearCards } = creditCardSlice.actions;
 export default creditCardSlice.reducer;
