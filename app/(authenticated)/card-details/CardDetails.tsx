@@ -1,23 +1,25 @@
-import React, { useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { BackgroundGradient } from '@/shared/templates/background-gradient/BackgroundGradient';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { fetchAllCards } from '@/redux/features/card/thunk/fetch-all-cards';
-import { setActiveCard } from '@/redux/features/card/cardSlice';
-import { fetchCardById } from '@/redux/features/card/thunk/fetch-card-by-id';
+import { cardDetailsStyle } from '@/domains/authentication/styles/CardDetails.styles';
 import { deleteCard } from '@/redux/features/card/thunk/delete-card';
+import { fetchAllCards } from '@/redux/features/card/thunk/fetch-all-cards';
+import { setActiveCard } from '@/redux/features/card/thunk/set-activate-card';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { AppHeader } from '@/shared/components/app-header/AppHeader';
 import { HeaderGoBackButton } from '@/shared/components/header-go-back-button/HeaderGoBackButton';
-import { Card } from '@/domains/cards/components/card/Card';
+import { BackgroundGradient } from '@/shared/templates/background-gradient/BackgroundGradient';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import React, { useEffect } from 'react';
+import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+
 
 export default function HomeScreen() {
   const dispatch = useAppDispatch();
   const { cards, currentCard, loading, error } = useAppSelector(state => state.card);
 
+
   useEffect(() => {
     dispatch(fetchAllCards());
   }, [dispatch]);
+
 
   useEffect(() => {
     if (error) {
@@ -25,10 +27,24 @@ export default function HomeScreen() {
     }
   }, [error]);
 
+
   const handleSelectCard = (cardId: string) => {
-    dispatch(setActiveCard(cardId));
-    dispatch(fetchCardById(cardId));
+    Alert.alert(
+      "Selecionar Cartão",
+      "Quer visualizar este cartão na tela inicial?",
+      [
+        { text: "Cancelar", style: "cancel" },
+        {
+          text: "Selecionar",
+          onPress: () => {
+            dispatch(setActiveCard(cardId));
+          }
+        }
+      ]
+    );
   };
+  
+
 
   const handleDeleteCard = (cardId: string) => {
     Alert.alert(
@@ -41,59 +57,55 @@ export default function HomeScreen() {
     );
   };
 
+
   return (
     <BackgroundGradient>
       <AppHeader
-        style={{ paddingTop: 16, borderBottomWidth: 1 }}
+        style={cardDetailsStyle.header}
         leftContent={<HeaderGoBackButton isModal />}
         centerContent='Meus cartões'
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
-          <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 12 }}>Meus Cartões</Text>
+          <Text style={cardDetailsStyle.title}>Meus Cartões</Text>
           {loading && !cards.length ? (
             <Text>Carregando cartões...</Text>
           ) : cards.length === 0 ? (
             <Text>Nenhum cartão cadastrado</Text>
           ) : (
-            cards.map(card => (
-              <Card
-                key={card.id}
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: 16,
-                  backgroundColor: currentCard?.id === card.id ? "#000" : "#FFF",
-                  borderRadius: 8,
-                  marginBottom: 8,
-                  elevation: 2
-                }}
-              >
-                <TouchableOpacity
-                  style={{ flex: 1 }}
-                  onPress={() => handleSelectCard(card.id)}
+            cards.map(card => {
+              const isSelected = currentCard?.id === card.id;
+              return (
+                <View
+                  key={card.id}
+                  style={[cardDetailsStyle.cardContainer, isSelected && cardDetailsStyle.selectedCard]}
                 >
-                  <Text style={{ fontWeight: 'bold' }}>{card.name}</Text>
-                  <Text style={{ borderColor: currentCard?.id === card.id ? "000" : "none" }}>•••• •••• •••• {card.number.slice(-4)}</Text>
-                  <View style={{ flexDirection: "row", gap: 32 }}>
-                    <Text style={{ borderColor: currentCard?.id === card.id ? "000" : "none" }}>{card.expiry}</Text>
-                    <Text style={{ borderColor: currentCard?.id === card.id ? "000" : "none" }}>{card.cvv}</Text>
+                  <View style={{ flex: 1 }}>
+                    <Text style={[cardDetailsStyle.text, isSelected && cardDetailsStyle.selectedText]}>{card.name}</Text>
+                    <Text style={[cardDetailsStyle.text, isSelected && cardDetailsStyle.selectedText]}>•••• •••• •••• {card.number.slice(-4)}</Text>
+                    <View style={cardDetailsStyle.info}>
+                      <Text style={[cardDetailsStyle.text, isSelected && cardDetailsStyle.selectedText]}>{card.expiry}</Text>
+                      <Text style={[cardDetailsStyle.text, isSelected && cardDetailsStyle.selectedText]}>{card.cvv}</Text>
+                    </View>
                   </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  onPress={() => handleDeleteCard(card.id)}
-                  style={{ marginLeft: 16 }}
-                >
-                  <MaterialCommunityIcons name="trash-can-outline" size={24} color="red" />
-                </TouchableOpacity>
-              </Card>
-            ))
-          )
-          }
-        </View >
-      </ScrollView >
-    </BackgroundGradient >
+                  <View style={cardDetailsStyle.buttons}>
+                    <TouchableOpacity onPress={() => handleSelectCard(card.id)}>
+                      <MaterialCommunityIcons
+                        name={isSelected ? "check-circle" : "checkbox-blank-circle-outline"}
+                        size={24}
+                        color={isSelected ? "#4CAF50" : "#888"}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleDeleteCard(card.id)}>
+                      <MaterialCommunityIcons name="trash-can-outline" size={24} color="#F4442E" />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              );
+            })
+          )}
+        </View>
+      </ScrollView>
+    </BackgroundGradient>
   );
 }
