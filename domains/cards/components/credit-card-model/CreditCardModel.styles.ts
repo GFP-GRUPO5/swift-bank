@@ -10,16 +10,6 @@ export const creditCardModelStyles = StyleSheet.create({
     marginBottom: 16
   },
   contact: {
-    alignSelf: "flex-end",
-  },
-  data:{
-    alignItems:"flex-start"
-  },
-  text: {
-    color: "#FFF",
-  },
-  infos: {
-    flexDirection: "row",
-    gap: 32
+    alignItems: "flex-end"
   }
 })

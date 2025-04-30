@@ -1,12 +1,12 @@
-import { ICreditCard } from "@/redux/features/card/cardSlice";
-import { createNewCard } from "@/redux/features/card/thunk/create-new-card";
-import { useAppDispatch } from "@/redux/hooks";
+import { Text, View } from "react-native";
+import { addNewCardFormStyles } from "./addNewCardForm.styles";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { TextField } from "@/shared/components/text-field/TextField";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Text, View } from "react-native";
-import { addNewCardFormStyles } from "./addNewCardForm.styles";
+import { ICreditCard } from "@/redux/features/card/cardSlice";
+import { createNewCard } from "@/redux/features/card/thunk/create-new-card";
+import { useAppDispatch } from "@/redux/hooks";
 
 export function AddNewCardForm() {
   const router = useRouter();
