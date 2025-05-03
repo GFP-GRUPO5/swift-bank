@@ -1,12 +1,12 @@
-import { Text, View } from "react-native";
-import { addNewCardFormStyles } from "./addNewCardForm.styles";
+import { ICreditCard } from "@/redux/features/card/cardSlice";
+import { createNewCard } from "@/redux/features/card/thunk/create-new-card";
+import { useAppDispatch } from "@/redux/hooks";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { TextField } from "@/shared/components/text-field/TextField";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { ICreditCard } from "@/redux/features/card/cardSlice";
-import { createNewCard } from "@/redux/features/card/thunk/create-new-card";
-import { useAppDispatch } from "@/redux/hooks";
+import { Text, View } from "react-native";
+import { addNewCardFormStyles } from "./addNewCardForm.styles";
 
 export function AddNewCardForm() {
   const router = useRouter();
@@ -37,6 +37,9 @@ export function AddNewCardForm() {
 
   return (
     <View style={addNewCardFormStyles.wrapper}>
+      <Text style={{ fontSize: 24, fontWeight: "700" }}>
+        Adicione um novo cartão
+      </Text>
       <View>
         <Text style={addNewCardFormStyles.label}>Nome</Text>
         <TextField

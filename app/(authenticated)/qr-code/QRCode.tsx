@@ -1,10 +1,9 @@
-import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
 import { AppHeader } from "@/shared/components/app-header/AppHeader";
+import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
+import { IconSwiftBankLogo } from "@/shared/icons/IconSwiftBankLogo";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
+import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
 import { useState } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
-import { CameraView, CameraType, useCameraPermissions, Camera } from 'expo-camera';
-import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 
 export default function QRCodeScreen() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -16,7 +15,11 @@ export default function QRCodeScreen() {
 
   return (
     <BackgroundGradient>
-      <AppHeader leftContent={<HeaderGoBackButton />} centerContent='QR Code' />
+      <AppHeader
+        style={{ paddingTop: 16, borderBottomWidth: 1 }}
+        leftContent={<HeaderGoBackButton isModal />}
+        rigthContent={<IconSwiftBankLogo />}
+      />
 
       <CameraView
         facing={facing}

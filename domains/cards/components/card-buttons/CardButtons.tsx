@@ -1,10 +1,10 @@
-import { View, Text } from 'react-native';
-import { router } from 'expo-router';
 import { ButtonAction } from '@/shared/components/button-action/ButtonAction';
+import { router } from 'expo-router';
+import { Text, View } from 'react-native';
 
 export default function CardButtons() {
   return (
-    <View style={{ gap: 16, marginBottom: 16, flexDirection: 'row', justifyContent: 'center' }}>
+    <View style={{ gap: 16, marginBottom:16, flexDirection: 'row', justifyContent:'space-between'}}>
       <ButtonAction
         style={{ backgroundColor: "#2C2C2C", padding: 16, borderRadius: 24 }}
         onPress={() => router.navigate('/(authenticated)/card-creation/CardCreation')}

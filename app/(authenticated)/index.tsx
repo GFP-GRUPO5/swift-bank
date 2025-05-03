@@ -9,8 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { HomeHeader } from "@/shared/components/home-header/HomeHeader";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
-import Entypo from "@expo/vector-icons/Entypo";
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { isAfter } from "date-fns";
 import { Link, Redirect } from "expo-router";
 import { useEffect } from "react";
@@ -20,19 +19,19 @@ import { ScrollView } from "react-native-gesture-handler";
 const lastTransaction = [
   {
     id: '00001',
-    icon: <MaterialCommunityIcons name="silverware-fork-knife" size={24} color="#555" />,
+    icon: <MaterialIcons name="fastfood" size={24} color="#2C2C2C" />,
     title: 'Compra no iFood',
     value: 'R$ 25,90'
   },
   {
     id: '00002',
-    icon: <MaterialCommunityIcons name="briefcase" size={24} color="#555" />,
+    icon: <MaterialIcons name="work" size={24} color="#2C2C2C"/>,
     title: 'Compra na Leroy Merlin',
     value: 'R$ 1480,90'
   },
   {
     id: '00003',
-    icon: <MaterialCommunityIcons name="bank-transfer-in" size={24} color="#555" />,
+    icon: <MaterialIcons name="shopping-bag" size={24} color="#2C2C2C" />,
     title: 'Compra na Leroy Merlin',
     value: 'R$ 1480,90'
   },
@@ -89,7 +88,7 @@ export default function HomeScreen() {
   return (
     <BackgroundGradient>
       <HomeHeader />
-      <View style={{ marginBottom: 12 }}>
+      <View style={{ marginBottom: 16 }}>
         <HomeAccountCard />
       </View>
       <ScrollView showsVerticalScrollIndicator={false} style={{ paddingBottom: 80 }}>
@@ -101,7 +100,7 @@ export default function HomeScreen() {
               <Text style={{ fontWeight: 700, marginBottom: 8 }}>
                 Empréstimos
               </Text>
-              <Entypo name={"chevron-small-right"} size={24} color="black" />
+              <MaterialIcons name="keyboard-arrow-right" size={24} color="#2C2C2C" />
             </View>
             <Text>
               Simule seu crédito e antecipe seus planos.
@@ -112,14 +111,14 @@ export default function HomeScreen() {
           <Card>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               <Text style={{ fontWeight: 700, marginBottom: 8 }}>Investimentos</Text>
-              <Entypo name={"chevron-small-right"} size={24} color="black" />
+              <MaterialIcons name="keyboard-arrow-right" size={24} color="#2C2C2C" />
             </View>
             <Text>
               Invista e acelere a realização dos seus sonhos!
             </Text>
           </Card>
         </Link>
-        <Card>
+        <Card style={{marginBottom:16}}>
           <Link
             href={'/(authenticated)/loans/Loans'}
             style={{ paddingBottom: 12, marginBottom: 12 }}
@@ -128,7 +127,7 @@ export default function HomeScreen() {
               <Text style={{ fontWeight: 700, marginBottom: 8 }}>
                 Ultimas transações
               </Text>
-              <Entypo name={"chevron-small-right"} size={24} color="black" />
+              <MaterialIcons name="keyboard-arrow-right" size={24} color="#2C2C2C" />
             </View>
           </Link>
           {lastTransaction.map(transaction => (

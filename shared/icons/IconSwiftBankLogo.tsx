@@ -1,9 +1,9 @@
-import Svg, { Defs, G, Mask, Path, Text } from "react-native-svg";
+import Svg, { Defs, G, Mask, Path } from "react-native-svg";
 
-export function SwiftBankLogo() {
+export function IconSwiftBankLogo() {
   return (
     <Svg width={170} height={25} viewBox="0 0 172 25" fill="none">
-      <G clipPath="url(#clip0_5302_467)">
+      <G clipPath="url(#clip0_5302_467)" transform="translate(120,0)">
         <Mask
           id="mask0_5302_467"
           style={{ maskType: "luminance" }}
@@ -45,27 +45,7 @@ export function SwiftBankLogo() {
           />
         </G>
       </G>
-      <Text
-        x="30"
-        y="22"
-        fill="#2C2C2C"
-        fontSize="24"
-        fontWeight="700"
-      >
-        Swift
-      </Text>
-      <Text
-        x="90"
-        y="22"
-        fill="#2C2C2C"
-        fontSize="24"
-        fontWeight="300"
-      >
-        Bank
-      </Text>
-
       <Defs>
-
       </Defs>
     </Svg>
   );

@@ -1,19 +1,15 @@
 import { Card } from "@/domains/cards/components/card/Card";
 import { useAppSelector } from "@/redux/hooks";
-import Entypo from "@expo/vector-icons/Entypo";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Link, useRouter } from "expo-router";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
-import { CardIcon } from "../../../../shared/icons/CardIcon";
-import { PhoneIcon } from "../../../../shared/icons/PhoneIcon";
-import { PixIcon } from "../../../../shared/icons/PixIcon";
-import { QRCodeIcon } from "../../../../shared/icons/QRCodeIcon";
 import { homeAccountCardStyles } from "./HomeAccountCard.styles";
 
 type TransactionNagivation = 'pix' | 'transfer' | 'qrcode' | 'recharge'
 
 export function HomeAccountCard() {
   const router = useRouter()
-  const { currentAccount, loading  } = useAppSelector(state => state.account)
+  const { currentAccount, loading } = useAppSelector(state => state.account)
 
   function handleTransactionNavigation(link: TransactionNagivation) {
     switch (link) {
@@ -38,21 +34,21 @@ export function HomeAccountCard() {
       >
         <View style={homeAccountCardStyles.accountLinkContent}>
           <Text>Conta</Text>
-          <Entypo name="chevron-small-right" size={24} color="black" />
+          <MaterialIcons name="keyboard-arrow-right" size={24} color="#2C2C2C" />
         </View>
       </Link>
       <Text style={homeAccountCardStyles.moneyAmount}>
-        {loading 
-        ? <ActivityIndicator size={'small'} />
-        : `R$ ${(currentAccount?.currentAmount ?? 0).toLocaleString(
-          'pt-BR',
-          {
-            style: 'decimal',
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }
-        )}`
-      }
+        {loading
+          ? <ActivityIndicator size={'small'} />
+          : `R$ ${(currentAccount?.currentAmount ?? 0).toLocaleString(
+            'pt-BR',
+            {
+              style: 'decimal',
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }
+          )}`
+        }
       </Text>
       <View style={homeAccountCardStyles.transactionsContainer}>
 
@@ -61,7 +57,7 @@ export function HomeAccountCard() {
           onPress={() => handleTransactionNavigation('pix')}
         >
           <View style={homeAccountCardStyles.transactionIconContainer}>
-            <PixIcon />
+            <MaterialIcons name="pix" size={32} color="#2C2C2C" />
           </View>
           <Text>Pix</Text>
         </Pressable>
@@ -71,7 +67,7 @@ export function HomeAccountCard() {
           onPress={() => handleTransactionNavigation('transfer')}
         >
           <View style={homeAccountCardStyles.transactionIconContainer}>
-            <CardIcon />
+            <MaterialIcons name="paid" size={32} color="#2C2C2C" />
           </View>
           <Text>Transferir</Text>
         </Pressable>
@@ -81,7 +77,7 @@ export function HomeAccountCard() {
           onPress={() => handleTransactionNavigation('qrcode')}
         >
           <View style={homeAccountCardStyles.transactionIconContainer}>
-            <QRCodeIcon />
+            <MaterialIcons name="qr-code" size={32} color="#2C2C2C" />
           </View>
           <Text>QR Code</Text>
         </Pressable>
@@ -91,9 +87,9 @@ export function HomeAccountCard() {
           onPress={() => handleTransactionNavigation('recharge')}
         >
           <View style={homeAccountCardStyles.transactionIconContainer}>
-            <PhoneIcon />
+            <MaterialIcons name="account-balance-wallet" size={32} color="#2C2C2C" />
           </View>
-          <Text>Recarga</Text>
+          <Text>Depósito</Text>
         </Pressable>
       </View>
     </Card>

@@ -1,10 +1,6 @@
 import { StyleSheet } from "react-native";
 
 export const cardDetailsStyle = StyleSheet.create({
-    header: {
-        paddingTop: 16,
-        borderBottomWidth: 1
-    },
     cardContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -20,7 +16,7 @@ export const cardDetailsStyle = StyleSheet.create({
     },
     title: {
         fontWeight: 'bold',
-        fontSize: 18,
+        fontSize: 24,
         marginBottom: 12
     },
     buttons: {
