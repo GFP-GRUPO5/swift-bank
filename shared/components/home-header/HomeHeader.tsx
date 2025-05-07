@@ -2,16 +2,19 @@ import { useAppSelector } from "@/redux/hooks";
 import { Logo } from "@/shared/components/logo/Logo";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
+import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
 export function HomeHeader() {
   const user = useAppSelector(state => state.auth.user)
-  const router = useRouter()
+  const { notifications } = useAppSelector(state => state.notification)
+  const [ hasNotification, setHasNotifications ] = useState(false)
 
-  function handleProfileNavigation() {
-    router.push('/(authenticated)/user-profile/UserProfile')
-  }
+  useEffect(() => {
+    const theresNotifications = notifications.some(notification => !notification.read)
+    setHasNotifications(theresNotifications)
+  }, [notifications])
 
   return (
     <View
@@ -26,7 +29,7 @@ export function HomeHeader() {
         <Link href={'/(authenticated)/notifications/Notifications'}>
           <View style={{ position: 'relative' }}>
             <Ionicons name="notifications" size={24} color="black" />
-            <View
+            {hasNotification && <View
               style={{
                 height: 6,
                 width: 6,
@@ -36,7 +39,7 @@ export function HomeHeader() {
                 right: 4,
                 top: 2,
               }}
-            />
+            />}
           </View>
         </Link>
       </View>

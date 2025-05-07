@@ -74,8 +74,21 @@ export class AccountService {
         throw new Error('Conta não achada!!!')
       }
 
-      return snap.data() as IAccount
+      const payload: IAccount = {
+        accountType: snap.data().accountType,
+        createdAt: new Date(snap.data().createdAt).toISOString(),
+        currentAmount: snap.data().currentAmount,
+        id: snap.id,
+        statements: snap.data().statements,
+        updatedAt: new Date(snap.data().updatedAt).toDateString(),
+        userId: snap.data().userId,
+      }
+
+      return payload
     } catch (error) {
+      if (error instanceof FirebaseError) {
+        throw new Error(error.message)
+      }
       throw new Error('Não rolou alguma coisa aqui!')
     }
   }
@@ -100,7 +113,7 @@ export class AccountService {
       )
 
       const otherUserAccountRef = doc(db, ACCOUNT_COLLECTION, userId)
-      this.updateStatement(
+      await this.updateStatement(
         otherUserAccountRef.id,
         {
           category: 'pix',
@@ -111,7 +124,7 @@ export class AccountService {
       )
     } catch (error) {
       if (error instanceof FirebaseError) {
-        throw new Error(error.message)
+        throw new Error(JSON.stringify(error))
       }
       throw error
     }
