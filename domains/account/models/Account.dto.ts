@@ -4,8 +4,8 @@ export interface CreateAccountDTO {
   userId: string
   currentAmount: number
   accountType: AccountType
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
   statements: any[]
 }
 
