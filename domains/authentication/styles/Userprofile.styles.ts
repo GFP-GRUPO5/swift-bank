@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export const UserProfileStyle = StyleSheet.create({
+export const userProfileStyle = StyleSheet.create({
     titleText: {
         fontSize: 24,
         fontWeight: "700"

@@ -1,6 +1,6 @@
 import { AccountType } from "@/domains/account/models/Account.dto";
 import { modalStyles } from "@/domains/authentication/styles/Modal.styles";
-import { UserProfileStyle } from "@/domains/authentication/styles/Userprofile.styles";
+import { userProfileStyle } from "@/domains/authentication/styles/Userprofile.styles";
 import { Card } from "@/domains/cards/components/card/Card";
 import { fetchAccount } from "@/redux/features/account/thunks/fetch-account";
 import { changePassword } from "@/redux/features/auth/thunks/change-password";
@@ -85,15 +85,15 @@ export default function UserProfile() {
           leftContent={<HeaderGoBackButton isModal />}
           rigthContent={<IconSwiftBankLogo />}
         />
-        <Text style={UserProfileStyle.titleText}>
+        <Text style={userProfileStyle.titleText}>
           Configurações
         </Text>
         <ScrollView style={{ paddingTop: 16 }} showsVerticalScrollIndicator={false}>
           <Card>
 
-            <View style={UserProfileStyle.settingsContainer}>
+            <View style={userProfileStyle.settingsContainer}>
               <TextInput
-                style={UserProfileStyle.textInputName}
+                style={userProfileStyle.textInputName}
                 value={userData.name}
                 onChangeText={(text) => setUserData(state => ({ ...state, name: text }))}
                 autoCapitalize="words"
@@ -109,18 +109,18 @@ export default function UserProfile() {
             </View>
 
             <View>
-              <Text style={UserProfileStyle.textSubtitle}>Email ativo</Text>
-              <Text style={UserProfileStyle.textEmail}>{user?.email}</Text>
+              <Text style={userProfileStyle.textSubtitle}>Email ativo</Text>
+              <Text style={userProfileStyle.textEmail}>{user?.email}</Text>
             </View>
 
             <View>
               <View>
-                <Text style={UserProfileStyle.textSubtitle}>
+                <Text style={userProfileStyle.textSubtitle}>
                   Senha atual
                 </Text>
-                <View style={UserProfileStyle.passwordContainer}>
+                <View style={userProfileStyle.passwordContainer}>
                   <TextInput
-                    style={UserProfileStyle.textInputPassword}
+                    style={userProfileStyle.textInputPassword}
                     placeholder="******"
                     onChangeText={(currentPassword) => setPassword(state => ({
                       ...state,
@@ -131,7 +131,7 @@ export default function UserProfile() {
                     autoCapitalize="none"
                   />
                   <Pressable
-                    style={UserProfileStyle.eyeIcon}
+                    style={userProfileStyle.eyeIcon}
                     onPress={() => setShowPassword(state => !state)}
                   >
                     <AntDesign name={showPassword ? "eye" : "eyeo"} />
@@ -139,14 +139,14 @@ export default function UserProfile() {
                 </View>
               </View>
 
-              <View style={UserProfileStyle.containerNewPassword}>
+              <View style={userProfileStyle.containerNewPassword}>
                 <View>
-                  <Text style={UserProfileStyle.textSubtitle}>
+                  <Text style={userProfileStyle.textSubtitle}>
                     Nova senha
                   </Text>
-                  <View style={UserProfileStyle.passwordContainer}>
+                  <View style={userProfileStyle.passwordContainer}>
                     <TextInput
-                      style={UserProfileStyle.textInputNewPassword}
+                      style={userProfileStyle.textInputNewPassword}
                       placeholder="******"
                       onChangeText={(newPassword) => setPassword(state => ({
                         ...state,
@@ -157,7 +157,7 @@ export default function UserProfile() {
                       autoCapitalize="none"
                     />
                     <Pressable
-                      style={UserProfileStyle.eyeIcon}
+                      style={userProfileStyle.eyeIcon}
                       onPress={() => setShowPassword(state => !state)}
                     >
                       <AntDesign name={showPassword ? "eye" : "eyeo"} />
@@ -176,7 +176,7 @@ export default function UserProfile() {
                     onPress={handleSavePassword}
                     disabled={updatePasswordButtonDisabled}
                   >
-                    <Text style={UserProfileStyle.textButtonChangePassword}>
+                    <Text style={userProfileStyle.textButtonChangePassword}>
                       Alterar senha
                     </Text>
                   </Pressable>
@@ -186,16 +186,16 @@ export default function UserProfile() {
           </Card>
 
           <ButtonAction
-            style={UserProfileStyle.buttonCreateNewAccount}
+            style={userProfileStyle.buttonCreateNewAccount}
             onPress={() => router.navigate('/(authenticated)/account/creation/AccountCreation')}
           >
-            <Text style={UserProfileStyle.textButtonCreateNewAccount}>Criar nova conta</Text>
+            <Text style={userProfileStyle.textButtonCreateNewAccount}>Criar nova conta</Text>
           </ButtonAction>
 
           <Suspense fallback={<View><ActivityIndicator /></View>}>
-            <Card key={currentAccount?.userId} style={UserProfileStyle.containerAccount}>
-              <View style={UserProfileStyle.greenIndicator} />
-              <Text style={UserProfileStyle.titleAccount}>Conta {accountTypeMap[currentAccount?.accountType!]}</Text>
+            <Card key={currentAccount?.userId} style={userProfileStyle.containerAccount}>
+              <View style={userProfileStyle.greenIndicator} />
+              <Text style={userProfileStyle.titleAccount}>Conta {accountTypeMap[currentAccount?.accountType!]}</Text>
               <Text>
                 Saldo disponível:{' '}
                 <Text>
@@ -213,10 +213,10 @@ export default function UserProfile() {
 
         </ScrollView>
         <Pressable
-          style={UserProfileStyle.buttonLogOut}
+          style={userProfileStyle.buttonLogOut}
           onPress={() => setSelectDialogVisible(true)}
         >
-          <Text style={UserProfileStyle.textButtonLogOut}>Sair</Text>
+          <Text style={userProfileStyle.textButtonLogOut}>Sair</Text>
         </Pressable>
 
         <Dialog.Container visible={selectDialogVisible}>

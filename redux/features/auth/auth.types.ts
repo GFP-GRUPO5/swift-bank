@@ -24,4 +24,5 @@ export interface IAuthInitialState {
   updatePasswordMetadata: Metadata
   changePasswordMetadata: Metadata
   updateUserProfile: Metadata
+  forgotPassword: Metadata
 }

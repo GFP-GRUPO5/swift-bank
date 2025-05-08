@@ -1,4 +1,3 @@
-import { ICreditCard } from "@/redux/features/card/cardSlice";
 import { createNewCard } from "@/redux/features/card/thunk/create-new-card";
 import { useAppDispatch } from "@/redux/hooks";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
@@ -6,6 +5,7 @@ import { TextField } from "@/shared/components/text-field/TextField";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, View } from "react-native";
+import { ICreditCard } from "../../models/card";
 import { addNewCardFormStyles } from "./addNewCardForm.styles";
 
 export function AddNewCardForm() {
@@ -21,7 +21,7 @@ export function AddNewCardForm() {
   });
 
   const handleChange = (key: keyof typeof cardData, value: string) => {
-    setCardData((prev) => ({ ...prev, [key]: value }));
+    setCardData((state: any) => ({ ...state, [key]: value }));
   };
 
   function handleSubmit() {
