@@ -4,7 +4,7 @@ import { setNotificationsRead } from "@/redux/features/notifications/thunks/set-
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { AppHeader } from "@/shared/components/app-header/AppHeader";
 import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
-import { Logo } from "@/shared/components/logo/Logo";
+import { SwiftBankLogo } from "@/shared/icons/swiftBankLogo";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
@@ -26,7 +26,7 @@ export default function NotificationsScreen() {
       <AppHeader
         style={{ paddingTop: 16, borderBottomWidth: 1 }}
         leftContent={<HeaderGoBackButton label="Fechar" isModal />}
-        centerContent={<Logo />}
+        centerContent={<SwiftBankLogo />}
       />
       <Text style={{ fontSize: 22, fontWeight: 600, marginBottom: 16 }}>Novas notificações</Text>
       {!hasNotification && (
