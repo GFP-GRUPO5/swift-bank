@@ -1,4 +1,4 @@
-import { IAccountInitialState } from "./accountSlice.types";
+import { IAccountInitialState } from "./account-slice.types";
 
 export const accountSliceInitialState: IAccountInitialState = {
     loading: false,

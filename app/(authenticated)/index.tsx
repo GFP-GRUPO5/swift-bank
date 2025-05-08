@@ -3,8 +3,10 @@ import { USER_EXPIRATION_TIME } from "@/domains/authentication/constants/async-s
 import CardButtons from "@/domains/cards/components/card-buttons/CardButtons";
 import { Card } from "@/domains/cards/components/card/Card";
 import { CreditCardModel } from "@/domains/cards/components/credit-card-model/CreditCardModel";
+import { listenToNotifications } from "@/domains/notifications/services/notification.listeners";
 import { fetchAccount } from "@/redux/features/account/thunks/fetch-account";
 import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
+import { setNotifications } from "@/redux/features/notifications/notifications-slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { HomeHeader } from "@/shared/components/home-header/HomeHeader";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
@@ -42,6 +44,7 @@ export default function HomeScreen() {
   const { user } = useAppSelector(state => state.auth)
   const { currentAccount } = useAppSelector(state => state.account)
   const { card: { currentCard } } = useAppSelector(state => state)
+  const { notifications } = useAppSelector(state => state.notification)
 
   async function checkIfTokenIsValid() {
     const now = Date.now()
@@ -80,6 +83,16 @@ export default function HomeScreen() {
       dispatch(fetchAccount(user?.uid))
     }
   }, [user, currentAccount?.currentAmount])
+
+  useEffect(() => {
+    const unsubscribe = listenToNotifications((notifications) => {
+      dispatch(setNotifications(notifications))
+    })
+
+    return () => {
+      unsubscribe()
+    }
+  }, [])
 
   if (!user) {
     return <Redirect href={'/(unauthenticated)/sign-in/SignIn'} />

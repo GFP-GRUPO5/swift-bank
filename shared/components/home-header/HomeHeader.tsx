@@ -1,16 +1,20 @@
 import { useAppSelector } from "@/redux/hooks";
 import { SwiftBankLogo } from "@/shared/icons/swiftBankLogo";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
+import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
 export function HomeHeader() {
   const user = useAppSelector(state => state.auth.user)
-  const router = useRouter()
+  const { notifications } = useAppSelector(state => state.notification)
+  const [ hasNotification, setHasNotifications ] = useState(false)
 
-  function handleProfileNavigation() {
-    router.push('/(authenticated)/user-profile/UserProfile')
-  }
+  useEffect(() => {
+    const theresNotifications = notifications.some(notification => !notification.read)
+    setHasNotifications(theresNotifications)
+  }, [notifications])
 
   return (
     <View
@@ -39,8 +43,8 @@ export function HomeHeader() {
         </View>
         <Link href={'/(authenticated)/notifications/Notifications'}>
           <View style={{ position: 'relative' }}>
-            <MaterialIcons name="notifications" size={24} color="#2C2C2C" />
-            <View
+            <Ionicons name="notifications" size={24} color="black" />
+            {hasNotification && <View
               style={{
                 height: 6,
                 width: 6,
@@ -50,7 +54,7 @@ export function HomeHeader() {
                 right: 4,
                 top: 2,
               }}
-            />
+            />}
           </View>
         </Link>
       </View>

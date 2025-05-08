@@ -1,6 +1,6 @@
 import { Card } from "@/domains/cards/components/card/Card";
 import { fetchUserByEmail } from "@/redux/features/user/thunks/fetch-user-by-email";
-import { clearSelectedUser } from "@/redux/features/user/userSlice";
+import { clearSelectedUser } from "@/redux/features/user/user-slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { TextField } from "@/shared/components/text-field/TextField";
@@ -32,8 +32,6 @@ export default function PixScreen() {
     dispatch(fetchUserByEmail({ email: email.trim().toLowerCase() }))
     setEmail('')
   }
-
-  console.log(currentAccount)
 
   return (
     <AppBackgroundWithNavigation>

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userExtraReducers } from "./extra-reducers";
-import { IUserInitialState } from "./userSlice.types";
+import { IUserInitialState } from "./user-slice.types";
 
 
 const initialState: IUserInitialState = {

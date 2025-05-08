@@ -3,10 +3,11 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import devToolsEnhancer from 'redux-devtools-expo-dev-plugin';
 import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 
-import accountReducer from './features/account/accountSlice';
-import authReducer from './features/auth/authSlice';
-import cardReducer from './features/card/cardSlice';
-import usersReducer from './features/user/userSlice';
+import accountReducer from './features/account/account-slice';
+import authReducer from './features/auth/auth-slice';
+import cardReducer from './features/card/card-slice';
+import notificationReducer from './features/notifications/notifications-slice';
+import usersReducer from './features/user/user-slice';
 
 const persistConfig = {
   key: 'root',
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   auth: authReducer,
   card: cardReducer,
   account: accountReducer,
-  user: usersReducer
+  user: usersReducer,
+  notification: notificationReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

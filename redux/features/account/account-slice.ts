@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { accountSliceInitialState as initialState } from './accountSlice.constants';
+import { accountSliceInitialState as initialState } from './account-slice.constants';
 import { buildCases } from "./extra-reducers";
 
 export const accountSlice = createSlice({
