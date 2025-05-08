@@ -1,6 +1,6 @@
 import { IAccount } from "@/domains/account/models/Account.dto"
 import { ActionReducerMapBuilder, PayloadAction } from "@reduxjs/toolkit"
-import { IAccountInitialState } from "./accountSlice.types"
+import { IAccountInitialState } from "./account-slice.types"
 import { addStatement } from "./thunks/add-statements"
 import { fetchAccount } from "./thunks/fetch-account"
 import { sendPix } from "./thunks/send-pix"

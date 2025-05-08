@@ -1,7 +1,8 @@
-import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
+import { AddNewCardForm } from "@/domains/cards/components/add-new-card-form/addNewCardForm";
 import { AppHeader } from "@/shared/components/app-header/AppHeader";
+import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
+import { IconSwiftBankLogo } from "@/shared/icons/IconSwiftBankLogo";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
-import { Text, View } from "react-native";
 
 export default function CardCreation() {
   return (
@@ -9,11 +10,9 @@ export default function CardCreation() {
       <AppHeader
         style={{ paddingTop: 16, borderBottomWidth: 1 }}
         leftContent={<HeaderGoBackButton isModal />}
-        centerContent='Novo Cartão'
+        rigthContent={<IconSwiftBankLogo />}
       />
-      <View>
-        <Text>Card Creation</Text>
-      </View>
+      <AddNewCardForm />
     </BackgroundGradient>
   )
 }

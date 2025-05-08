@@ -1,7 +1,7 @@
 import { UserData } from "@/domains/users/types/user.type"
 import { ActionReducerMapBuilder, PayloadAction } from "@reduxjs/toolkit"
 import { fetchUserByEmail } from "./thunks/fetch-user-by-email"
-import { IUserInitialState } from "./userSlice.types"
+import { IUserInitialState } from "./user-slice.types"
 
 export function userExtraReducers(builder: ActionReducerMapBuilder<IUserInitialState>) {
   builder

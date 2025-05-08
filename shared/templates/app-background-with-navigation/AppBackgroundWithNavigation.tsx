@@ -1,6 +1,6 @@
 import { AppHeader } from "@/shared/components/app-header/AppHeader";
 import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
-import { Logo } from "@/shared/components/logo/Logo";
+import { IconSwiftBankLogo } from "@/shared/icons/IconSwiftBankLogo";
 import { ReactNode } from "react";
 import { BackgroundGradient } from "../background-gradient/BackgroundGradient";
 
@@ -11,7 +11,11 @@ interface Props {
 export function AppBackgroundWithNavigation({ children }: Props) {
   return (
     <BackgroundGradient>
-      <AppHeader leftContent={<HeaderGoBackButton />} centerContent={<Logo />} />
+      <AppHeader
+        style={{ paddingTop: 16, borderBottomWidth: 1 }}
+        leftContent={<HeaderGoBackButton />}
+        rigthContent={<IconSwiftBankLogo />}
+      />
       {children}
     </BackgroundGradient>
   )

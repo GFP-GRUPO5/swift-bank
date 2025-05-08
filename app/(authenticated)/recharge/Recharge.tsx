@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { AppHeader } from "@/shared/components/app-header/AppHeader";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
-import { Logo } from "@/shared/components/logo/Logo";
+import { IconSwiftBankLogo } from "@/shared/icons/IconSwiftBankLogo";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -35,7 +35,11 @@ export default function RechargeScreen() {
 
   return (
     <BackgroundGradient>
-      <AppHeader leftContent={<HeaderGoBackButton />} centerContent={<Logo />} />
+      <AppHeader
+        style={{ paddingTop: 16, borderBottomWidth: 1 }}
+        leftContent={<HeaderGoBackButton isModal />}
+        rigthContent={<IconSwiftBankLogo />}
+      />
       <View style={{ marginBottom: 64 }}>
         <Text style={{
           fontSize: 24,
@@ -43,7 +47,7 @@ export default function RechargeScreen() {
           textAlign: 'center',
           marginBottom: 16,
         }}>
-          Recarga
+          Depósito
         </Text>
         <Text>
           Aqui você pode adicionar dinheiro para sua conta da Swift Bank,

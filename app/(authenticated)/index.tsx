@@ -1,15 +1,17 @@
 import { HomeAccountCard } from "@/domains/account/components/home-account-card/HomeAccountCard";
 import { USER_EXPIRATION_TIME } from "@/domains/authentication/constants/async-storage-user";
-import { CardCreationCard } from "@/domains/cards/components/card-creation-card/CardCreationCard";
+import CardButtons from "@/domains/cards/components/card-buttons/CardButtons";
 import { Card } from "@/domains/cards/components/card/Card";
+import { CreditCardModel } from "@/domains/cards/components/credit-card-model/CreditCardModel";
+import { listenToNotifications } from "@/domains/notifications/services/notification.listeners";
 import { fetchAccount } from "@/redux/features/account/thunks/fetch-account";
 import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
+import { setNotifications } from "@/redux/features/notifications/notifications-slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { HomeHeader } from "@/shared/components/home-header/HomeHeader";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
-import Entypo from "@expo/vector-icons/Entypo";
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { isAfter } from "date-fns";
 import { Link, Redirect } from "expo-router";
 import { useEffect } from "react";
@@ -19,28 +21,30 @@ import { ScrollView } from "react-native-gesture-handler";
 const lastTransaction = [
   {
     id: '00001',
-    icon: <MaterialCommunityIcons name="silverware-fork-knife" size={24} color="#555" />,
+    icon: <MaterialIcons name="fastfood" size={24} color="#2C2C2C" />,
     title: 'Compra no iFood',
     value: 'R$ 25,90'
   },
   {
     id: '00002',
-    icon: <MaterialCommunityIcons name="briefcase" size={24} color="#555" />,
+    icon: <MaterialIcons name="work" size={24} color="#2C2C2C"/>,
     title: 'Compra na Leroy Merlin',
     value: 'R$ 1480,90'
   },
   {
     id: '00003',
-    icon: <MaterialCommunityIcons name="bank-transfer-in" size={24} color="#555" />,
+    icon: <MaterialIcons name="shopping-bag" size={24} color="#2C2C2C" />,
     title: 'Compra na Leroy Merlin',
     value: 'R$ 1480,90'
   },
-]
+];
 
 export default function HomeScreen() {
   const dispatch = useAppDispatch()
   const { user } = useAppSelector(state => state.auth)
   const { currentAccount } = useAppSelector(state => state.account)
+  const { card: { currentCard } } = useAppSelector(state => state)
+  const { notifications } = useAppSelector(state => state.notification)
 
   async function checkIfTokenIsValid() {
     const now = Date.now()
@@ -80,6 +84,16 @@ export default function HomeScreen() {
     }
   }, [user, currentAccount?.currentAmount])
 
+  useEffect(() => {
+    const unsubscribe = listenToNotifications((notifications) => {
+      dispatch(setNotifications(notifications))
+    })
+
+    return () => {
+      unsubscribe()
+    }
+  }, [])
+
   if (!user) {
     return <Redirect href={'/(unauthenticated)/sign-in/SignIn'} />
   }
@@ -87,25 +101,19 @@ export default function HomeScreen() {
   return (
     <BackgroundGradient>
       <HomeHeader />
-      <View style={{ marginBottom: 12 }}>
+      <View style={{ marginBottom: 16 }}>
         <HomeAccountCard />
       </View>
       <ScrollView showsVerticalScrollIndicator={false} style={{ paddingBottom: 80 }}>
-        <View style={{ paddingTop: 12 }}>
-          <CardCreationCard
-            style={{ marginBottom: 24 }}
-            sectionTitle="Você possui nenhum cartão"
-            buttonTitle="Adicionar cartão"
-            href={"/(authenticated)/card-creation/CardCreation"}
-          />
-        </View>
+        <CreditCardModel card={currentCard} />
+        <CardButtons />
         <Link href={'/(authenticated)/loans/Loans'} style={{ marginBottom: 16 }}>
           <Card>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               <Text style={{ fontWeight: 700, marginBottom: 8 }}>
                 Empréstimos
               </Text>
-              <Entypo name={"chevron-small-right"} size={24} color="black" />
+              <MaterialIcons name="keyboard-arrow-right" size={24} color="#2C2C2C" />
             </View>
             <Text>
               Simule seu crédito e antecipe seus planos.
@@ -116,14 +124,14 @@ export default function HomeScreen() {
           <Card>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               <Text style={{ fontWeight: 700, marginBottom: 8 }}>Investimentos</Text>
-              <Entypo name={"chevron-small-right"} size={24} color="black" />
+              <MaterialIcons name="keyboard-arrow-right" size={24} color="#2C2C2C" />
             </View>
             <Text>
               Invista e acelere a realização dos seus sonhos!
             </Text>
           </Card>
         </Link>
-        <Card>
+        <Card style={{marginBottom:16}}>
           <Link
             href={'/(authenticated)/loans/Loans'}
             style={{ paddingBottom: 12, marginBottom: 12 }}
@@ -132,7 +140,7 @@ export default function HomeScreen() {
               <Text style={{ fontWeight: 700, marginBottom: 8 }}>
                 Ultimas transações
               </Text>
-              <Entypo name={"chevron-small-right"} size={24} color="black" />
+              <MaterialIcons name="keyboard-arrow-right" size={24} color="#2C2C2C" />
             </View>
           </Link>
           {lastTransaction.map(transaction => (
@@ -152,17 +160,13 @@ export default function HomeScreen() {
                 {transaction.icon}
               </View>
               <View>
-                <Text>
-                  {transaction.title}
-                </Text>
-                <Text>
-                  {transaction.value}
-                </Text>
+                <Text>{transaction.title}</Text>
+                <Text>{transaction.value}</Text>
               </View>
             </View>
           ))}
         </Card>
       </ScrollView>
     </BackgroundGradient>
-  )
+  );
 }

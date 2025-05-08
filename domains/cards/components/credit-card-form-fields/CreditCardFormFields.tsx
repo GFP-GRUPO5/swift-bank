@@ -1,10 +1,10 @@
+import { updateCard } from "@/redux/features/card/card-slice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Text, View } from "react-native";
 import Animated from "react-native-reanimated";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { updateCard } from "@/redux/features/card/cardSlice";
-import { creditCardFormFieldsStyles } from "./CreditCardFormFields.styles";
-import { TextField } from "../../../../shared/components/text-field/TextField";
 import { Card } from "../../../../cards/components/card/Card";
+import { TextField } from "../../../../shared/components/text-field/TextField";
+import { creditCardFormFieldsStyles } from "./CreditCardFormFields.styles";
 
 interface Props {
   isEditing: boolean;

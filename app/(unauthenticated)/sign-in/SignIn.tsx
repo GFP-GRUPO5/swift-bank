@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import { View, Text, Pressable, ActivityIndicator, Alert } from "react-native";
-import Entypo from "@expo/vector-icons/Entypo";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { UnauthenticatedWrapper } from '@/domains/authentication/components/unauthenticated-wrapper/UnauthenticatedWrapper';
+import { signInStyles } from '@/domains/authentication/styles/SigIn.styles';
 import { signInUserWithEmail } from "@/redux/features/auth/thunks/sign-in";
-import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
-import { TextField } from "@/shared/components/text-field/TextField";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
+import { TextField } from "@/shared/components/text-field/TextField";
 import { TextLink } from "@/shared/components/text-link/TextLink";
-import { signInStyles } from '@/domains/authentication/styles/SigIn.styles'
+import Entypo from "@expo/vector-icons/Entypo";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, Alert, Pressable, Text, View } from "react-native";
 
 export default function SignInScreen() {
   const [isVisible, setIsVisible] = useState(false)
@@ -37,17 +37,10 @@ export default function SignInScreen() {
   }
 
   return (
-    <BackgroundGradient style={signInStyles.container}>
-      <Text style={signInStyles.title}>
-        Swift {' '}
-        <Text style={{ fontWeight: 300 }}>
-          Bank
-        </Text>
-      </Text>
-      <Text
-        style={signInStyles.subtitle}>Login</Text>
-      <Text style={signInStyles.welcomeText}>Boas-Vindas</Text>
-
+    <UnauthenticatedWrapper
+      title="Login"
+      subtitle="Boas-vindas!"
+    >
       <View style={{ marginBottom: 16 }}>
         <Text style={signInStyles.label}>Insira seu email</Text>
         <TextField
@@ -90,6 +83,6 @@ export default function SignInScreen() {
       </ButtonAction>
       <Text style={signInStyles.signUpText}>Ainda não tem conta?</Text>
       <TextLink href="/(unauthenticated)/sign-up/SignUp" label="Faça seu cadastro!" />
-    </BackgroundGradient>
+    </UnauthenticatedWrapper>
   );
 }

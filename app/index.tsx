@@ -1,13 +1,12 @@
-import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
-import { setUserDataFromAsyncStorage } from "@/redux/features/auth/authSlice";
-import { useAppDispatch } from "@/redux/hooks";
-import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
-import { Redirect, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Text, View } from "react-native";
 import { USER_DATA_KEY } from "@/domains/authentication/constants/async-storage-user";
 import { SignInAppUser } from "@/domains/authentication/types/user";
-import * as SplashScreen from 'expo-splash-screen';
+import { setUserDataFromAsyncStorage } from "@/redux/features/auth/auth-slice";
+import { useAppDispatch } from "@/redux/hooks";
+import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
+import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
+import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, Alert, Text, View } from "react-native";
 
 // SplashScreen.preventAutoHideAsync()
 

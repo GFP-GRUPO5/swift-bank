@@ -4,19 +4,18 @@ import { StyleSheet } from "react-native";
 export const forgotPasswordStyles = StyleSheet.create({
   logo: {
     alignItems: "center",
-    marginTop: 56,
-    marginBottom: 72
+    margin: 36,
   },
   title: {
     fontSize: 24,
     fontWeight: "700",
-    marginBottom: 48,
+    marginBottom: 36,
     textAlign: "center"
   },
   subtitle: {
     fontSize: 18,
     fontWeight: "400",
-    marginBottom: 32,
+    marginBottom: 16,
     color: colors.typography.body,
   },
   label: {

@@ -13,15 +13,15 @@ const colorsGradient: readonly [string, string, ...string[]] = ["rgba(255, 186, 
 export function BackgroundGradient({ children, style }: Props) {
   return (
     <LinearGradient colors={colorsGradient} style={[{ flex: 1 }, style]}>
-      <SafeAreaView
-        style={{
-          flex: 1,
-          height: "100%",
-          paddingHorizontal: 16,
-        }}
-      >
-        {children}
-      </SafeAreaView>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            height: "100%",
+            paddingHorizontal: 16,
+          }}
+        >
+          {children}
+        </SafeAreaView>
     </LinearGradient>
   );
 }

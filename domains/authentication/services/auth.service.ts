@@ -12,6 +12,7 @@ import {
   reauthenticateWithCredential,
   reload,
   sendEmailVerification,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   updatePassword,
   updateProfile,
@@ -198,5 +199,28 @@ export class AuthService {
     const expiresAt = new Date(expirationTime).getTime()
 
     return Date.now() >= expiresAt
+  }
+
+  static async forgotPassword(email: string) {
+    const emailTrimmed = email.trim().toLowerCase()
+
+    if (!emailTrimmed) {
+      throw new Error('Por favor, insira um e-mail válido.')
+      return
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, emailTrimmed)
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        throw new Error(error.message)
+      }
+
+      if (error instanceof Error) {
+        throw new Error(error.message)
+      }
+
+      throw new Error(JSON.stringify(error))
+    }
   }
 }
