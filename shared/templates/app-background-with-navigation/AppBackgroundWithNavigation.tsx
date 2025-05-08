@@ -13,7 +13,7 @@ export function AppBackgroundWithNavigation({ children }: Props) {
     <BackgroundGradient>
       <AppHeader
         style={{ paddingTop: 16, borderBottomWidth: 1 }}
-        leftContent={<HeaderGoBackButton isModal />}
+        leftContent={<HeaderGoBackButton />}
         rigthContent={<IconSwiftBankLogo />}
       />
       {children}

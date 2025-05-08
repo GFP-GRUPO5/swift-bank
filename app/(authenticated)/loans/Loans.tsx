@@ -9,7 +9,7 @@ export default function LoansScreen() {
     <BackgroundGradient>
       <AppHeader
         style={{ paddingTop: 16, borderBottomWidth: 1 }}
-        leftContent={<HeaderGoBackButton isModal />}
+        leftContent={<HeaderGoBackButton />}
         rigthContent={<IconSwiftBankLogo />}
       />
       <View>
