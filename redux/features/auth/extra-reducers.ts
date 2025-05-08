@@ -141,11 +141,11 @@ export function authExtraReducers(builder: ActionReducerMapBuilder<IAuthInitialS
       state.forgotPassword.error = null
       state.forgotPassword.isFufilled = true
     })
-    .addCase(sendForgotPasswordEmail.fulfilled, (state, { payload }) => {
+    .addCase(sendForgotPasswordEmail.rejected, (state, { payload }) => {
       state.forgotPassword.loading = false
       state.forgotPassword.error = {
         hasError: true,
-        message: payload ?? '',
+        message: `${payload}`,
       }
       state.forgotPassword.isFufilled = true
     })
