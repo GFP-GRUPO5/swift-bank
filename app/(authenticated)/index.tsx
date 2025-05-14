@@ -8,6 +8,7 @@ import { fetchAccount } from "@/redux/features/account/thunks/fetch-account";
 import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
 import { setNotifications } from "@/redux/features/notifications/notifications-slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { AccountStatement } from "@/shared/components/account-statement";
 import { HomeHeader } from "@/shared/components/home-header/HomeHeader";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
@@ -131,7 +132,7 @@ export default function HomeScreen() {
             </Text>
           </Card>
         </Link>
-        <Card style={{marginBottom:16}}>
+        {/* <Card style={{marginBottom:16}}>
           <Link
             href={'/(authenticated)/loans/Loans'}
             style={{ paddingBottom: 12, marginBottom: 12 }}
@@ -165,7 +166,9 @@ export default function HomeScreen() {
               </View>
             </View>
           ))}
-        </Card>
+        </Card> */}
+
+        <AccountStatement statements={currentAccount?.statements ?? []} />
       </ScrollView>
     </BackgroundGradient>
   );

@@ -1,5 +1,6 @@
 import { Card } from "@/domains/cards/components/card/Card";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { AccountStatement } from "@/shared/components/account-statement";
 import { AppBackgroundWithNavigation } from "@/shared/templates/app-background-with-navigation/AppBackgroundWithNavigation";
 import { formatAsCurrency } from "@/shared/utils/format-as-currency/format-as-currency";
 import { format } from "date-fns";
@@ -29,49 +30,7 @@ export default function DebitScreen() {
         Saldo: {formatAsCurrency(currentAccount?.currentAmount!)}
       </Text>
       {/* </Card> */}
-      <View>
-        <Text
-          style={{
-            fontSize: 24,
-            fontWeight: 600,
-            marginBottom: 16,
-          }}
-        >
-          Extrato
-        </Text>
-        <Card style={{ maxHeight: '82%' }}>
-          {
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              data={currentAccount?.statements}
-              ListEmptyComponent={<Text style={{ textAlign: 'center' }}>Você ainda não fez nenhuma transação</Text>}
-              renderItem={({ item, index }) => (
-                <View
-                  key={`index-${item.id}`}
-                  style={{
-                    marginBottom: index === currentAccount?.statements.length ? 0 : 16,
-                    borderBottomWidth: index === currentAccount?.statements.length ? 0 : 1,
-                    paddingBottom: index === currentAccount?.statements.length ? 0 : 8,
-                  }}
-                >
-                  <View style={{
-                    flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8
-                  }}>
-                    <Text style={{ textTransform: 'capitalize', fontWeight: 700 }}>
-                      {item.category}
-                    </Text>
-                    <Text>{format(item.createdAt, 'dd/MM/yyyy')}</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text>{formatAsCurrency(item.value)}</Text>
-                    <Text>{item.type}</Text>
-                  </View>
-                </View>
-              )}
-            />
-          }
-        </Card>
-      </View>
+     <AccountStatement statements={currentAccount?.statements ?? []} />
     </AppBackgroundWithNavigation>
   )
 }

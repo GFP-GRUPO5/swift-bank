@@ -74,7 +74,7 @@ export default function SignInScreen() {
       <TextLink
         linkStyles={{ marginBottom: 16 }}
         textStyles={signInStyles.forgotPasswordLink}
-        href="/(unauthenticated)/(forgot-password)/"
+        href="/(unauthenticated)/forgot-password/"
         label="Esqueci minha senha"
       />
       <ButtonAction style={signInStyles.button} onPress={handleLogin} disabled={loading}>
