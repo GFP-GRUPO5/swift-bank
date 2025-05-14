@@ -14,31 +14,10 @@ import { BackgroundGradient } from "@/shared/templates/background-gradient/Backg
 import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { isAfter } from "date-fns";
-import { Link, Redirect } from "expo-router";
+import { Link, Redirect, useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { AppState, Text, View } from "react-native";
+import { AppState, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-
-const lastTransaction = [
-  {
-    id: '00001',
-    icon: <MaterialIcons name="fastfood" size={24} color="#2C2C2C" />,
-    title: 'Compra no iFood',
-    value: 'R$ 25,90'
-  },
-  {
-    id: '00002',
-    icon: <MaterialIcons name="work" size={24} color="#2C2C2C"/>,
-    title: 'Compra na Leroy Merlin',
-    value: 'R$ 1480,90'
-  },
-  {
-    id: '00003',
-    icon: <MaterialIcons name="shopping-bag" size={24} color="#2C2C2C" />,
-    title: 'Compra na Leroy Merlin',
-    value: 'R$ 1480,90'
-  },
-];
 
 export default function HomeScreen() {
   const dispatch = useAppDispatch()
@@ -46,6 +25,7 @@ export default function HomeScreen() {
   const { currentAccount } = useAppSelector(state => state.account)
   const { card: { currentCard } } = useAppSelector(state => state)
   const { notifications } = useAppSelector(state => state.notification)
+  const lastThreeStatements = currentAccount?.statements?.slice().reverse().slice(0, 3);
 
   async function checkIfTokenIsValid() {
     const now = Date.now()
@@ -132,43 +112,32 @@ export default function HomeScreen() {
             </Text>
           </Card>
         </Link>
-        {/* <Card style={{marginBottom:16}}>
+        <Card>
           <Link
-            href={'/(authenticated)/loans/Loans'}
-            style={{ paddingBottom: 12, marginBottom: 12 }}
+            href={`/account/debit/Debit`}
+            style={{ marginBottom: 8 }}
           >
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-              <Text style={{ fontWeight: 700, marginBottom: 8 }}>
-                Ultimas transações
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '100%',
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: '600'
+                }}
+              >
+                Últimas Transações
               </Text>
               <MaterialIcons name="keyboard-arrow-right" size={24} color="#2C2C2C" />
             </View>
           </Link>
-          {lastTransaction.map(transaction => (
-            <View key={transaction.id} style={{ flexDirection: 'row', gap: 16 }}>
-              <View
-                style={{
-                  height: 48,
-                  width: 48,
-                  borderRadius: '100%',
-                  borderWidth: 1,
-                  borderColor: '#555',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 16
-                }}
-              >
-                {transaction.icon}
-              </View>
-              <View>
-                <Text>{transaction.title}</Text>
-                <Text>{transaction.value}</Text>
-              </View>
-            </View>
-          ))}
-        </Card> */}
-
-        <AccountStatement statements={currentAccount?.statements ?? []} />
+          <AccountStatement statements={lastThreeStatements ?? []} />
+        </Card>
       </ScrollView>
     </BackgroundGradient>
   );

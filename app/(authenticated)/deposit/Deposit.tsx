@@ -9,28 +9,29 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator, Alert, Text, View } from "react-native";
 import CurrencyInput from 'react-native-currency-input';
+import { transactionStyles } from '@/shared/styles/Transaction.styles';
 
-export default function RechargeScreen() {
+export default function DepositScreen() {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const { currentAccount, loading } = useAppSelector(state => state.account)
   const [value, setValue] = useState<number | null>(0)
 
 
-  function handleAddRecharge() {
+  function handleAddDeposit() {
     if (!currentAccount?.userId || !value) return
 
     dispatch(addStatement({
       accountId: currentAccount?.userId,
       statement: {
         createdAt: new Date().toISOString(),
-        category: 'recharge',
-        type: 'recharge',
+        category: 'deposit',
+        type: 'Depósito',
         value
       }
     }))
     setValue(0)
-    Alert.alert('Sucesso', 'Recarga bem sucedida', [{ onPress: () => router.dismissAll() }])
+    Alert.alert('Sucesso', 'Depósito bem sucedida', [{ onPress: () => router.dismissAll() }])
   }
 
   return (
@@ -41,14 +42,7 @@ export default function RechargeScreen() {
         rigthContent={<IconSwiftBankLogo />}
       />
       <View style={{ marginBottom: 64 }}>
-        <Text style={{
-          fontSize: 24,
-          fontWeight: 600,
-          textAlign: 'center',
-          marginBottom: 16,
-        }}>
-          Depósito
-        </Text>
+        <Text style={transactionStyles.title}>Depósito</Text>
         <Text>
           Aqui você pode adicionar dinheiro para sua conta da Swift Bank,
           {' '}basta adicionar o valor que magicamente ele entra na conta.
@@ -59,12 +53,7 @@ export default function RechargeScreen() {
           Adicione o valor desejado:
         </Text>
         <CurrencyInput
-          style={{
-            backgroundColor: '#FFF',
-            padding: 8,
-            fontSize: 18,
-            borderRadius: 4,
-          }}
+          style={transactionStyles.input}
           placeholder="R$ 2.000.000,00"
           value={value}
           onChangeValue={(e) => setValue(e)}
@@ -75,23 +64,14 @@ export default function RechargeScreen() {
         />
       </View>
       <ButtonAction
-        onPress={handleAddRecharge}
-        style={{
-          backgroundColor: loading ? '#2c2c2c77' : '#2c2c2c',
-          padding: 16,
-          borderRadius: 4,
-          marginBottom: 40,
-        }}
+        onPress={handleAddDeposit}
+        style={[
+          transactionStyles.button, 
+          {backgroundColor: loading ? '#2c2c2c77' : '#2c2c2c'}
+        ]}
         disabled={loading}
       >
-        <Text style={{
-          textAlign: 'center',
-          color: '#FFF',
-          fontWeight: 600,
-          fontSize: 20,
-        }}>
-          Recarregar conta
-        </Text>
+        <Text style={transactionStyles.textButton}>Depositar</Text>
         {loading && (
           <ActivityIndicator
             size={'small'}

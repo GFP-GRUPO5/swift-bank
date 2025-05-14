@@ -5,7 +5,7 @@ import { Link, useRouter } from "expo-router";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import { homeAccountCardStyles } from "./HomeAccountCard.styles";
 
-type TransactionNagivation = 'pix' | 'transfer' | 'qrcode' | 'recharge'
+type TransactionNagivation = 'pix' | 'transfer' | 'qrcode' | 'deposit'
 
 export function HomeAccountCard() {
   const router = useRouter()
@@ -19,8 +19,8 @@ export function HomeAccountCard() {
         return router.push('/(authenticated)/qr-code/QRCode')
       case "transfer":
         return router.push('/(authenticated)/transfer/Transfer')
-      case "recharge":
-        return router.push('/(authenticated)/recharge/Recharge')
+      case "deposit":
+        return router.push('/(authenticated)/deposit/Deposit')
       default:
         throw new Error('Link not found')
     }
@@ -84,7 +84,7 @@ export function HomeAccountCard() {
 
         <Pressable
           style={homeAccountCardStyles.transactionPressableItem}
-          onPress={() => handleTransactionNavigation('recharge')}
+          onPress={() => handleTransactionNavigation('deposit')}
         >
           <View style={homeAccountCardStyles.transactionIconContainer}>
             <MaterialIcons name="account-balance-wallet" size={32} color="#2C2C2C" />
