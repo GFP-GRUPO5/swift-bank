@@ -13,7 +13,7 @@ import { BackgroundGradient } from "@/shared/templates/background-gradient/Backg
 import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { isAfter } from "date-fns";
-import { Link, Redirect } from "expo-router";
+import { Link, Redirect, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { AppState, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -27,7 +27,7 @@ const lastTransaction = [
   },
   {
     id: '00002',
-    icon: <MaterialIcons name="work" size={24} color="#2C2C2C"/>,
+    icon: <MaterialIcons name="work" size={24} color="#2C2C2C" />,
     title: 'Compra na Leroy Merlin',
     value: 'R$ 1480,90'
   },
@@ -45,6 +45,7 @@ export default function HomeScreen() {
   const { currentAccount } = useAppSelector(state => state.account)
   const { card: { currentCard } } = useAppSelector(state => state)
   const { notifications } = useAppSelector(state => state.notification)
+  const router = useRouter()
 
   async function checkIfTokenIsValid() {
     const now = Date.now()
@@ -101,10 +102,10 @@ export default function HomeScreen() {
   return (
     <BackgroundGradient>
       <HomeHeader />
-      <View style={{ marginBottom: 16 }}>
-        <HomeAccountCard />
-      </View>
       <ScrollView showsVerticalScrollIndicator={false} style={{ paddingBottom: 80 }}>
+        <View style={{ marginBottom: 16 }}>
+          <HomeAccountCard />
+        </View>
         <CreditCardModel card={currentCard} />
         <CardButtons />
         <Link href={'/(authenticated)/loans/Loans'} style={{ marginBottom: 16 }}>
@@ -131,7 +132,7 @@ export default function HomeScreen() {
             </Text>
           </Card>
         </Link>
-        <Card style={{marginBottom:16}}>
+        <Card style={{ marginBottom: 16 }}>
           <Link
             href={'/(authenticated)/loans/Loans'}
             style={{ paddingBottom: 12, marginBottom: 12 }}
