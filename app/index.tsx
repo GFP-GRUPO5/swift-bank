@@ -4,11 +4,11 @@ import { setUserDataFromAsyncStorage } from "@/redux/features/auth/auth-slice";
 import { useAppDispatch } from "@/redux/hooks";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
-import { useRouter } from "expo-router";
+import { SplashScreen, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Text, View } from "react-native";
 
-// SplashScreen.preventAutoHideAsync()
+SplashScreen.preventAutoHideAsync()
 
 export default function Entry() {
   const dispatch = useAppDispatch()
@@ -36,6 +36,7 @@ export default function Entry() {
       Alert.alert('Error')
     } finally {
       setLoadingState(false)
+      SplashScreen.hideAsync()
     }
   }
 

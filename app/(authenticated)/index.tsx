@@ -14,10 +14,31 @@ import { BackgroundGradient } from "@/shared/templates/background-gradient/Backg
 import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { isAfter } from "date-fns";
-import { Link, Redirect, useNavigation } from "expo-router";
+import { Link, Redirect, useRouter } from "expo-router";
 import { useEffect } from "react";
-import { AppState, Text, TouchableOpacity, View } from "react-native";
+import { AppState, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+
+const lastTransaction = [
+  {
+    id: '00001',
+    icon: <MaterialIcons name="fastfood" size={24} color="#2C2C2C" />,
+    title: 'Compra no iFood',
+    value: 'R$ 25,90'
+  },
+  {
+    id: '00002',
+    icon: <MaterialIcons name="work" size={24} color="#2C2C2C" />,
+    title: 'Compra na Leroy Merlin',
+    value: 'R$ 1480,90'
+  },
+  {
+    id: '00003',
+    icon: <MaterialIcons name="shopping-bag" size={24} color="#2C2C2C" />,
+    title: 'Compra na Leroy Merlin',
+    value: 'R$ 1480,90'
+  },
+];
 
 export default function HomeScreen() {
   const dispatch = useAppDispatch()
@@ -26,6 +47,7 @@ export default function HomeScreen() {
   const { card: { currentCard } } = useAppSelector(state => state)
   const { notifications } = useAppSelector(state => state.notification)
   const lastThreeStatements = currentAccount?.statements?.slice().reverse().slice(0, 3);
+  const router = useRouter()
 
   async function checkIfTokenIsValid() {
     const now = Date.now()
@@ -82,10 +104,10 @@ export default function HomeScreen() {
   return (
     <BackgroundGradient>
       <HomeHeader />
-      <View style={{ marginBottom: 16 }}>
-        <HomeAccountCard />
-      </View>
       <ScrollView showsVerticalScrollIndicator={false} style={{ paddingBottom: 80 }}>
+        <View style={{ marginBottom: 16 }}>
+          <HomeAccountCard />
+        </View>
         <CreditCardModel card={currentCard} />
         <CardButtons />
         <Link href={'/(authenticated)/loans/Loans'} style={{ marginBottom: 16 }}>
@@ -112,7 +134,7 @@ export default function HomeScreen() {
             </Text>
           </Card>
         </Link>
-        <Card>
+        <Card style={{ marginBottom: 16 }}>
           <Link
             href={`/account/debit/Debit`}
             style={{ marginBottom: 8 }}
