@@ -4,12 +4,12 @@ import { AppHeader } from "@/shared/components/app-header/AppHeader";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
 import { IconSwiftBankLogo } from "@/shared/icons/IconSwiftBankLogo";
+import { transactionStyles } from '@/shared/styles/Transaction.styles';
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator, Alert, Text, View } from "react-native";
 import CurrencyInput from 'react-native-currency-input';
-import { transactionStyles } from '@/shared/styles/Transaction.styles';
 
 export default function TransferScreen() {
   const router = useRouter();
@@ -26,11 +26,17 @@ export default function TransferScreen() {
         createdAt: new Date().toISOString(),
         category: 'transfer',
         type: 'Transferência',
-        value:-value
+        value: -value
       }
     }));
+
     setValue(0);
-    Alert.alert('Sucesso', 'Transferência realizada com sucesso', [{ onPress: () => router.dismissAll() }]);
+
+    Alert.alert(
+      'Sucesso',
+      'Transferência realizada com sucesso',
+      [{ onPress: () => router.dismissAll() }]
+    );
   }
 
   return (
@@ -43,7 +49,7 @@ export default function TransferScreen() {
       <View style={{ marginBottom: 64 }}>
         <Text style={transactionStyles.title}>Transferência</Text>
         <Text>
-          Transfira dinheiro da sua conta Swift Bank de forma rápida e segura. 
+          Transfira dinheiro da sua conta Swift Bank de forma rápida e segura.
           Basta adicionar o valor que será enviado para outro destino.
         </Text>
       </View>
@@ -65,8 +71,8 @@ export default function TransferScreen() {
       <ButtonAction
         onPress={handleAddTransfer}
         style={[
-          transactionStyles.button, 
-          {backgroundColor: loading ? '#2c2c2c77' : '#2c2c2c'}
+          transactionStyles.button,
+          { backgroundColor: loading ? '#2c2c2c77' : '#2c2c2c' }
         ]}
         disabled={loading}
       >

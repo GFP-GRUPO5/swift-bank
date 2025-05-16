@@ -1,4 +1,5 @@
 import { Card } from "@/domains/cards/components/card/Card";
+import { Chart } from "@/domains/transactions/components/chart/Chart";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { AccountStatement } from "@/shared/components/account-statement";
 import { AppBackgroundWithNavigation } from "@/shared/templates/app-background-with-navigation/AppBackgroundWithNavigation";
@@ -26,6 +27,10 @@ export default function DebitScreen() {
       <Text style={{ fontSize: 20, marginBottom: 32 }}>
         Saldo: {formatAsCurrency(currentAccount?.currentAmount!)}
       </Text>
+      <View>
+        <Chart />
+      </View>
+
       <Card>
         <Text
           style={{

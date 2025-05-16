@@ -12,7 +12,7 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState("")
   const dispatch = useAppDispatch()
 
-  const handleSendNewPassword = async () => {
+   async function handleSendNewPassword() {
     dispatch(sendForgotPasswordEmail({ email }))
   }
 
