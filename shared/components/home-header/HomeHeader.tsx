@@ -5,6 +5,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
+import { styles } from "./home-header.styles";
 
 export function HomeHeader() {
   const user = useAppSelector(state => state.auth.user)
@@ -28,11 +29,7 @@ export function HomeHeader() {
         <View style={{ gap: 8 }}>
           <SwiftBankLogo />
           <Link href={'/(authenticated)/user-profile/UserProfile'}>
-            <View style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 8,
-            }}>
+            <View style={styles.profileRow}>
               <Text style={{ fontSize: 20 }}>Olá,</Text>
               <Text style={{ fontSize: 20, fontWeight: '700', marginRight: 8 }}>
                 {user?.displayName}
@@ -42,18 +39,10 @@ export function HomeHeader() {
           </Link>
         </View>
         <Link href={'/(authenticated)/notifications/Notifications'}>
-          <View style={{ position: 'relative' }}>
+          <View style={styles.notificationIconWrapper}>
             <Ionicons name="notifications" size={24} color="black" />
             {hasNotification && <View
-              style={{
-                height: 6,
-                width: 6,
-                backgroundColor: 'red',
-                position: 'absolute',
-                borderRadius: 100,
-                right: 4,
-                top: 2,
-              }}
+              style={styles.notificationDot }
             />}
           </View>
         </Link>

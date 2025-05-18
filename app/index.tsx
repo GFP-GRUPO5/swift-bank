@@ -7,6 +7,7 @@ import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
 import { SplashScreen, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Text, View } from "react-native";
+import { styles } from "./index.styles";
 
 SplashScreen.preventAutoHideAsync()
 
@@ -47,21 +48,16 @@ export default function Entry() {
 
 
   return (
-    <BackgroundGradient style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+    <BackgroundGradient style={styles.container}>
       <View>
         <Text
-          style={{
-            fontSize: 48,
-            fontWeight: "700",
-            marginTop: 56,
-            textAlign: "center",
-          }}
+          style={styles.logoText}
         >
-          Swift <Text style={{ fontWeight: 300 }}>Bank</Text>
+          Swift <Text style={styles.light}>Bank</Text>
         </Text>
-        <Text style={{ fontSize: 18 }}>O banco feito justamente para você ;) </Text>
+        <Text style={styles.subtitle}>O banco feito justamente para você ;) </Text>
       </View>
-      <View style={{ flex: 1, height: '100%', alignItems: 'center', justifyContent: 'center' }}>
+      <View style={styles.loaderWrapper}>
         <ActivityIndicator size={'large'} color={'#c76a0c'} />
       </View>
     </BackgroundGradient>

@@ -5,6 +5,7 @@ import { AccountStatement } from "@/shared/components/account-statement";
 import { AppBackgroundWithNavigation } from "@/shared/templates/app-background-with-navigation/AppBackgroundWithNavigation";
 import { formatAsCurrency } from "@/shared/utils/format-as-currency/format-as-currency";
 import { Text, View } from "react-native";
+import { styles } from "./Debit.styles";
 
 type AccountType = 'savings' | 'debit'
 
@@ -20,11 +21,11 @@ export default function DebitScreen() {
   return (
     <AppBackgroundWithNavigation>
       <View>
-        <Text style={{ fontSize: 24, fontWeight: 600, marginBottom: 16 }}>
+        <Text style={styles.accountTitle }>
           Conta {accountMap[currentAccount?.accountType!]}
         </Text>
       </View>
-      <Text style={{ fontSize: 20, marginBottom: 32 }}>
+      <Text style={styles.balance}>
         Saldo: {formatAsCurrency(currentAccount?.currentAmount!)}
       </Text>
       <View>
@@ -33,11 +34,7 @@ export default function DebitScreen() {
 
       <Card>
         <Text
-          style={{
-            fontSize: 24,
-            fontWeight: '600',
-            marginBottom: 16,
-          }}
+          style={styles.accountTitle}
         >
           Extrato
         </Text>

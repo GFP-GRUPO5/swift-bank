@@ -8,6 +8,7 @@ import { SwiftBankLogo } from "@/shared/icons/swiftBankLogo";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
+import { styles } from "./Notifications.styles";
 
 export default function NotificationsScreen() {
   const { notifications } = useAppSelector(state => state.notification)
@@ -42,17 +43,9 @@ export default function NotificationsScreen() {
       {notifications.map(notification => (
         <View
           key={notification.id}
-          style={{
-            backgroundColor: notification.read ? '#EEE' : '#FFF',
-            padding: 16,
-            borderRadius: 4,
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 8,
-            marginBottom: 8
-          }}
+          style={styles.notificationCard}
         >
-          {!notification.read && <View style={{ height: 8, width: 8, borderRadius: '100%', backgroundColor: 'red' }} />}
+          {!notification.read && <View style={styles.dot} />}
           <Text>{notification?.info?.message}</Text>
         </View>
       ))}

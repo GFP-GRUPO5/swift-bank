@@ -1,9 +1,12 @@
+import { TransactionDTO } from "@/domains/transactions/models/Transaction.dto";
 import { formatAsCurrency } from "@/shared/utils/format-as-currency/format-as-currency";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { format } from "date-fns";
 import { Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { TransactionDTO } from "@/domains/transactions/models/Transaction.dto";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { styles } from "./index.styles";
+
+
 
 interface AccountStatementProps {
   statements: TransactionDTO[];
@@ -44,12 +47,7 @@ export function AccountStatement({ statements }: AccountStatementProps) {
               }}
             >
               <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: 12,
-                }}
+                style={styles.transactionItem}
               >
                 <View style={{ width: 40, alignItems: 'center' }}>
                   {getTransactionIcon(item.type)}

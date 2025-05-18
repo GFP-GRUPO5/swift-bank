@@ -4,6 +4,7 @@ import { IconSwiftBankLogo } from "@/shared/icons/IconSwiftBankLogo";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
 import { useState } from "react";
+import { styles } from "./QRCode.styles";
 
 export default function QRCodeScreen() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -23,7 +24,7 @@ export default function QRCodeScreen() {
 
       <CameraView
         facing={facing}
-        style={{ flex: 1, width: '100%', height: '50%', alignItems: 'center', borderRadius: 8 }}
+        style={styles.camera}
         barcodeScannerSettings={{
           barcodeTypes: ["qr"],
         }}

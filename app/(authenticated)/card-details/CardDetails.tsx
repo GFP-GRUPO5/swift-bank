@@ -11,6 +11,7 @@ import { BackgroundGradient } from '@/shared/templates/background-gradient/Backg
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import Dialog from 'react-native-dialog';
+import { styles } from './CardDetails.styles';
 
 export default function HomeScreen() {
   const dispatch = useAppDispatch();
@@ -57,7 +58,7 @@ export default function HomeScreen() {
   return (
     <BackgroundGradient>
       <AppHeader
-        style={{ paddingTop: 16, borderBottomWidth: 1 }}
+        style={styles.header}
         leftContent={<HeaderGoBackButton />}
         rigthContent={<IconSwiftBankLogo />}
       />
@@ -84,18 +85,18 @@ export default function HomeScreen() {
       <Dialog.Container visible={selectDialogVisible}>
         <Dialog.Title>Selecionar Cartão</Dialog.Title>
         <Dialog.Description>Quer visualizar este cartão na tela inicial?</Dialog.Description>
-        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <Dialog.Button style={{ backgroundColor: "#2C2C2C", padding: 16, borderRadius: 24, color: "#FFF", fontWeight: "700" }} label="Cancelar" onPress={() => setSelectDialogVisible(false)} />
-          <Dialog.Button style={{ backgroundColor: "#2C2C2C", padding: 16, borderRadius: 24, color: "#FFF", fontWeight: "700" }} label="Selecionar" onPress={confirmSelectCard} />
+        <View style={styles.dialogButtonsContainer}>
+          <Dialog.Button style={styles.dialogButton} label="Cancelar" onPress={() => setSelectDialogVisible(false)} />
+          <Dialog.Button style={styles.dialogButton} label="Selecionar" onPress={confirmSelectCard} />
         </View>
       </Dialog.Container>
 
       <Dialog.Container visible={deleteDialogVisible}>
         <Dialog.Title>Remover Cartão</Dialog.Title>
         <Dialog.Description>Tem certeza que deseja remover este cartão?</Dialog.Description>
-        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <Dialog.Button style={{ backgroundColor: "#2C2C2C", padding: 16, borderRadius: 24, color: "#FFF", fontWeight: "700" }} label="Cancelar" onPress={() => setDeleteDialogVisible(false)} />
-          <Dialog.Button style={{ backgroundColor: "#2C2C2C", padding: 16, borderRadius: 24, color: "#FFF", fontWeight: "700" }} label="Remover" onPress={confirmDeleteCard} />
+        <View style={styles.dialogButtonsContainer}>
+          <Dialog.Button style={styles.dialogButton} label="Cancelar" onPress={() => setDeleteDialogVisible(false)} />
+          <Dialog.Button style={styles.dialogButton} label="Remover" onPress={confirmDeleteCard} />
         </View>
       </Dialog.Container>
     </BackgroundGradient>

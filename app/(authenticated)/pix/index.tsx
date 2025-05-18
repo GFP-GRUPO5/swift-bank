@@ -10,6 +10,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Text, View } from "react-native";
+import { styles } from "./index.styles";
 
 export default function PixScreen() {
   const [email, setEmail] = useState('')
@@ -56,7 +57,7 @@ export default function PixScreen() {
         onChangeText={(email) => setEmail(email)}
         value={email}
       />
-      <Text style={{ fontSize: 12, textAlign: 'right', color: '#555', marginBottom: 64 }}>
+      <Text style={styles.hintText}>
         (no momento somente são aceitos emails)
       </Text>
       {user
@@ -67,7 +68,7 @@ export default function PixScreen() {
               href={`/(authenticated)/pix/Amount`}
               style={{ width: '100%' }}
             >
-              <Card style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Card style={styles.userCard}>
                 <View>
                   <Text>{user.name}</Text>
                   <Text>{user.email}</Text>
@@ -89,19 +90,13 @@ export default function PixScreen() {
           </Card>
         )}
       <ButtonAction
-        style={{
-          padding: 16,
-          backgroundColor: '#2c2c2c',
-          borderRadius: 4,
-          marginTop: 'auto',
-          marginBottom: 32,
-        }}
+        style={styles.button}
         onPress={handleSearchUser}
       >
-        <Text style={{ fontSize: 16, color: '#FFF', fontWeight: 600, textAlign: 'center' }}>
+        <Text style={styles.buttonText}>
           Procurar chave pix
         </Text>
-        {loading || loadingUser && <ActivityIndicator size="small" style={{ position: 'absolute', right: 16, top: 16 }} />}
+        {loading || loadingUser && <ActivityIndicator size="small" style={styles.loading} />}
       </ButtonAction>
     </AppBackgroundWithNavigation>
   )

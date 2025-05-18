@@ -8,6 +8,7 @@ import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Text } from "react-native";
 import CurrencyInput from "react-native-currency-input";
+import { styles } from "./Amount.styles";
 
 export default function AmountScreen() {
   const account = useAppSelector(state => state.account)
@@ -72,15 +73,7 @@ export default function AmountScreen() {
         </Text>
       </Text>
       <CurrencyInput
-        style={{
-          borderRadius: 8,
-          padding: 16,
-          backgroundColor: "#EDEDED",
-          borderWidth: 1,
-          borderColor: "#2C2C2C",
-          borderStyle: "solid",
-          fontSize: 20,
-        }}
+        style={styles.currencyInput}
         value={value}
         onChangeValue={(value) => setValue(value || 0)}
         prefix="R$ "
@@ -89,35 +82,19 @@ export default function AmountScreen() {
         returnKeyType="done"
       />
       <ButtonAction
-        style={{
-          width: '100%',
-          marginTop: 'auto',
-          marginBottom: 80,
-          backgroundColor: '#2c2c2c',
-          padding: 16,
-          borderRadius: 4,
-        }}
+        style={styles.button}
         onPress={handleSendPix}
         disabled={account.loading}
       >
         <Text
-          style={{
-            textAlign: 'center',
-            color: '#FFF',
-            fontSize: 18,
-            fontWeight: 600,
-          }}
+          style={styles.buttonText}
         >
           Enviar
         </Text>
         {account.loading && (
           <ActivityIndicator
             size="small"
-            style={{
-              top: 16,
-              right: 16,
-              position: 'absolute',
-            }}
+            style={styles.loadingIndicator}
           />
         )}
       </ButtonAction>
