@@ -1,4 +1,7 @@
-import { Dimensions } from 'react-native';
+import { reduceStatements } from '@/redux/features/account/account-slice';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { useEffect } from 'react';
+import { ActivityIndicator, Dimensions } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 
 const chartConfig = {
@@ -14,49 +17,38 @@ const chartConfig = {
 
 export function Chart() {
   const { width } = Dimensions.get('window')
+  const { accountChartData } = useAppSelector(state => state.account)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(reduceStatements())
+  }, [])
+
+  if (!accountChartData) {
+    return (
+      <ActivityIndicator size={'large'} />
+    )
+  }
+
+  console.log(accountChartData)
 
   return (
     <PieChart
+      paddingLeft='0'
       width={width - 32}
       height={220}
       chartConfig={chartConfig}
-      accessor={"population"}
+      accessor={"total"}
       backgroundColor={"transparent"}
-      data={[{
-        name: "Seoul",
-        population: 21500000,
-        color: "rgba(131, 167, 234, 1)",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-      },
-      {
-        name: "Toronto",
-        population: 2800000,
-        color: "#F00",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-      },
-      {
-        name: "Beijing",
-        population: 527612,
-        color: "red",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-      },
-      {
-        name: "New York",
-        population: 8538000,
-        color: "#ffffff",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-      },
-      {
-        name: "Moscow",
-        population: 11920000,
-        color: "rgb(0, 0, 255)",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-      }]}
+      data={accountChartData.map(item => ({ ...item, value: Math.abs(item.total)}))}
     />
   )
+}
+
+const a = {
+  name: "Toronto",
+  population: 2800000,
+  color: "#F00",
+  legendFontColor: "#7F7F7F",
+  legendFontSize: 15
 }
