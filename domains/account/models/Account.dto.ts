@@ -6,11 +6,18 @@ export interface CreateAccountDTO {
   accountType: AccountType
   createdAt: string
   updatedAt: string
-  statements: any[]
+  statements: IStatement[]
 }
 
 export interface UpdateAccountDTO extends Partial<CreateAccountDTO> { }
 
 export interface IAccount extends CreateAccountDTO {
   id: string
+}
+
+export interface IStatement {
+  category: string
+  createdAt: string
+  type: string
+  value: number
 }
