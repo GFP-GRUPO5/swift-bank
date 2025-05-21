@@ -1,7 +1,8 @@
 import { useRouter } from "expo-router";
-import { Text, View } from "react-native";
 import { ReactNode } from "react";
+import { Text, View } from "react-native";
 import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
+import { styles } from "./AppHeader.styles";
 
 interface Props extends ViewProps {
   leftContent?: ReactNode,
@@ -18,16 +19,16 @@ export function AppHeader({ centerContent, leftContent, rigthContent, style, ...
   const router = useRouter()
 
   return (
-    <View style={[style ,{ backgroundColor: 'transparent', marginBottom: 16 , flexDirection: 'row', alignItems: 'center'}]} {...props}>
+    <View style={[style ,styles.header]} {...props}>
       <View style={{ flex: 1, justifyContent: 'center' }}>
         { leftContent && leftContent}
       </View>
 
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.center}>
         { typeof centerContent === 'string' ? <Text numberOfLines={1} ellipsizeMode="tail" style={{  }}>{centerContent}</Text> : centerContent }
       </View>
 
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.right}>
         { typeof rigthContent === 'string' ? <Text>{rigthContent}</Text> : rigthContent }
       </View>
     </View>

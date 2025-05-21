@@ -18,6 +18,7 @@ import { Link, Redirect, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { AppState, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { styles } from "./index.styles";
 
 const lastTransaction = [
   {
@@ -104,16 +105,16 @@ export default function HomeScreen() {
   return (
     <BackgroundGradient>
       <HomeHeader />
-      <ScrollView showsVerticalScrollIndicator={false} style={{ paddingBottom: 80 }}>
-        <View style={{ marginBottom: 16 }}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+        <View style={styles.section}>
           <HomeAccountCard />
         </View>
         <CreditCardModel card={currentCard} />
         <CardButtons />
-        <Link href={'/(authenticated)/loans/Loans'} style={{ marginBottom: 16 }}>
+        <Link href={'/(authenticated)/loans/Loans'} style={styles.link}>
           <Card>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text style={{ fontWeight: 700, marginBottom: 8 }}>
+            <View style={styles.row}>
+              <Text style={styles.title}>
                 Empréstimos
               </Text>
               <MaterialIcons name="keyboard-arrow-right" size={24} color="#2C2C2C" />
@@ -123,7 +124,7 @@ export default function HomeScreen() {
             </Text>
           </Card>
         </Link>
-        <Link href={'/(authenticated)/loans/Loans'} style={{ marginBottom: 16 }}>
+        <Link href={'/(authenticated)/loans/Loans'} style={styles.link}>
           <Card>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               <Text style={{ fontWeight: 700, marginBottom: 8 }}>Investimentos</Text>
@@ -134,24 +135,16 @@ export default function HomeScreen() {
             </Text>
           </Card>
         </Link>
-        <Card style={{ marginBottom: 16 }}>
+        <Card style={styles.cardMargin}>
           <Link
             href={`/account/debit/Debit`}
-            style={{ marginBottom: 8 }}
+            style={styles.link}
           >
             <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                width: '100%',
-              }}
+              style={styles.fullWidth}
             >
               <Text
-                style={{
-                  fontSize: 24,
-                  fontWeight: '600'
-                }}
+                style={styles.largeTitle}
               >
                 Últimas Transações
               </Text>
