@@ -4,4 +4,5 @@ export const accountSliceInitialState: IAccountInitialState = {
     loading: false,
     currentAccount: null,
     errors: null,
+    accountChartData: null
   }

@@ -1,12 +1,12 @@
+import { IStatement } from "@/domains/account/models/Account.dto";
 import { formatAsCurrency } from "@/shared/utils/format-as-currency/format-as-currency";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { format } from "date-fns";
 import { Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { TransactionDTO } from "@/domains/transactions/models/Transaction.dto";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 interface AccountStatementProps {
-  statements: TransactionDTO[];
+  statements: IStatement[];
 }
 
 export function AccountStatement({ statements }: AccountStatementProps) {
@@ -34,7 +34,7 @@ export function AccountStatement({ statements }: AccountStatementProps) {
               Você ainda não fez nenhuma transação
             </Text>
           }
-          keyExtractor={(item) => String(item.id)}
+          keyExtractor={(item) => `${item.createdAt}-${Math.random() * 10000000000}`}
           renderItem={({ item, index }) => (
             <View
               style={{
