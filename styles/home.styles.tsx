@@ -29,4 +29,9 @@ export const styles = StyleSheet.create({
   cardMargin: {
     marginBottom: 16,
   },
+  transactionTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
 });

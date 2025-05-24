@@ -30,8 +30,6 @@ export function Chart() {
     )
   }
 
-  console.log(accountChartData)
-
   return (
     <PieChart
       paddingLeft='0'

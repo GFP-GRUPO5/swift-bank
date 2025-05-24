@@ -7,7 +7,7 @@ import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
 import { SplashScreen, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Text, View } from "react-native";
-import { styles } from "./index.styles";
+import { styles } from "../styles/unauthenticated.styles";
 
 SplashScreen.preventAutoHideAsync()
 
@@ -50,9 +50,7 @@ export default function Entry() {
   return (
     <BackgroundGradient style={styles.container}>
       <View>
-        <Text
-          style={styles.logoText}
-        >
+        <Text style={styles.logoText}>
           Swift <Text style={styles.light}>Bank</Text>
         </Text>
         <Text style={styles.subtitle}>O banco feito justamente para você ;) </Text>

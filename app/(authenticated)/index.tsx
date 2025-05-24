@@ -1,4 +1,5 @@
 import { HomeAccountCard } from "@/domains/account/components/home-account-card/HomeAccountCard";
+import { TransactionListItem } from "@/domains/account/components/transaction-list-item/TransactionListItem";
 import { USER_EXPIRATION_TIME } from "@/domains/authentication/constants/async-storage-user";
 import CardButtons from "@/domains/cards/components/card-buttons/CardButtons";
 import { Card } from "@/domains/cards/components/card/Card";
@@ -8,7 +9,6 @@ import { fetchAccount } from "@/redux/features/account/thunks/fetch-account";
 import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
 import { setNotifications } from "@/redux/features/notifications/notifications-slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { AccountStatement } from "@/shared/components/account-statement";
 import { HomeHeader } from "@/shared/components/home-header/HomeHeader";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
@@ -18,7 +18,7 @@ import { Link, Redirect, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { AppState, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { styles } from "./index.styles";
+import { styles } from "../../styles/home.styles";
 
 const lastTransaction = [
   {
@@ -141,17 +141,26 @@ export default function HomeScreen() {
             style={styles.link}
           >
             <View
-              style={styles.fullWidth}
+              style={[
+                styles.fullWidth,
+                styles.transactionTitle,
+              ]}
             >
-              <Text
-                style={styles.largeTitle}
-              >
+              <Text style={styles.largeTitle}>
                 Últimas Transações
               </Text>
               <MaterialIcons name="keyboard-arrow-right" size={24} color="#2C2C2C" />
             </View>
           </Link>
-          <AccountStatement statements={lastThreeStatements ?? []} />
+          {
+            lastThreeStatements?.map((statement, index) => (
+              <TransactionListItem
+                index={index}
+                item={statement}
+                statementsLength={lastThreeStatements.length}
+              />
+            ))
+          }
         </Card>
       </ScrollView>
     </BackgroundGradient>

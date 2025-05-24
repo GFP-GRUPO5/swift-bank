@@ -10,8 +10,6 @@ interface Props {
 export function HeaderGoBackButton({ isModal = false, label }: Props) {
   const router = useRouter()
 
-  console.log(isModal)
-
   return (
     <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => router.back()}>
       <MaterialIcons name={isModal ? "keyboard-arrow-down" : "keyboard-arrow-left"} size={24} color="#2C2C2C" />
