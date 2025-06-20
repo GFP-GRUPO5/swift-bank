@@ -1,10 +1,10 @@
-import { Card } from "@/domains/cards/components/card/Card";
-import { fetchNotifications } from "@/redux/features/notifications/thunks/fetch-notifications";
-import { setNotificationsRead } from "@/redux/features/notifications/thunks/set-notifications-read";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchNotifications } from "@/modules/notifications/presentation/thunks/fetch-notifications";
+import { setNotificationsRead } from "@/modules/notifications/presentation/thunks/set-notifications-read";
 import { AppHeader } from "@/shared/components/app-header/AppHeader";
+import { Card } from "@/shared/components/card/Card";
 import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
 import { SwiftBankLogo } from "@/shared/icons/swiftBankLogo";
+import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";

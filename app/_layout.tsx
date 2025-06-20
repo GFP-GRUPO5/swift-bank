@@ -1,5 +1,5 @@
-import { AuthSync } from "@/domains/authentication/components/auth-sync/AuthSync";
-import StoreProvider from "@/redux/StoreProvider";
+import { AuthSync } from "@/modules/authentication/presentation/components/auth-sync/AuthSync";
+import StoreProvider from "@/shared/redux/StoreProvider";
 import { Slot } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 

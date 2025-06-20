@@ -1,4 +1,4 @@
-import { AddNewCardForm } from "@/domains/cards/components/add-new-card-form/addNewCardForm";
+import { AddNewCardForm } from "@/modules/cards/presentation/components/add-new-card-form/addNewCardForm";
 import { AppHeader } from "@/shared/components/app-header/AppHeader";
 import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
 import { IconSwiftBankLogo } from "@/shared/icons/IconSwiftBankLogo";

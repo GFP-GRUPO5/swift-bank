@@ -1,7 +1,7 @@
-import { USER_DATA_KEY } from "@/domains/authentication/constants/async-storage-user";
-import { SignInAppUser } from "@/domains/authentication/types/user";
-import { setUserDataFromAsyncStorage } from "@/redux/features/auth/auth-slice";
-import { useAppDispatch } from "@/redux/hooks";
+import { setUserDataFromAsyncStorage } from "@/modules/authentication/presentation/slice/auth-slice";
+import { SignInAppUser } from "@/modules/authentication/types/user";
+import { USER_DATA_KEY } from "@/modules/authentication/utils/async-storage-user.constants";
+import { useAppDispatch } from "@/shared/redux/hooks";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
 import { SplashScreen, useRouter } from "expo-router";

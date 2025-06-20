@@ -1,10 +1,10 @@
-import { UnauthenticatedWrapper } from "@/domains/authentication/components/unauthenticated-wrapper/UnauthenticatedWrapper";
-import { signUpStyles } from "@/domains/authentication/styles/SigUp.styles";
-import { CreateAuthUserDTO } from "@/domains/authentication/types/auth.types";
-import { signUpUserWithEmail } from "@/redux/features/auth/thunks/sign-up";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { UnauthenticatedWrapper } from "@/modules/authentication/presentation/components/unauthenticated-wrapper/UnauthenticatedWrapper";
+import { signUpStyles } from "@/modules/authentication/presentation/styles/SigUp.styles";
+import { signUpUserWithEmail } from "@/modules/authentication/presentation/thunks/sign-up";
+import { CreateAuthUserDTO } from "@/modules/authentication/types/auth.types";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { TextField } from "@/shared/components/text-field/TextField";
+import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
 import Checkbox from "expo-checkbox";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";

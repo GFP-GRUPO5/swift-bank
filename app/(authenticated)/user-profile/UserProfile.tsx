@@ -1,16 +1,16 @@
-import { AccountType } from "@/domains/account/models/Account.dto";
-import { modalStyles } from "@/domains/authentication/styles/Modal.styles";
-import { userProfileStyle } from "@/domains/authentication/styles/Userprofile.styles";
-import { Card } from "@/domains/cards/components/card/Card";
-import { fetchAccount } from "@/redux/features/account/thunks/fetch-account";
-import { changePassword } from "@/redux/features/auth/thunks/change-password";
-import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
-import { updateUserProfile } from "@/redux/features/auth/thunks/update-user-profile";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { AccountType } from "@/modules/account/models/Account.dto";
+import { fetchAccount } from "@/modules/account/presentation/thunks/fetch-account";
+import { modalStyles } from "@/modules/authentication/presentation/styles/Modal.styles";
+import { userProfileStyle } from "@/modules/authentication/presentation/styles/Userprofile.styles";
+import { changePassword } from "@/modules/authentication/presentation/thunks/change-password";
+import { signOutUser } from "@/modules/authentication/presentation/thunks/sign-out";
+import { updateUserProfile } from "@/modules/authentication/presentation/thunks/update-user-profile";
 import { AppHeader } from "@/shared/components/app-header/AppHeader";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
+import { Card } from "@/shared/components/card/Card";
 import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
 import { IconSwiftBankLogo } from "@/shared/icons/IconSwiftBankLogo";
+import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -90,7 +90,6 @@ export default function UserProfile() {
         </Text>
         <ScrollView style={{ paddingTop: 16 }} showsVerticalScrollIndicator={false}>
           <Card>
-
             <View style={userProfileStyle.settingsContainer}>
               <TextInput
                 style={userProfileStyle.textInputName}

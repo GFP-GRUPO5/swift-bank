@@ -1,8 +1,8 @@
-import { fetchAccount } from "@/redux/features/account/thunks/fetch-account";
-import { sendPix } from "@/redux/features/account/thunks/send-pix";
-import { clearSelectedUser } from "@/redux/features/user/user-slice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchAccount } from "@/modules/account/presentation/thunks/fetch-account";
+import { sendPix } from "@/modules/account/presentation/thunks/send-pix";
+import { clearSelectedUser } from "@/modules/users/presentation/slices/users-slice";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
+import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
 import { AppBackgroundWithNavigation } from "@/shared/templates/app-background-with-navigation/AppBackgroundWithNavigation";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -47,7 +47,7 @@ export default function AmountScreen() {
 
     dispatch(sendPix({ value, userId: user?.id }))
     dispatch(fetchAccount(currentUser?.uid!))
-    
+
     Alert.alert(
       'Sucess',
       `Pix enviado com sucesso para ${user.name}, deseja enviar outro pix?`,

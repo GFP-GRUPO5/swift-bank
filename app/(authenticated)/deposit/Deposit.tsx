@@ -1,15 +1,15 @@
-import { addStatement } from "@/redux/features/account/thunks/add-statements";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { addStatement } from "@/modules/account/presentation/thunks/add-statements";
 import { AppHeader } from "@/shared/components/app-header/AppHeader";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
 import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
 import { IconSwiftBankLogo } from "@/shared/icons/IconSwiftBankLogo";
+import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
+import { transactionStyles } from "@/shared/styles/Transaction.styles";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator, Alert, Text, View } from "react-native";
 import CurrencyInput from 'react-native-currency-input';
-import { transactionStyles } from '@/shared/styles/Transaction.styles';
 
 export default function DepositScreen() {
   const router = useRouter()
@@ -66,7 +66,7 @@ export default function DepositScreen() {
       <ButtonAction
         onPress={handleAddDeposit}
         style={[
-          transactionStyles.button, 
+          transactionStyles.button,
           {backgroundColor: loading ? '#2c2c2c77' : '#2c2c2c'}
         ]}
         disabled={loading}

@@ -1,10 +1,10 @@
-import { UnauthenticatedWrapper } from '@/domains/authentication/components/unauthenticated-wrapper/UnauthenticatedWrapper';
-import { signInStyles } from '@/domains/authentication/styles/SigIn.styles';
-import { signInUserWithEmail } from "@/redux/features/auth/thunks/sign-in";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
-import { TextField } from "@/shared/components/text-field/TextField";
-import { TextLink } from "@/shared/components/text-link/TextLink";
+import { UnauthenticatedWrapper } from '@/modules/authentication/presentation/components/unauthenticated-wrapper/UnauthenticatedWrapper';
+import { signInStyles } from '@/modules/authentication/presentation/styles/SigIn.styles';
+import { signInUserWithEmail } from "@/modules/authentication/presentation/thunks/sign-in";
+import { ButtonAction } from '@/shared/components/button-action/ButtonAction';
+import { TextField } from '@/shared/components/text-field/TextField';
+import { TextLink } from '@/shared/components/text-link/TextLink';
+import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Pressable, Text, View } from "react-native";

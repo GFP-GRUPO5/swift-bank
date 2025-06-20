@@ -1,7 +1,7 @@
-import { Card } from "@/domains/cards/components/card/Card";
-import { Chart } from "@/domains/transactions/components/chart/Chart";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { AccountStatement } from "@/shared/components/account-statement";
+import { AccountStatement } from "@/modules/account/presentation/components/account-statement";
+import { Chart } from "@/modules/transactions/presentation/components/chart/Chart";
+import { Card } from "@/shared/components/card/Card";
+import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
 import { AppBackgroundWithNavigation } from "@/shared/templates/app-background-with-navigation/AppBackgroundWithNavigation";
 import { formatAsCurrency } from "@/shared/utils/format-as-currency/format-as-currency";
 import { Text, View } from "react-native";

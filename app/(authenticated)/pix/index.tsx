@@ -1,11 +1,11 @@
-import { Card } from "@/domains/cards/components/card/Card";
-import { fetchUserByEmail } from "@/redux/features/user/thunks/fetch-user-by-email";
-import { clearSelectedUser } from "@/redux/features/user/user-slice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { clearSelectedUser } from "@/modules/users/presentation/slices/users-slice";
+import { fetchUserByEmail } from "@/modules/users/presentation/thunks/fetch-user-by-email";
 import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
+import { Card } from "@/shared/components/card/Card";
 import { TextField } from "@/shared/components/text-field/TextField";
-import { emailRegex } from "@/shared/constants/email-regex";
+import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
 import { AppBackgroundWithNavigation } from "@/shared/templates/app-background-with-navigation/AppBackgroundWithNavigation";
+import { EMAIL_REGEX } from "@/shared/utils/email-regex";
 import Entypo from "@expo/vector-icons/Entypo";
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
@@ -25,7 +25,7 @@ export default function PixScreen() {
   }, [])
 
   function handleSearchUser() {
-    if (!emailRegex.test(email)) {
+    if (!EMAIL_REGEX.test(email)) {
       Alert.alert('Erro', `Email inválido: ${email}`)
       return
     }
