@@ -1,12 +1,12 @@
-import { cardDetailsStyle } from '@/domains/authentication/styles/CardDetails.styles';
-import { CreditDebitCard } from '@/domains/cards/components/credit-debit-card/CreditDebitCard';
-import { deleteCard } from '@/redux/features/card/thunk/delete-card';
-import { fetchAllCards } from '@/redux/features/card/thunk/fetch-all-cards';
-import { setActiveCard } from '@/redux/features/card/thunk/set-active-card';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { cardDetailsStyle } from '@/modules/authentication/presentation/styles/CardDetails.styles';
+import { deleteCard } from '@/modules/cards/presentation/thunks/delete-card';
+import { fetchAllCards } from '@/modules/cards/presentation/thunks/fetch-all-cards';
+import { setActiveCard } from '@/modules/cards/presentation/thunks/set-active-card';
 import { AppHeader } from '@/shared/components/app-header/AppHeader';
+import { CreditDebitCard } from '@/shared/components/credit-debit-card/CreditDebitCard';
 import { HeaderGoBackButton } from '@/shared/components/header-go-back-button/HeaderGoBackButton';
 import { IconSwiftBankLogo } from '@/shared/icons/IconSwiftBankLogo';
+import { useAppDispatch, useAppSelector } from '@/shared/redux/hooks';
 import { BackgroundGradient } from '@/shared/templates/background-gradient/BackgroundGradient';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';

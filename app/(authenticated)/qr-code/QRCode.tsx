@@ -1,7 +1,7 @@
-import { AppHeader } from "@/shared/components/app-header/AppHeader";
-import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
-import { IconSwiftBankLogo } from "@/shared/icons/IconSwiftBankLogo";
-import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
+import { AppHeader } from '@/shared/components/app-header/AppHeader';
+import { HeaderGoBackButton } from '@/shared/components/header-go-back-button/HeaderGoBackButton';
+import { IconSwiftBankLogo } from '@/shared/icons/IconSwiftBankLogo';
+import { BackgroundGradient } from '@/shared/templates/background-gradient/BackgroundGradient';
 import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
 import { useState } from "react";
 import { styles } from "./QRCode.styles";

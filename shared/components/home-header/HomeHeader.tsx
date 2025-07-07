@@ -1,5 +1,5 @@
-import { useAppSelector } from "@/redux/hooks";
-import { SwiftBankLogo } from "@/shared/icons/swiftBankLogo";
+import { SwiftBankLogo } from "@/shared/presentation/icons/swiftBankLogo";
+import { useAppSelector } from "@/shared/redux/hooks";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Link } from "expo-router";

@@ -1,4 +1,4 @@
-import { useAppSelector } from "@/redux/hooks";
+import { useAppSelector } from "@/shared/redux/hooks";
 import { Redirect, Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
