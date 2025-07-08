@@ -13,12 +13,13 @@ interface Props {
 
 export function TransactionListItem({ statementsLength, index, item }: Props) {
   function getTransactionIcon(type: string) {
-    switch (type) {
-      case 'Pix':
+    switch (type.toLowerCase()) {
+      case 'pix':
         return <MaterialIcons name="compare-arrows" size={24} color="blue" />;
-      case 'Transferência':
+      case 'transferência':
         return <MaterialIcons name="arrow-upward" size={24} color="red" />;
-      case 'Depósito':
+        case 'depósito':
+        case 'recharge':
         return <MaterialIcons name="arrow-downward" size={24} color="green" />
       default:
         return <MaterialIcons name="help-outline" size={24} color="gray" />;
@@ -33,7 +34,7 @@ export function TransactionListItem({ statementsLength, index, item }: Props) {
         paddingBottom: index === statementsLength - 1 ? 0 : 8,
       }}
     >
-      <View style={[transactionStyles.transactionItem, { flexDirection: 'row'}]}>
+      <View style={[transactionStyles.transactionItem, { flexDirection: 'row' }]}>
         <View style={{ width: 40, alignItems: 'center' }}>
           {getTransactionIcon(item.type)}
         </View>

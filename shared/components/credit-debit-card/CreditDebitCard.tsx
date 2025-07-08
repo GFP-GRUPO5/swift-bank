@@ -1,4 +1,4 @@
-import { cardDetailsStyle } from "@/domains/authentication/styles/CardDetails.styles";
+import { cardDetailsStyle } from "@/modules/authentication/presentation/styles/CardDetails.styles";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Text, TouchableOpacity, View } from "react-native";
 

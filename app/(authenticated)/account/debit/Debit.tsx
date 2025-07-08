@@ -29,7 +29,10 @@ export default function DebitScreen() {
         Saldo: {formatAsCurrency(currentAccount?.currentAmount!)}
       </Text>
       <View style={{ marginBottom: 8 }}>
-        <Text style={{ fontSize: 18, fontWeight: 600 }}>Transações dos ultimos 30 dias</Text>
+        <Text
+          style={{ fontSize: 18, fontWeight: 600 }}>
+          Transações dos ultimos 30 dias
+        </Text>
         <Chart />
       </View>
 

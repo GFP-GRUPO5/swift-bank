@@ -2,7 +2,7 @@ import { AppHeader } from "@/shared/components/app-header/AppHeader";
 import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
 import { IconSwiftBankLogo } from "@/shared/icons/IconSwiftBankLogo";
 import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 
 export default function LoansScreen() {
   return (
@@ -13,6 +13,7 @@ export default function LoansScreen() {
         rigthContent={<IconSwiftBankLogo />}
       />
       <View>
+        <Text>Empréstimos</Text>
       </View>
     </BackgroundGradient>
   )

@@ -51,7 +51,6 @@ export function HomeAccountCard() {
         }
       </Text>
       <View style={homeAccountCardStyles.transactionsContainer}>
-
         <Pressable
           style={homeAccountCardStyles.transactionPressableItem}
           onPress={() => handleTransactionNavigation('pix')}

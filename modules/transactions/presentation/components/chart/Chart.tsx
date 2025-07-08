@@ -1,7 +1,7 @@
 import { reduceStatements } from '@/modules/account/presentation/slice/account-slice';
 import { useAppDispatch, useAppSelector } from '@/shared/redux/hooks';
 import { useEffect } from 'react';
-import { ActivityIndicator, Dimensions } from 'react-native';
+import { ActivityIndicator, Dimensions, Text, View } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 
 const chartConfig = {
@@ -18,15 +18,30 @@ const chartConfig = {
 export function Chart() {
   const { width } = Dimensions.get('window')
   const { accountChartData } = useAppSelector(state => state.account)
+  const state = useAppSelector(state => state)
   const dispatch = useAppDispatch()
+
+  console.log(state)
 
   useEffect(() => {
     dispatch(reduceStatements())
   }, [])
 
+  console.log(accountChartData)
+
   if (!accountChartData) {
     return (
-      <ActivityIndicator size={'large'} />
+      <View style={{ height: 220, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size={'large'} color="#2C2C2C" />
+      </View>
+    )
+  }
+
+  if (!accountChartData?.length) {
+    return (
+      <View style={{ height: 220, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Não há dados para exibir</Text>
+      </View>
     )
   }
 

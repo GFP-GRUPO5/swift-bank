@@ -186,7 +186,7 @@ export default function UserProfile() {
 
           <ButtonAction
             style={userProfileStyle.buttonCreateNewAccount}
-            onPress={() => router.navigate('/(authenticated)/account/creation/AccountCreation')}
+            onPress={() => router.navigate('/(authenticated)/card-creation/CardCreation')}
           >
             <Text style={userProfileStyle.textButtonCreateNewAccount}>Criar nova conta</Text>
           </ButtonAction>

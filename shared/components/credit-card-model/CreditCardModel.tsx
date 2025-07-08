@@ -1,8 +1,8 @@
-import { ICreditCard } from "@/redux/features/card/cardSlice";
+import { ICreditCard } from "@/modules/cards/models/card";
+import { MasterCardSymbol } from "@/modules/cards/presentation/components/credit-card-model/MasterCardSymbol";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Text, View } from "react-native";
 import { creditCardModelStyles } from "./CreditCardModel.styles";
-import { MasterCardSymbol } from "./MasterCardSymbol";
 
 interface Props {
   card: ICreditCard | null | undefined,

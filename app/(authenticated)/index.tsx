@@ -89,6 +89,11 @@ export default function HomeScreen() {
   }, [user, currentAccount?.currentAmount])
 
   useEffect(() => {
+    // Aqui estamos utilizando um observable para escutar as notificações
+    // O observable é uma forma de escutar eventos que ocorrem em um determinado momento
+    // Neste caso, estamos escutando as notificações que ocorrem no Firebase
+    // E quando ocorre uma notificação, estamos atualizando o estado das notificações no Redux
+    // Isso é feito para que a tela de notificações possa ser atualizada com as notificações mais recentes
     const unsubscribe = listenToNotifications((notifications) => {
       dispatch(setNotifications(notifications))
     })
@@ -155,6 +160,7 @@ export default function HomeScreen() {
           {
             lastThreeStatements?.map((statement, index) => (
               <TransactionListItem
+                key={statement.createdAt}
                 index={index}
                 item={statement}
                 statementsLength={lastThreeStatements.length}
