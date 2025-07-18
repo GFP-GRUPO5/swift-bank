@@ -1,8 +1,8 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const homeAccountCardStyles = StyleSheet.create({
   accountLink: {
-    marginBottom: 8
+    marginBottom: 8,
   },
   accountLinkContent: {
     flexDirection: 'row',
@@ -31,5 +31,5 @@ export const homeAccountCardStyles = StyleSheet.create({
     backgroundColor: '#FBF3DE',
     borderRadius: '100%',
     marginBottom: 8,
-  }
-})
+  },
+});

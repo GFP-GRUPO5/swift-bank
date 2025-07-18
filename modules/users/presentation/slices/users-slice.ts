@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { userExtraReducers } from "./extra-reducers";
-import { IUserInitialState } from "./users-slice.types";
+import { createSlice } from '@reduxjs/toolkit';
+import { userExtraReducers } from './extra-reducers';
+import { IUserInitialState } from './users-slice.types';
 
 const initialState: IUserInitialState = {
   loading: false,
@@ -9,21 +9,19 @@ const initialState: IUserInitialState = {
     message: null,
   },
   user: null,
-}
+};
 
 export const usersSlice = createSlice({
   initialState,
   name: 'users',
   reducers: {
     clearSelectedUser: (state) => {
-      state.user = null
-    }
+      state.user = null;
+    },
   },
-  extraReducers: userExtraReducers
-})
+  extraReducers: userExtraReducers,
+});
 
-export const {
-  clearSelectedUser,
-} = usersSlice.actions
+export const { clearSelectedUser } = usersSlice.actions;
 
-export default usersSlice.reducer
+export default usersSlice.reducer;

@@ -1,18 +1,28 @@
-import { auth, db } from "@/config/firebase/config";
-import { FirebaseError } from "firebase/app";
-import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
-import { ICreditCard } from "../../models/card";
+import { auth, db } from '@/config/firebase/config';
+import { FirebaseError } from 'firebase/app';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore';
+import { ICreditCard } from '../../domain/models/card';
 
-const CARD_COLLECTION = "cards";
+const CARD_COLLECTION = 'cards';
 
 export class CardService {
   private static getUserId() {
     const userId = auth.currentUser?.uid;
-    if (!userId) throw new Error("Usuário não autenticado");
+    if (!userId) throw new Error('Usuário não autenticado');
     return userId;
   }
 
-  static async createNewCard(newCard: Omit<ICreditCard, 'id'>): Promise<ICreditCard> {
+  static async createNewCard(
+    newCard: Omit<ICreditCard, 'id'>,
+  ): Promise<ICreditCard> {
     try {
       const userId = this.getUserId();
       const cardRef = doc(collection(db, CARD_COLLECTION));
@@ -20,7 +30,7 @@ export class CardService {
       const cardData: ICreditCard = {
         id: cardRef.id,
         ...newCard,
-        isActive: true
+        isActive: true,
       };
 
       await setDoc(cardRef, cardData);
@@ -39,7 +49,7 @@ export class CardService {
       const querySnapshot = await getDocs(collection(db, CARD_COLLECTION));
 
       const cards: ICreditCard[] = [];
-      querySnapshot.forEach(doc => {
+      querySnapshot.forEach((doc) => {
         const data = doc.data();
         cards.push({
           id: doc.id,
@@ -47,7 +57,7 @@ export class CardService {
           name: data.name,
           expiry: data.expiry,
           cvv: data.cvv,
-          isActive: data.isActive || false
+          isActive: data.isActive || false,
         });
       });
 
@@ -66,7 +76,7 @@ export class CardService {
       const snap = await getDoc(cardRef);
 
       if (!snap.exists()) {
-        throw new Error("Cartão não encontrado");
+        throw new Error('Cartão não encontrado');
       }
 
       const data = snap.data();
@@ -76,7 +86,7 @@ export class CardService {
         name: data.name,
         expiry: data.expiry,
         cvv: data.cvv,
-        isActive: data.isActive || false
+        isActive: data.isActive || false,
       };
     } catch (error) {
       if (error instanceof FirebaseError) {
@@ -101,8 +111,8 @@ export class CardService {
     try {
       const userId = this.getUserId();
       const querySnapshot = await getDocs(collection(db, CARD_COLLECTION));
-      const batchUpdates = querySnapshot.docs.map(doc =>
-        updateDoc(doc.ref, { isActive: false })
+      const batchUpdates = querySnapshot.docs.map((doc) =>
+        updateDoc(doc.ref, { isActive: false }),
       );
       await Promise.all(batchUpdates);
       await updateDoc(doc(db, CARD_COLLECTION, cardId), { isActive: true });

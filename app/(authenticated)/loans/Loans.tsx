@@ -1,8 +1,8 @@
-import { AppHeader } from "@/shared/components/app-header/AppHeader";
-import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
-import { IconSwiftBankLogo } from "@/shared/icons/IconSwiftBankLogo";
-import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
-import { Text, View } from "react-native";
+import { AppHeader } from '@/shared/presentation/components/app-header/AppHeader';
+import { HeaderGoBackButton } from '@/shared/presentation/components/header-go-back-button/HeaderGoBackButton';
+import { IconSwiftBankLogo } from '@/shared/presentation/icons/IconSwiftBankLogo';
+import { BackgroundGradient } from '@/shared/presentation/templates/background-gradient/BackgroundGradient';
+import { Text, View } from 'react-native';
 
 export default function LoansScreen() {
   return (
@@ -16,5 +16,5 @@ export default function LoansScreen() {
         <Text>Empréstimos</Text>
       </View>
     </BackgroundGradient>
-  )
+  );
 }

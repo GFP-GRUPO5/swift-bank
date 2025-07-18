@@ -1,5 +1,5 @@
-import { colors } from "@/theme/colors";
-import { StyleSheet } from "react-native";
+import { colors } from '@/theme/colors';
+import { StyleSheet } from 'react-native';
 
 export const signUpStyles = StyleSheet.create({
   container: {
@@ -7,93 +7,93 @@ export const signUpStyles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontWeight: "700",
+    fontWeight: '700',
     marginTop: 56,
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: 72,
   },
   subtitle: {
     fontSize: 24,
-    fontWeight: "700",
-    textAlign: "center",
+    fontWeight: '700',
+    textAlign: 'center',
     marginBottom: 48,
   },
   welcomeText: {
     fontSize: 20,
     color: colors.typography.body,
-    fontWeight: "400",
+    fontWeight: '400',
     marginBottom: 32,
   },
   label: {
-    fontWeight: "700",
+    fontWeight: '700',
     fontSize: 16,
     color: colors.typography.body,
     marginBottom: 8,
   },
   passwordContainer: {
-    position: "relative",
+    position: 'relative',
     marginBottom: 8,
   },
   passwordConfirmedContainer: {
-    position: "relative",
+    position: 'relative',
     marginBottom: 20,
   },
   eyeIcon: {
-    position: "absolute",
+    position: 'absolute',
     right: 16,
     top: 16,
   },
   forgotPasswordLink: {
-    textAlign: "right",
-    textDecorationLine: "underline",
+    textAlign: 'right',
+    textDecorationLine: 'underline',
     fontSize: 12,
     color: colors.typography.body,
     paddingRight: 8,
   },
   button: {
-    backgroundColor: "#2c2c2c",
+    backgroundColor: '#2c2c2c',
     padding: 16,
     borderRadius: 24,
     marginBottom: 32,
-    position: "relative",
+    position: 'relative',
   },
   buttonText: {
-    color: "#FFF",
-    textAlign: "center",
+    color: '#FFF',
+    textAlign: 'center',
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: '700',
   },
   loadingIndicator: {
-    position: "absolute",
+    position: 'absolute',
     right: 16,
     top: 14,
   },
   signInText: {
     fontSize: 16,
     color: colors.typography.body,
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: 8,
   },
   signInLink: {
     fontSize: 16,
-    fontWeight: "600",
-    textDecorationLine: "underline",
-    textAlign: "center",
+    fontWeight: '600',
+    textDecorationLine: 'underline',
+    textAlign: 'center',
     color: colors.typography.body,
   },
   checkbox: {
     margin: 8,
-    textAlign: "center",
+    textAlign: 'center',
   },
   policyText: {
     fontSize: 14,
     color: colors.typography.body,
-    textAlign: "center",
+    textAlign: 'center',
   },
   policyContainer: {
     flex: 1,
-    flexDirection: "row",
-    textAlign: "center",
+    flexDirection: 'row',
+    textAlign: 'center',
     alignItems: 'center',
     marginBottom: 16,
   },

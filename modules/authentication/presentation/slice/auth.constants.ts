@@ -1,10 +1,10 @@
-import { IAuthInitialState } from "./auth.types";
+import { IAuthInitialState } from './auth.types';
 
 export const authInitialState: IAuthInitialState = {
   credentials: {
     accessTokenId: null,
     refreshToken: null,
-    expiresIn: null
+    expiresIn: null,
   },
   user: undefined,
   signInMetadata: {
@@ -41,5 +41,5 @@ export const authInitialState: IAuthInitialState = {
     isFufilled: null,
     loading: false,
     error: null,
-  }
-}
+  },
+};

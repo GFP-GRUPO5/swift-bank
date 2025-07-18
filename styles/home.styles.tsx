@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   scroll: {
@@ -8,20 +8,20 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
   row: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   title: {
-    fontWeight: "700",
+    fontWeight: '700',
     marginBottom: 8,
   },
   largeTitle: {
     fontSize: 24,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   fullWidth: {
-    width: "100%",
+    width: '100%',
   },
   link: {
     marginBottom: 16,
@@ -32,6 +32,6 @@ export const styles = StyleSheet.create({
   transactionTitle: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 });

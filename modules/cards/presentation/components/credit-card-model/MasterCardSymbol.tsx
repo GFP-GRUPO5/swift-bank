@@ -1,5 +1,5 @@
-import React from "react";
-import Svg, { G, Path, Rect } from "react-native-svg";
+import React from 'react';
+import Svg, { G, Path, Rect } from 'react-native-svg';
 
 export function MasterCardSymbol() {
   return (

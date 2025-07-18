@@ -1,42 +1,42 @@
-import { addStatement } from "@/modules/account/presentation/thunks/add-statements";
-import { AppHeader } from "@/shared/components/app-header/AppHeader";
-import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
-import { HeaderGoBackButton } from "@/shared/components/header-go-back-button/HeaderGoBackButton";
-import { IconSwiftBankLogo } from "@/shared/icons/IconSwiftBankLogo";
-import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
-import { transactionStyles } from "@/shared/styles/Transaction.styles";
-import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
-import { useRouter } from "expo-router";
-import { useState } from "react";
-import { ActivityIndicator, Alert, Text, View } from "react-native";
+import { addStatement } from '@/modules/account/presentation/thunks/add-statements';
+import { AppHeader } from '@/shared/presentation/components/app-header/AppHeader';
+import { ButtonAction } from '@/shared/presentation/components/button-action/ButtonAction';
+import { HeaderGoBackButton } from '@/shared/presentation/components/header-go-back-button/HeaderGoBackButton';
+import { IconSwiftBankLogo } from '@/shared/presentation/icons/IconSwiftBankLogo';
+import { transactionStyles } from '@/shared/presentation/styles/Transaction.styles';
+import { BackgroundGradient } from '@/shared/presentation/templates/background-gradient/BackgroundGradient';
+import { useAppDispatch, useAppSelector } from '@/shared/redux/hooks';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import { ActivityIndicator, Alert, Text, View } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 
 export default function TransferScreen() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { currentAccount, loading } = useAppSelector(state => state.account);
+  const { currentAccount, loading } = useAppSelector((state) => state.account);
   const [value, setValue] = useState<number | null>(0);
 
   function handleAddTransfer() {
     if (!currentAccount?.userId || !value) return;
 
-    dispatch(addStatement({
-      accountId: currentAccount.userId,
-      statement: {
-        createdAt: new Date().toISOString(),
-        category: 'transfer',
-        type: 'Transferência',
-        value: -value
-      }
-    }));
+    dispatch(
+      addStatement({
+        accountId: currentAccount.userId,
+        statement: {
+          createdAt: new Date().toISOString(),
+          category: 'transfer',
+          type: 'Transferência',
+          value: -value,
+        },
+      }),
+    );
 
     setValue(0);
 
-    Alert.alert(
-      'Sucesso',
-      'Transferência realizada com sucesso',
-      [{ onPress: () => router.dismissAll() }]
-    );
+    Alert.alert('Sucesso', 'Transferência realizada com sucesso', [
+      { onPress: () => router.dismissAll() },
+    ]);
   }
 
   return (
@@ -72,7 +72,7 @@ export default function TransferScreen() {
         onPress={handleAddTransfer}
         style={[
           transactionStyles.button,
-          { backgroundColor: loading ? '#2c2c2c77' : '#2c2c2c' }
+          { backgroundColor: loading ? '#2c2c2c77' : '#2c2c2c' },
         ]}
         disabled={loading}
       >

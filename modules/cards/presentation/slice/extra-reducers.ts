@@ -1,12 +1,14 @@
-import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { createNewCard } from "../thunks/create-new-card";
-import { deleteCard } from "../thunks/delete-card";
-import { fetchAllCards } from "../thunks/fetch-all-cards";
-import { fetchCardById } from "../thunks/fetch-card-by-id";
-import { setActiveCard } from "../thunks/set-active-card";
-import { ICardSliceInitialState } from "./cart-slice.types";
+import { ActionReducerMapBuilder } from '@reduxjs/toolkit';
+import { createNewCard } from '../thunks/create-new-card';
+import { deleteCard } from '../thunks/delete-card';
+import { fetchAllCards } from '../thunks/fetch-all-cards';
+import { fetchCardById } from '../thunks/fetch-card-by-id';
+import { setActiveCard } from '../thunks/set-active-card';
+import { ICardSliceInitialState } from './cart-slice.types';
 
-export function cardExtraFunctions(builder: ActionReducerMapBuilder<ICardSliceInitialState>) {
+export function cardExtraFunctions(
+  builder: ActionReducerMapBuilder<ICardSliceInitialState>,
+) {
   builder
     .addCase(createNewCard.pending, (state) => {
       state.loading = true;
@@ -21,7 +23,7 @@ export function cardExtraFunctions(builder: ActionReducerMapBuilder<ICardSliceIn
       state.loading = false;
       state.error = {
         hasError: true,
-        message: payload as string
+        message: payload as string,
       };
     })
     .addCase(fetchAllCards.pending, (state) => {
@@ -31,13 +33,14 @@ export function cardExtraFunctions(builder: ActionReducerMapBuilder<ICardSliceIn
     .addCase(fetchAllCards.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.cards = payload;
-      state.currentCard = payload.find(card => card.isActive) || payload[0] || null;
+      state.currentCard =
+        payload.find((card) => card.isActive) || payload[0] || null;
     })
     .addCase(fetchAllCards.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = {
         hasError: true,
-        message: payload as string
+        message: payload as string,
       };
     })
     .addCase(fetchCardById.pending, (state) => {
@@ -52,7 +55,7 @@ export function cardExtraFunctions(builder: ActionReducerMapBuilder<ICardSliceIn
       state.loading = false;
       state.error = {
         hasError: true,
-        message: payload as string
+        message: payload as string,
       };
     })
     .addCase(deleteCard.pending, (state) => {
@@ -61,7 +64,7 @@ export function cardExtraFunctions(builder: ActionReducerMapBuilder<ICardSliceIn
     })
     .addCase(deleteCard.fulfilled, (state, { payload: cardId }) => {
       state.loading = false;
-      state.cards = state.cards.filter(card => card.id !== cardId);
+      state.cards = state.cards.filter((card) => card.id !== cardId);
 
       if (state.currentCard?.id === cardId) {
         state.currentCard = state.cards.length > 0 ? state.cards[0] : null;
@@ -71,7 +74,7 @@ export function cardExtraFunctions(builder: ActionReducerMapBuilder<ICardSliceIn
       state.loading = false;
       state.error = {
         hasError: true,
-        message: payload as string
+        message: payload as string,
       };
     })
     .addCase(setActiveCard.pending, (state) => {
@@ -80,17 +83,18 @@ export function cardExtraFunctions(builder: ActionReducerMapBuilder<ICardSliceIn
     })
     .addCase(setActiveCard.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.cards = state.cards.map(card => ({
+      state.cards = state.cards.map((card) => ({
         ...card,
-        isActive: card.id === payload
+        isActive: card.id === payload,
       }));
-      state.currentCard = state.cards.find(card => card.id === payload) || null;
+      state.currentCard =
+        state.cards.find((card) => card.id === payload) || null;
     })
-    .addCase(setActiveCard .rejected, (state, { payload }) => {
+    .addCase(setActiveCard.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = {
         hasError: true,
-        message: payload as string
+        message: payload as string,
       };
     });
 }

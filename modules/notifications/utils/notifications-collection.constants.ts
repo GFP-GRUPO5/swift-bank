@@ -1,1 +1,1 @@
-export const NOTIFICATIONS_COLLECTION = 'notifications'
+export const NOTIFICATIONS_COLLECTION = 'notifications';

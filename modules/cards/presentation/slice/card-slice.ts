@@ -9,7 +9,7 @@ export const creditCardSlice = createSlice({
     clearCards: (state) => {
       state.cards = [];
       state.currentCard = null;
-    }
+    },
   },
   extraReducers: cardExtraFunctions,
 });

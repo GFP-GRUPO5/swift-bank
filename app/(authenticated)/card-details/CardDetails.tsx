@@ -2,20 +2,22 @@ import { cardDetailsStyle } from '@/modules/authentication/presentation/styles/C
 import { deleteCard } from '@/modules/cards/presentation/thunks/delete-card';
 import { fetchAllCards } from '@/modules/cards/presentation/thunks/fetch-all-cards';
 import { setActiveCard } from '@/modules/cards/presentation/thunks/set-active-card';
-import { AppHeader } from '@/shared/components/app-header/AppHeader';
-import { CreditDebitCard } from '@/shared/components/credit-debit-card/CreditDebitCard';
-import { HeaderGoBackButton } from '@/shared/components/header-go-back-button/HeaderGoBackButton';
-import { IconSwiftBankLogo } from '@/shared/icons/IconSwiftBankLogo';
+import { AppHeader } from '@/shared/presentation/components/app-header/AppHeader';
+import { CreditDebitCard } from '@/shared/presentation/components/credit-debit-card/CreditDebitCard';
+import { HeaderGoBackButton } from '@/shared/presentation/components/header-go-back-button/HeaderGoBackButton';
+import { IconSwiftBankLogo } from '@/shared/presentation/icons/IconSwiftBankLogo';
+import { BackgroundGradient } from '@/shared/presentation/templates/background-gradient/BackgroundGradient';
 import { useAppDispatch, useAppSelector } from '@/shared/redux/hooks';
-import { BackgroundGradient } from '@/shared/templates/background-gradient/BackgroundGradient';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import Dialog from 'react-native-dialog';
 import { styles } from './CardDetails.styles';
 
 export default function HomeScreen() {
   const dispatch = useAppDispatch();
-  const { cards, currentCard, loading, error } = useAppSelector(state => state.card);
+  const { cards, currentCard, loading, error } = useAppSelector(
+    (state) => state.card,
+  );
 
   const [selectDialogVisible, setSelectDialogVisible] = useState(false);
   const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
@@ -34,26 +36,26 @@ export default function HomeScreen() {
   function openSelectDialog(cardId: string) {
     setSelectedCardId(cardId);
     setSelectDialogVisible(true);
-  };
+  }
 
   function confirmSelectCard() {
     if (selectedCardId) {
       dispatch(setActiveCard(selectedCardId));
     }
     setSelectDialogVisible(false);
-  };
+  }
 
   function openDeleteDialog(cardId: string) {
     setSelectedCardId(cardId);
     setDeleteDialogVisible(true);
-  };
+  }
 
   function confirmDeleteCard() {
     if (selectedCardId) {
       dispatch(deleteCard(selectedCardId));
     }
     setDeleteDialogVisible(false);
-  };
+  }
 
   return (
     <BackgroundGradient>
@@ -70,7 +72,7 @@ export default function HomeScreen() {
           ) : cards.length === 0 ? (
             <Text>Nenhum cartão cadastrado</Text>
           ) : (
-            cards.map(card => (
+            cards.map((card) => (
               <CreditDebitCard
                 card={card}
                 currentCardId={currentCard?.id!}
@@ -84,19 +86,39 @@ export default function HomeScreen() {
 
       <Dialog.Container visible={selectDialogVisible}>
         <Dialog.Title>Selecionar Cartão</Dialog.Title>
-        <Dialog.Description>Quer visualizar este cartão na tela inicial?</Dialog.Description>
+        <Dialog.Description>
+          Quer visualizar este cartão na tela inicial?
+        </Dialog.Description>
         <View style={styles.dialogButtonsContainer}>
-          <Dialog.Button style={styles.dialogButton} label="Cancelar" onPress={() => setSelectDialogVisible(false)} />
-          <Dialog.Button style={styles.dialogButton} label="Selecionar" onPress={confirmSelectCard} />
+          <Dialog.Button
+            style={styles.dialogButton}
+            label="Cancelar"
+            onPress={() => setSelectDialogVisible(false)}
+          />
+          <Dialog.Button
+            style={styles.dialogButton}
+            label="Selecionar"
+            onPress={confirmSelectCard}
+          />
         </View>
       </Dialog.Container>
 
       <Dialog.Container visible={deleteDialogVisible}>
         <Dialog.Title>Remover Cartão</Dialog.Title>
-        <Dialog.Description>Tem certeza que deseja remover este cartão?</Dialog.Description>
+        <Dialog.Description>
+          Tem certeza que deseja remover este cartão?
+        </Dialog.Description>
         <View style={styles.dialogButtonsContainer}>
-          <Dialog.Button style={styles.dialogButton} label="Cancelar" onPress={() => setDeleteDialogVisible(false)} />
-          <Dialog.Button style={styles.dialogButton} label="Remover" onPress={confirmDeleteCard} />
+          <Dialog.Button
+            style={styles.dialogButton}
+            label="Cancelar"
+            onPress={() => setDeleteDialogVisible(false)}
+          />
+          <Dialog.Button
+            style={styles.dialogButton}
+            label="Remover"
+            onPress={confirmDeleteCard}
+          />
         </View>
       </Dialog.Container>
     </BackgroundGradient>

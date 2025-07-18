@@ -1,9 +1,12 @@
-import { auth } from "@/config/firebase/config"
-import { AccountService } from "@/modules/account/infrastructure/services/account.service"
-import { SignInAppUser, UpdateUserDTO } from "@/modules/authentication/types/user"
-import { UsersService } from "@/modules/users/infrastructure/services/users.service"
-import { getFirebaseErrorMessage } from "@/shared/utils/firebase-error-handler"
-import { FirebaseError } from "firebase/app"
+import { auth } from '@/config/firebase/config';
+import { AccountService } from '@/modules/account/infrastructure/services/account.service';
+import {
+  SignInAppUser,
+  UpdateUserDTO,
+} from '@/modules/authentication/domain/types/user';
+import { UsersService } from '@/modules/users/infrastructure/services/users.service';
+import { getFirebaseErrorMessage } from '@/shared/infra/firebase-error-handler';
+import { FirebaseError } from 'firebase/app';
 import {
   createUserWithEmailAndPassword,
   EmailAuthProvider,
@@ -16,13 +19,13 @@ import {
   signInWithEmailAndPassword,
   updatePassword,
   updateProfile,
-  User
-} from "firebase/auth"
+  User,
+} from 'firebase/auth';
 
 interface CreateAuthUserDTO {
-  email: string
-  name: string
-  password: string
+  email: string;
+  name: string;
+  password: string;
 }
 
 /**
@@ -35,9 +38,9 @@ interface CreateAuthUserDTO {
 export class AuthService {
   static async signIn(email: string, password: string): Promise<SignInAppUser> {
     try {
-      const { user } = await signInWithEmailAndPassword(auth, email, password)
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
 
-      const tokenResult = (await user.getIdTokenResult())
+      const tokenResult = await user.getIdTokenResult();
 
       return {
         uid: user.uid,
@@ -50,22 +53,26 @@ export class AuthService {
         accessTokenId: await user.getIdToken(),
         refreshToken: user.refreshToken,
         expirationTime: tokenResult.expirationTime,
-      }
+      };
     } catch (error) {
       if (error instanceof FirebaseError) {
-        throw error
+        throw error;
       }
-      throw error
+      throw error;
     }
   }
 
   static async signUp(data: CreateAuthUserDTO): Promise<void> {
     try {
-      const { email, password, name } = data
-      const { user } = await createUserWithEmailAndPassword(auth, email, password)
+      const { email, password, name } = data;
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
 
-      await AccountService.createAccount(user.uid)
-      await UsersService.createUser({ id: user.uid, name, email })
+      await AccountService.createAccount(user.uid);
+      await UsersService.createUser({ id: user.uid, name, email });
 
       sendEmailVerification(user, {
         url: 'https://your-app.com/finishSignUp',
@@ -77,60 +84,59 @@ export class AuthService {
           minimumVersion: '12',
         },
         dynamicLinkDomain: 'yourapp.page.link',
-      })
-
+      });
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error(error.message)
+        throw new Error(error.message);
       }
 
-      throw new Error(JSON.stringify(error))
+      throw new Error(JSON.stringify(error));
     }
   }
 
   static async signOut() {
     try {
-      await logOut(auth)
+      await logOut(auth);
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error(error.message)
+        throw new Error(error.message);
       }
-      throw new Error(JSON.stringify(error))
+      throw new Error(JSON.stringify(error));
     }
   }
 
   static async updatePassword(currentPassword: string, newPassword: string) {
     if (!currentPassword || !newPassword) {
-      throw new Error('Você precisa preencher a senha atual e a nova senha!')
+      throw new Error('Você precisa preencher a senha atual e a nova senha!');
     }
 
-    const user = auth.currentUser
+    const user = auth.currentUser;
 
     if (!user) {
-      throw new Error('Usuário não encontrado!')
+      throw new Error('Usuário não encontrado!');
     }
 
     try {
       const credential = EmailAuthProvider.credential(
         user.email || '',
-        currentPassword
-      )
+        currentPassword,
+      );
 
-      await reauthenticateWithCredential(user, credential)
+      await reauthenticateWithCredential(user, credential);
     } catch (error) {
       if (error instanceof FirebaseError) {
-        const message = getFirebaseErrorMessage(error)
-        throw new Error(message)
+        const message = getFirebaseErrorMessage(error);
+        throw new Error(message);
       }
-      throw JSON.stringify(error)
+      throw JSON.stringify(error);
     }
 
     try {
       if (!user || !user.email) {
-        throw new Error('Usuário não encontrado!')
+        throw new Error('Usuário não encontrado!');
       }
 
-      await updatePassword(user, newPassword)
+      await updatePassword(user, newPassword);
     } catch (error) {
       if (error instanceof FirebaseError) {
         if (error.code === 'auth/requires-recent-login') {
@@ -145,33 +151,35 @@ export class AuthService {
 
   static async onAuthStateChange(callback: (user: User | null) => void) {
     try {
-      return onAuthStateChanged(auth, callback)
+      return onAuthStateChanged(auth, callback);
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 
   static async getCurrentUser() {
-    return auth.currentUser
+    return auth.currentUser;
   }
 
-  static async updateUserProfile(userData: UpdateUserDTO): Promise<SignInAppUser> {
+  static async updateUserProfile(
+    userData: UpdateUserDTO,
+  ): Promise<SignInAppUser> {
     try {
-      const user = auth.currentUser
+      const user = auth.currentUser;
 
       if (!user) {
-        throw Error('Usuário não encontrado.')
+        throw Error('Usuário não encontrado.');
       }
 
-      await updateProfile(user, { ...userData })
-      await reload(user)
+      await updateProfile(user, { ...userData });
+      await reload(user);
 
       if (!auth.currentUser) {
-        throw new Error('Usuário não encontrado!')
+        throw new Error('Usuário não encontrado!');
       }
 
-      const newUser = auth.currentUser
-      const tokenResult = (await newUser.getIdTokenResult())
+      const newUser = auth.currentUser;
+      const tokenResult = await newUser.getIdTokenResult();
 
       return {
         uid: newUser.uid,
@@ -184,43 +192,43 @@ export class AuthService {
         accessTokenId: await newUser.getIdToken(),
         refreshToken: newUser.refreshToken,
         expirationTime: tokenResult.expirationTime,
-      }
+      };
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 
   static async isTokenExpired(): Promise<boolean> {
-    const user = auth.currentUser
+    const user = auth.currentUser;
 
-    if (!user) return false
+    if (!user) return false;
 
-    const { expirationTime } = await user.getIdTokenResult()
-    const expiresAt = new Date(expirationTime).getTime()
+    const { expirationTime } = await user.getIdTokenResult();
+    const expiresAt = new Date(expirationTime).getTime();
 
-    return Date.now() >= expiresAt
+    return Date.now() >= expiresAt;
   }
 
   static async forgotPassword(email: string) {
-    const emailTrimmed = email.trim().toLowerCase()
+    const emailTrimmed = email.trim().toLowerCase();
 
     if (!emailTrimmed) {
-      throw new Error('Por favor, insira um e-mail válido.')
-      return
+      throw new Error('Por favor, insira um e-mail válido.');
+      return;
     }
 
     try {
-      await sendPasswordResetEmail(auth, emailTrimmed)
+      await sendPasswordResetEmail(auth, emailTrimmed);
     } catch (error) {
       if (error instanceof FirebaseError) {
-        throw new Error(error.message)
+        throw new Error(error.message);
       }
 
       if (error instanceof Error) {
-        throw new Error(error.message)
+        throw new Error(error.message);
       }
 
-      throw new Error(JSON.stringify(error))
+      throw new Error(JSON.stringify(error));
     }
   }
 }

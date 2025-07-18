@@ -1,4 +1,4 @@
-import { ICreditCard } from "@/modules/cards/models/card";
+import { ICreditCard } from '@/modules/cards/domain/models/card';
 
 export interface ICardSliceInitialState {
   cards: ICreditCard[];

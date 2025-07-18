@@ -1,28 +1,28 @@
-import { AppUser } from "@/modules/authentication/types/user"
+import { AppUser } from '@/modules/authentication/domain/types/user';
 
 interface ErrorMetadata {
-  hasError: boolean | null
-  message: string | null
+  hasError: boolean | null;
+  message: string | null;
 }
 
 interface Metadata {
-  isFufilled: boolean | null,
-  loading: boolean,
-  error: ErrorMetadata | null
+  isFufilled: boolean | null;
+  loading: boolean;
+  error: ErrorMetadata | null;
 }
 
 export interface IAuthInitialState {
   credentials: {
-    accessTokenId: string | null
-    refreshToken: string | null
-    expiresIn: string | null
-  },
-  user: AppUser | undefined | null
-  signInMetadata: Metadata
-  signUpMetadata: Metadata
-  signOutMetadata: Metadata
-  updatePasswordMetadata: Metadata
-  changePasswordMetadata: Metadata
-  updateUserProfile: Metadata
-  forgotPassword: Metadata
+    accessTokenId: string | null;
+    refreshToken: string | null;
+    expiresIn: string | null;
+  };
+  user: AppUser | undefined | null;
+  signInMetadata: Metadata;
+  signUpMetadata: Metadata;
+  signOutMetadata: Metadata;
+  updatePasswordMetadata: Metadata;
+  changePasswordMetadata: Metadata;
+  updateUserProfile: Metadata;
+  forgotPassword: Metadata;
 }

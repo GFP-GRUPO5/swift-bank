@@ -1,14 +1,14 @@
-import { IStatement } from "@/modules/account/models/Account.dto";
-import { formatAsCurrency } from "@/shared/utils/format-as-currency/format-as-currency";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { format } from "date-fns";
-import { Text, View } from "react-native";
-import { transactionStyles } from "./TransactionListItem.styles";
+import { IStatement } from '@/modules/account/domain/models/Account.dto';
+import { formatAsCurrency } from '@/shared/utils/format-as-currency/format-as-currency';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { format } from 'date-fns';
+import { Text, View } from 'react-native';
+import { transactionStyles } from './TransactionListItem.styles';
 
 interface Props {
-  statementsLength: number
-  index: number
-  item: IStatement
+  statementsLength: number;
+  index: number;
+  item: IStatement;
 }
 
 export function TransactionListItem({ statementsLength, index, item }: Props) {
@@ -18,9 +18,9 @@ export function TransactionListItem({ statementsLength, index, item }: Props) {
         return <MaterialIcons name="compare-arrows" size={24} color="blue" />;
       case 'transferência':
         return <MaterialIcons name="arrow-upward" size={24} color="red" />;
-        case 'depósito':
-        case 'recharge':
-        return <MaterialIcons name="arrow-downward" size={24} color="green" />
+      case 'depósito':
+      case 'recharge':
+        return <MaterialIcons name="arrow-downward" size={24} color="green" />;
       default:
         return <MaterialIcons name="help-outline" size={24} color="gray" />;
     }
@@ -34,7 +34,9 @@ export function TransactionListItem({ statementsLength, index, item }: Props) {
         paddingBottom: index === statementsLength - 1 ? 0 : 8,
       }}
     >
-      <View style={[transactionStyles.transactionItem, { flexDirection: 'row' }]}>
+      <View
+        style={[transactionStyles.transactionItem, { flexDirection: 'row' }]}
+      >
         <View style={{ width: 40, alignItems: 'center' }}>
           {getTransactionIcon(item.type)}
         </View>
@@ -53,5 +55,5 @@ export function TransactionListItem({ statementsLength, index, item }: Props) {
         </View>
       </View>
     </View>
-  )
+  );
 }

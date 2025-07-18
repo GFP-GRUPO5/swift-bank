@@ -12,5 +12,5 @@ export const setActiveCard = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );

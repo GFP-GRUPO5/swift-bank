@@ -1,51 +1,54 @@
 import { UnauthenticatedWrapper } from '@/modules/authentication/presentation/components/unauthenticated-wrapper/UnauthenticatedWrapper';
 import { signInStyles } from '@/modules/authentication/presentation/styles/SigIn.styles';
-import { signInUserWithEmail } from "@/modules/authentication/presentation/thunks/sign-in";
-import { ButtonAction } from '@/shared/components/button-action/ButtonAction';
-import { TextField } from '@/shared/components/text-field/TextField';
-import { TextLink } from '@/shared/components/text-link/TextLink';
-import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
-import Entypo from "@expo/vector-icons/Entypo";
-import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Pressable, Text, View } from "react-native";
+import { signInUserWithEmail } from '@/modules/authentication/presentation/thunks/sign-in';
+import { ButtonAction } from '@/shared/presentation/components/button-action/ButtonAction';
+import { TextField } from '@/shared/presentation/components/text-field/TextField';
+import { TextLink } from '@/shared/presentation/components/text-link/TextLink';
+import { useAppDispatch, useAppSelector } from '@/shared/redux/hooks';
+import Entypo from '@expo/vector-icons/Entypo';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
 
 export default function SignInScreen() {
-  const [isVisible, setIsVisible] = useState(false)
-  const [userCredentials, setUserCredentials] = useState({ email: '', password: '' })
-  const { signInMetadata: { loading, error }, user } = useAppSelector(state => state.auth)
-  const dispatch = useAppDispatch()
+  const [isVisible, setIsVisible] = useState(false);
+  const [userCredentials, setUserCredentials] = useState({
+    email: '',
+    password: '',
+  });
+  const {
+    signInMetadata: { loading, error },
+    user: _user,
+  } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (error?.hasError && error?.message) {
-      Alert.alert('Erro ao entrar', error.message)
+      Alert.alert('Erro ao entrar', error.message);
     }
-  }, [error])
+  }, [error]);
 
   function handleTextChange(inputName: 'email' | 'password', text: string) {
-    setUserCredentials(state => ({
+    setUserCredentials((state) => ({
       ...state,
-      [inputName]: text
-    }))
+      [inputName]: text,
+    }));
   }
 
   function handleLogin() {
-    const { email, password } = userCredentials
+    const { email, password } = userCredentials;
 
-    if (!email || !password) return
+    if (!email || !password) return;
 
-    dispatch(signInUserWithEmail({ email, password }))
+    dispatch(signInUserWithEmail({ email, password }));
   }
 
   return (
-    <UnauthenticatedWrapper
-      title="Login"
-      subtitle="Boas-vindas!"
-    >
+    <UnauthenticatedWrapper title="Login" subtitle="Boas-vindas!">
       <View style={{ marginBottom: 16 }}>
         <Text style={signInStyles.label}>Insira seu email</Text>
         <TextField
           placeholder="E-mail"
-          onChangeText={(email) => handleTextChange('email', email)}
+          onChangeText={(email: string) => handleTextChange('email', email)}
           value={userCredentials.email}
           autoCapitalize="none"
         />
@@ -58,11 +61,16 @@ export default function SignInScreen() {
             placeholder="***********"
             secureTextEntry={isVisible}
             style={{ paddingRight: 56 }}
-            onChangeText={(password) => handleTextChange('password', password)}
+            onChangeText={(password: string) =>
+              handleTextChange('password', password)
+            }
             value={userCredentials.password}
             autoCapitalize="none"
           />
-          <Pressable style={signInStyles.eyeIcon} onPress={() => setIsVisible((state) => !state)}>
+          <Pressable
+            style={signInStyles.eyeIcon}
+            onPress={() => setIsVisible((state) => !state)}
+          >
             {isVisible ? (
               <Entypo name="eye-with-line" size={24} color="black" />
             ) : (
@@ -77,12 +85,24 @@ export default function SignInScreen() {
         href="/(unauthenticated)/forgot-password/"
         label="Esqueci minha senha"
       />
-      <ButtonAction style={signInStyles.button} onPress={handleLogin} disabled={loading}>
+      <ButtonAction
+        style={signInStyles.button}
+        onPress={handleLogin}
+        disabled={loading}
+      >
         <Text style={signInStyles.buttonText}>Entrar</Text>
-        {loading && <ActivityIndicator style={signInStyles.loadingIndicator} color={"#FFF"} />}
+        {loading && (
+          <ActivityIndicator
+            style={signInStyles.loadingIndicator}
+            color={'#FFF'}
+          />
+        )}
       </ButtonAction>
       <Text style={signInStyles.signUpText}>Ainda não tem conta?</Text>
-      <TextLink href="/(unauthenticated)/sign-up/SignUp" label="Faça seu cadastro!" />
+      <TextLink
+        href="/(unauthenticated)/sign-up/SignUp"
+        label="Faça seu cadastro!"
+      />
     </UnauthenticatedWrapper>
   );
 }

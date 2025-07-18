@@ -1,13 +1,15 @@
-import { CardService } from "@/modules/cards/infrastructure/services/card.service";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { CardService } from '@/modules/cards/infrastructure/services/card.service';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchCardById = createAsyncThunk(
-  "card/fetchCardById",
+  'card/fetchCardById',
   async (cardId: string, { rejectWithValue }) => {
     try {
       return await CardService.fetchCardById(cardId);
     } catch (error) {
-      return rejectWithValue(error instanceof Error ? error.message : "Erro ao buscar cartão");
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Erro ao buscar cartão',
+      );
     }
-  }
+  },
 );

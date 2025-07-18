@@ -1,17 +1,17 @@
-import { AppHeader } from '@/shared/components/app-header/AppHeader';
-import { HeaderGoBackButton } from '@/shared/components/header-go-back-button/HeaderGoBackButton';
-import { IconSwiftBankLogo } from '@/shared/icons/IconSwiftBankLogo';
-import { BackgroundGradient } from '@/shared/templates/background-gradient/BackgroundGradient';
+import { AppHeader } from '@/shared/presentation/components/app-header/AppHeader';
+import { HeaderGoBackButton } from '@/shared/presentation/components/header-go-back-button/HeaderGoBackButton';
+import { IconSwiftBankLogo } from '@/shared/presentation/icons/IconSwiftBankLogo';
+import { BackgroundGradient } from '@/shared/presentation/templates/background-gradient/BackgroundGradient';
 import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
-import { useState } from "react";
-import { styles } from "./QRCode.styles";
+import { useState } from 'react';
+import { styles } from './QRCode.styles';
 
 export default function QRCodeScreen() {
-  const [permission, requestPermission] = useCameraPermissions();
+  const [_permission, _requestPermission] = useCameraPermissions();
   const [facing, setFacing] = useState<CameraType>('back');
 
-  function toggleCameraFacing() {
-    setFacing(current => (current === 'back' ? 'front' : 'back'));
+  function _toggleCameraFacing() {
+    setFacing((current) => (current === 'back' ? 'front' : 'back'));
   }
 
   return (
@@ -26,9 +26,9 @@ export default function QRCodeScreen() {
         facing={facing}
         style={styles.camera}
         barcodeScannerSettings={{
-          barcodeTypes: ["qr"],
+          barcodeTypes: ['qr'],
         }}
       />
     </BackgroundGradient>
-  )
+  );
 }

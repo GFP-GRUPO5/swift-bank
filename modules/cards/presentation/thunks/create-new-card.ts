@@ -1,15 +1,14 @@
-import { CardService } from "@/modules/cards/infrastructure/services/card.service";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ICreditCard } from "../../models/card";
+import { CardService } from '@/modules/cards/infrastructure/services/card.service';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { ICreditCard } from '../../domain/models/card';
 
 export const createNewCard = createAsyncThunk(
-  "card/createNewCard",
+  'card/createNewCard',
   async (newCreditCard: ICreditCard, { rejectWithValue }) => {
     try {
-      return await CardService.createNewCard(newCreditCard)
+      return await CardService.createNewCard(newCreditCard);
+    } catch (error) {
+      return rejectWithValue(error);
     }
-    catch (error) {
-      return rejectWithValue(error)
-    }
-  }
-)
+  },
+);
