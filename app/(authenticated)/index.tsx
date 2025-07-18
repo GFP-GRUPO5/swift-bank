@@ -1,105 +1,96 @@
-import { HomeAccountCard } from "@/domains/account/components/home-account-card/HomeAccountCard";
-import { TransactionListItem } from "@/domains/account/components/transaction-list-item/TransactionListItem";
-import { USER_EXPIRATION_TIME } from "@/domains/authentication/constants/async-storage-user";
-import CardButtons from "@/domains/cards/components/card-buttons/CardButtons";
-import { Card } from "@/domains/cards/components/card/Card";
-import { CreditCardModel } from "@/domains/cards/components/credit-card-model/CreditCardModel";
-import { listenToNotifications } from "@/domains/notifications/services/notification.listeners";
-import { fetchAccount } from "@/redux/features/account/thunks/fetch-account";
-import { signOutUser } from "@/redux/features/auth/thunks/sign-out";
-import { setNotifications } from "@/redux/features/notifications/notifications-slice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { HomeHeader } from "@/shared/components/home-header/HomeHeader";
-import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
-import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { isAfter } from "date-fns";
-import { Link, Redirect, useRouter } from "expo-router";
-import { useEffect } from "react";
-import { AppState, Text, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { styles } from "../../styles/home.styles";
-
-const lastTransaction = [
-  {
-    id: '00001',
-    icon: <MaterialIcons name="fastfood" size={24} color="#2C2C2C" />,
-    title: 'Compra no iFood',
-    value: 'R$ 25,90'
-  },
-  {
-    id: '00002',
-    icon: <MaterialIcons name="work" size={24} color="#2C2C2C" />,
-    title: 'Compra na Leroy Merlin',
-    value: 'R$ 1480,90'
-  },
-  {
-    id: '00003',
-    icon: <MaterialIcons name="shopping-bag" size={24} color="#2C2C2C" />,
-    title: 'Compra na Leroy Merlin',
-    value: 'R$ 1480,90'
-  },
-];
+import { HomeAccountCard } from '@/modules/account/presentation/components/home-account-card/HomeAccountCard';
+import { TransactionListItem } from '@/modules/account/presentation/components/transaction-list-item/TransactionListItem';
+import { fetchAccount } from '@/modules/account/presentation/thunks/fetch-account';
+import { signOutUser } from '@/modules/authentication/presentation/thunks/sign-out';
+import { USER_EXPIRATION_TIME } from '@/modules/authentication/utils/async-storage-user.constants';
+import { listenToNotifications } from '@/modules/notifications/infrastructure/services/notification.listeners';
+import { setNotifications } from '@/modules/notifications/presentation/slices/notifications-slice';
+import { getItemAsyncStorage } from '@/shared/infra/AsyncStorage';
+import CardButtons from '@/shared/presentation/components/card-buttons/CardButtons';
+import { Card } from '@/shared/presentation/components/card/Card';
+import { CreditCardModel } from '@/shared/presentation/components/credit-card-model/CreditCardModel';
+import { HomeHeader } from '@/shared/presentation/components/home-header/HomeHeader';
+import { BackgroundGradient } from '@/shared/presentation/templates/background-gradient/BackgroundGradient';
+import { useAppDispatch, useAppSelector } from '@/shared/redux/hooks';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { isAfter } from 'date-fns';
+import { Link, Redirect, useRouter } from 'expo-router';
+import { useEffect } from 'react';
+import { AppState, Text, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { styles } from '../../styles/home.styles';
 
 export default function HomeScreen() {
-  const dispatch = useAppDispatch()
-  const { user } = useAppSelector(state => state.auth)
-  const { currentAccount } = useAppSelector(state => state.account)
-  const { card: { currentCard } } = useAppSelector(state => state)
-  const { notifications } = useAppSelector(state => state.notification)
-  const lastThreeStatements = currentAccount?.statements?.slice().reverse().slice(0, 3);
-  const router = useRouter()
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
+  const { currentAccount } = useAppSelector((state) => state.account);
+  const {
+    card: { currentCard },
+  } = useAppSelector((state) => state);
+  const lastThreeStatements = currentAccount?.statements
+    ?.slice()
+    .reverse()
+    .slice(0, 3);
+  const _router = useRouter();
 
   async function checkIfTokenIsValid() {
-    const now = Date.now()
-    const storageExpiresIn = await getItemAsyncStorage<string>(USER_EXPIRATION_TIME)
-
+    const now = Date.now();
+    const storageExpiresIn =
+      await getItemAsyncStorage<string>(USER_EXPIRATION_TIME);
 
     if (storageExpiresIn) {
-      const then = new Date(storageExpiresIn!).valueOf()
+      const then = new Date(storageExpiresIn!).valueOf();
 
       if (isAfter(now, then)) {
-        dispatch(signOutUser())
+        dispatch(signOutUser());
       }
     } else {
-      dispatch(signOutUser())
+      dispatch(signOutUser());
     }
   }
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      checkIfTokenIsValid()
-    }, 60 * 60 * 1000)
+    const interval = setInterval(
+      () => {
+        checkIfTokenIsValid();
+      },
+      60 * 60 * 1000,
+    );
 
     return () => {
-      clearInterval(interval)
-    }
-  }, [])
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
-    AppState.addEventListener('change', (something) => {
-      checkIfTokenIsValid()
-    })
-  }, [])
+    AppState.addEventListener('change', (_something) => {
+      checkIfTokenIsValid();
+    });
+  }, []);
 
   useEffect(() => {
     if (user?.uid) {
-      dispatch(fetchAccount(user?.uid))
+      dispatch(fetchAccount(user?.uid));
     }
-  }, [user, currentAccount?.currentAmount])
+  }, [user, currentAccount?.currentAmount]);
 
   useEffect(() => {
+    // Aqui estamos utilizando um observable para escutar as notificações
+    // O observable é uma forma de escutar eventos que ocorrem em um determinado momento
+    // Neste caso, estamos escutando as notificações que ocorrem no Firebase
+    // E quando ocorre uma notificação, estamos atualizando o estado das notificações no Redux
+    // Isso é feito para que a tela de notificações possa ser atualizada com as notificações mais recentes
     const unsubscribe = listenToNotifications((notifications) => {
-      dispatch(setNotifications(notifications))
-    })
+      dispatch(setNotifications(notifications));
+    });
 
     return () => {
-      unsubscribe()
-    }
-  }, [])
+      unsubscribe();
+    };
+  }, []);
 
   if (!user) {
-    return <Redirect href={'/(unauthenticated)/sign-in/SignIn'} />
+    return <Redirect href={'/(unauthenticated)/sign-in/SignIn'} />;
   }
 
   return (
@@ -114,53 +105,56 @@ export default function HomeScreen() {
         <Link href={'/(authenticated)/loans/Loans'} style={styles.link}>
           <Card>
             <View style={styles.row}>
-              <Text style={styles.title}>
-                Empréstimos
-              </Text>
-              <MaterialIcons name="keyboard-arrow-right" size={24} color="#2C2C2C" />
+              <Text style={styles.title}>Empréstimos</Text>
+              <MaterialIcons
+                name="keyboard-arrow-right"
+                size={24}
+                color="#2C2C2C"
+              />
             </View>
-            <Text>
-              Simule seu crédito e antecipe seus planos.
-            </Text>
+            <Text>Simule seu crédito e antecipe seus planos.</Text>
           </Card>
         </Link>
         <Link href={'/(authenticated)/loans/Loans'} style={styles.link}>
           <Card>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text style={{ fontWeight: 700, marginBottom: 8 }}>Investimentos</Text>
-              <MaterialIcons name="keyboard-arrow-right" size={24} color="#2C2C2C" />
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Text style={{ fontWeight: 700, marginBottom: 8 }}>
+                Investimentos
+              </Text>
+              <MaterialIcons
+                name="keyboard-arrow-right"
+                size={24}
+                color="#2C2C2C"
+              />
             </View>
-            <Text>
-              Invista e acelere a realização dos seus sonhos!
-            </Text>
+            <Text>Invista e acelere a realização dos seus sonhos!</Text>
           </Card>
         </Link>
         <Card style={styles.cardMargin}>
-          <Link
-            href={`/account/debit/Debit`}
-            style={styles.link}
-          >
-            <View
-              style={[
-                styles.fullWidth,
-                styles.transactionTitle,
-              ]}
-            >
-              <Text style={styles.largeTitle}>
-                Últimas Transações
-              </Text>
-              <MaterialIcons name="keyboard-arrow-right" size={24} color="#2C2C2C" />
+          <Link href={`/account/debit/Debit`} style={styles.link}>
+            <View style={[styles.fullWidth, styles.transactionTitle]}>
+              <Text style={styles.largeTitle}>Últimas Transações</Text>
+              <MaterialIcons
+                name="keyboard-arrow-right"
+                size={24}
+                color="#2C2C2C"
+              />
             </View>
           </Link>
-          {
-            lastThreeStatements?.map((statement, index) => (
-              <TransactionListItem
-                index={index}
-                item={statement}
-                statementsLength={lastThreeStatements.length}
-              />
-            ))
-          }
+          {lastThreeStatements?.map((statement, index) => (
+            <TransactionListItem
+              key={statement.createdAt}
+              index={index}
+              item={statement}
+              statementsLength={lastThreeStatements.length}
+            />
+          ))}
         </Card>
       </ScrollView>
     </BackgroundGradient>

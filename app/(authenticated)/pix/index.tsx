@@ -1,37 +1,39 @@
-import { Card } from "@/domains/cards/components/card/Card";
-import { fetchUserByEmail } from "@/redux/features/user/thunks/fetch-user-by-email";
-import { clearSelectedUser } from "@/redux/features/user/user-slice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { ButtonAction } from "@/shared/components/button-action/ButtonAction";
-import { TextField } from "@/shared/components/text-field/TextField";
-import { emailRegex } from "@/shared/constants/email-regex";
-import { AppBackgroundWithNavigation } from "@/shared/templates/app-background-with-navigation/AppBackgroundWithNavigation";
-import Entypo from "@expo/vector-icons/Entypo";
-import { Link } from "expo-router";
-import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Text, View } from "react-native";
-import { styles } from "./index.styles";
+import { clearSelectedUser } from '@/modules/users/presentation/slices/users-slice';
+import { fetchUserByEmail } from '@/modules/users/presentation/thunks/fetch-user-by-email';
+import { ButtonAction } from '@/shared/presentation/components/button-action/ButtonAction';
+import { Card } from '@/shared/presentation/components/card/Card';
+import { TextField } from '@/shared/presentation/components/text-field/TextField';
+import { AppBackgroundWithNavigation } from '@/shared/presentation/templates/app-background-with-navigation/AppBackgroundWithNavigation';
+import { useAppDispatch, useAppSelector } from '@/shared/redux/hooks';
+import { EMAIL_REGEX } from '@/shared/utils/email-regex';
+import Entypo from '@expo/vector-icons/Entypo';
+import { Link } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, Text, View } from 'react-native';
+import { styles } from './index.styles';
 
 export default function PixScreen() {
-  const [email, setEmail] = useState('')
-  const dispatch = useAppDispatch()
-  const { user, loading: loadingUser } = useAppSelector(state => state.user)
-  const { loading, currentAccount } = useAppSelector(state => state.account)
+  const [email, setEmail] = useState('');
+  const dispatch = useAppDispatch();
+  const { user, loading: loadingUser } = useAppSelector((state) => state.user);
+  const { loading, currentAccount: _currentAccount } = useAppSelector(
+    (state) => state.account,
+  );
 
   useEffect(() => {
     return () => {
-      dispatch(clearSelectedUser())
-    }
-  }, [])
+      dispatch(clearSelectedUser());
+    };
+  }, []);
 
   function handleSearchUser() {
-    if (!emailRegex.test(email)) {
-      Alert.alert('Erro', `Email inválido: ${email}`)
-      return
+    if (!EMAIL_REGEX.test(email)) {
+      Alert.alert('Erro', `Email inválido: ${email}`);
+      return;
     }
 
-    dispatch(fetchUserByEmail({ email: email.trim().toLowerCase() }))
-    setEmail('')
+    dispatch(fetchUserByEmail({ email: email.trim().toLowerCase() }));
+    setEmail('');
   }
 
   return (
@@ -41,7 +43,7 @@ export default function PixScreen() {
           textAlign: 'center',
           fontSize: 32,
           fontWeight: 600,
-          marginBottom: 40
+          marginBottom: 40,
         }}
       >
         Pix
@@ -54,50 +56,48 @@ export default function PixScreen() {
         autoCapitalize="none"
         returnKeyLabel="enviar"
         returnKeyType="done"
-        onChangeText={(email) => setEmail(email)}
+        onChangeText={(email: string) => setEmail(email)}
         value={email}
       />
       <Text style={styles.hintText}>
         (no momento somente são aceitos emails)
       </Text>
-      {user
-        ?
-        !loadingUser
-          ? (
-            <Link
-              href={`/(authenticated)/pix/Amount`}
-              style={{ width: '100%' }}
-            >
-              <Card style={styles.userCard}>
-                <View>
-                  <Text>{user.name}</Text>
-                  <Text>{user.email}</Text>
-                </View>
-                <Entypo name="chevron-small-right" size={24} color="black" />
-              </Card>
-            </Link>
-          )
-          : (
-            <Card>
-              <Text>Buscando usuário!</Text>
-              <ActivityIndicator size={'small'} />
+      {user ? (
+        !loadingUser ? (
+          <Link href={`/(authenticated)/pix/Amount`} style={{ width: '100%' }}>
+            <Card style={styles.userCard}>
+              <View>
+                <Text>{user.name}</Text>
+                <Text>{user.email}</Text>
+              </View>
+              <Entypo name="chevron-small-right" size={24} color="black" />
             </Card>
-          )
-        : (
+          </Link>
+        ) : (
           <Card>
-            <Text>Procure uma chave pix, se encontrada o usuário será mostrado aqui :) </Text>
-            {loading || loadingUser && <ActivityIndicator size={'small'} color={'#111'} />}
+            <Text>Buscando usuário!</Text>
+            <ActivityIndicator size={'small'} />
           </Card>
-        )}
-      <ButtonAction
-        style={styles.button}
-        onPress={handleSearchUser}
-      >
-        <Text style={styles.buttonText}>
-          Procurar chave pix
-        </Text>
-        {loading || loadingUser && <ActivityIndicator size="small" style={styles.loading} />}
+        )
+      ) : (
+        <Card>
+          <Text>
+            Procure uma chave pix, se encontrada o usuário será mostrado aqui
+            :){' '}
+          </Text>
+          {loading ||
+            (loadingUser && (
+              <ActivityIndicator size={'small'} color={'#111'} />
+            ))}
+        </Card>
+      )}
+      <ButtonAction style={styles.button} onPress={handleSearchUser}>
+        <Text style={styles.buttonText}>Procurar chave pix</Text>
+        {loading ||
+          (loadingUser && (
+            <ActivityIndicator size="small" style={styles.loading} />
+          ))}
       </ButtonAction>
     </AppBackgroundWithNavigation>
-  )
+  );
 }

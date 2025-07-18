@@ -1,51 +1,49 @@
-import { USER_DATA_KEY } from "@/domains/authentication/constants/async-storage-user";
-import { SignInAppUser } from "@/domains/authentication/types/user";
-import { setUserDataFromAsyncStorage } from "@/redux/features/auth/auth-slice";
-import { useAppDispatch } from "@/redux/hooks";
-import { BackgroundGradient } from "@/shared/templates/background-gradient/BackgroundGradient";
-import { getItemAsyncStorage } from "@/shared/utils/AsyncStorage";
-import { SplashScreen, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Text, View } from "react-native";
-import { styles } from "../styles/unauthenticated.styles";
+import { SignInAppUser } from '@/modules/authentication/domain/types/user';
+import { setUserDataFromAsyncStorage } from '@/modules/authentication/presentation/slice/auth-slice';
+import { USER_DATA_KEY } from '@/modules/authentication/utils/async-storage-user.constants';
+import { getItemAsyncStorage } from '@/shared/infra/AsyncStorage';
+import { BackgroundGradient } from '@/shared/presentation/templates/background-gradient/BackgroundGradient';
+import { useAppDispatch } from '@/shared/redux/hooks';
+import { SplashScreen, useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, Text, View } from 'react-native';
+import { styles } from '../styles/unauthenticated.styles';
 
-SplashScreen.preventAutoHideAsync()
+SplashScreen.preventAutoHideAsync();
 
 export default function Entry() {
-  const dispatch = useAppDispatch()
-  const [loadingStates, setLoadingState] = useState(true)
-  const [isValid, setIsValid] = useState(false)
-  const router = useRouter()
+  const dispatch = useAppDispatch();
+  const [loadingStates, setLoadingState] = useState(true);
+  const [isValid, setIsValid] = useState(false);
+  const router = useRouter();
 
   async function getUserData() {
     try {
-      const result = await getItemAsyncStorage<SignInAppUser>(USER_DATA_KEY)
+      const result = await getItemAsyncStorage<SignInAppUser>(USER_DATA_KEY);
 
       if (!result) {
-        setLoadingState(false)
-        router.push('/(unauthenticated)/sign-in/SignIn')
-        return
+        setLoadingState(false);
+        router.push('/(unauthenticated)/sign-in/SignIn');
+        return;
       }
 
-      dispatch(setUserDataFromAsyncStorage(result))
+      dispatch(setUserDataFromAsyncStorage(result));
       setTimeout(() => {
-        setIsValid(true)
-        setLoadingState(false)
-        router.push('/(authenticated)')
-      }, 1000)
+        setIsValid(true);
+        setLoadingState(false);
+        router.push('/(authenticated)');
+      }, 1000);
     } catch (error) {
-      Alert.alert('Error')
+      Alert.alert('Error');
     } finally {
-      setLoadingState(false)
-      SplashScreen.hideAsync()
+      setLoadingState(false);
+      SplashScreen.hideAsync();
     }
   }
 
   useEffect(() => {
-    getUserData()
-  }, [])
-
-
+    getUserData();
+  }, []);
 
   return (
     <BackgroundGradient style={styles.container}>
@@ -53,11 +51,13 @@ export default function Entry() {
         <Text style={styles.logoText}>
           Swift <Text style={styles.light}>Bank</Text>
         </Text>
-        <Text style={styles.subtitle}>O banco feito justamente para você ;) </Text>
+        <Text style={styles.subtitle}>
+          O banco feito justamente para você ;){' '}
+        </Text>
       </View>
       <View style={styles.loaderWrapper}>
         <ActivityIndicator size={'large'} color={'#c76a0c'} />
       </View>
     </BackgroundGradient>
-  )
+  );
 }
